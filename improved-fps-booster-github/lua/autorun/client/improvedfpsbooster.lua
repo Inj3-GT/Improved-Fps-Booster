@@ -1,9 +1,12 @@
 ------------- Script by Inj3, prohibited to copy the code
+-- *The configuration part on this file doesn't exist anymore, i deleted it for recoded all, now is automatic for the language (You can include anyway your own language in this file 'lang_improvedfpsbooter.lua').
+-- If you have a language to add or a suggestion contact me on my steam.
+-- If you want to support me, come and check out "Centralcity RP" server.
 ------------- https://steamcommunity.com/id/Inj3/
 ------------- https://centralcityrp.mtxserv.fr/
 ------------- https://steamcommunity.com/groups/CentralCityRoleplay
 
--------------------- FONT
+-------------------- Include Font
 surface.CreateFont( "CentralFpsBoost", {
     font = "Segoe UI Black Italic",
     size = 14,
@@ -21,23 +24,7 @@ surface.CreateFont( "CentralFpsBoostV", {
 	antialias = true,
 })
 
--------------------- CONFIGURATION / CHANGE YOU LANGUAGE HERE !
-local CentralIncludedMyLanguage = "No" ----- "Yes" for disabled automatic translation (by country), "No" for enabled automatic translation (by country), READ THIS / if you want to change the translation for your community, put "Yes" and change the sentences above. 
-local CentralNameOfYourCommunity = "CentralCity" ---- Include the name of your community here (Only availaible on github version)
-local Central_Texte1 = "  Close"
-local Central_Texte2 = "You have not checked any checkbox in the Options Tab Optimization, Improved Fps Booster cannot load, it disabled automatically."
-local Central_Texte3 = "FPS detection :"
-local Central_Texte4 = "Be careful this convar 'Shadow Removed' also deactivates the light of your flashlight."
-local Central_Texte5 = "Current :"
-local Central_Texte6 = "Enable"
-local Central_Texte7 = "     Disable"
-local Central_Texte9 = "If you encounter graphic problems or crashes, use the Options button to change your settings. For open Improved Fps Booster /boost."
-local Central_Texte10 = "For open Improved FPS Booster /boost."
-local Central_Texte11 = "You have reset your settings to the default values." 
-local Central_Texte12 = "Do you want activate Improved FPS Booster ?"
-local Central_Texte13 = "To override the default settings, enable Improved Fps Booster"
-
--------------------- CONVAR / DO NOT TOUCH THIS !
+-------------------- Don't touch it or it's break
 CreateClientConVar("CentralMultiCoreC",1,true,false)
 CreateClientConVar("CentralSkyboxC",1,true,false)
 CreateClientConVar("CentralSprayC",1,true,false)
@@ -49,87 +36,117 @@ CreateClientConVar("CentralOptiReloadAut",1,true,false)
 CreateClientConVar("CentralDrawHudC",0,true,false)
 CreateClientConVar("CentralHUDPosW",50,true,false)
 CreateClientConVar("CentralHUDPosH",50,true,false)
-local CentralMultiCoreC = GetConVar("CentralMultiCoreC")
-local CentralSkyboxC = GetConVar("CentralSkyboxC")
-local CentralSprayC = GetConVar("CentralSprayC")
-local CentralTeethC = GetConVar("CentralTeethC")
-local CentralShadowC = GetConVar("CentralShadowC")
-local CentralM9KC = GetConVar("CentralM9KC")
-local CentralAutresC = GetConVar("CentralAutresC")
-local CentralOptiReloadAut = GetConVar("CentralOptiReloadAut")
-local CentralDrawHudC = GetConVar("CentralDrawHudC")
+CreateClientConVar("CentralImprovedLanguageCV","",true,false)
+local Central_NmV, Central_ImprovedLanguage, CentralGainCalcul, CentralCalculFPS, CentralCalculReSize, CentralIndexTableImprFPS
+local CentralBoostFps, CentralTimerVOccur, CentralLoadRefresh, CentralOptionOpen, CentralToutCocher, CentralMap = false, true, false, false, false, game.GetMap()
+local CentralColorFps, CentralColorFpsmin, CentralColorFpsmax = Color( 0,0,0, 255 ), Color( 0,0,0, 255 ), Color( 0,0,0, 255 ) --- Dynamic Value
+local CentralMultiCoreC, CentralSkyboxC, CentralSprayC, CentralTeethC, CentralShadowC, CentralM9KC, CentralAutresC, CentralOptiReloadAut, CentralDrawHudC, CentralLangueSys = GetConVar("CentralMultiCoreC"), GetConVar("CentralSkyboxC"), GetConVar("CentralSprayC"), GetConVar("CentralTeethC"), GetConVar("CentralShadowC"), GetConVar("CentralM9KC"), GetConVar("CentralAutresC"), GetConVar("CentralOptiReloadAut"), GetConVar("CentralDrawHudC"), GetConVar("CentralImprovedLanguageCV")
+local CentralFpsGains, CentralFpsMax, CentralFpsMin, CentralFpsDetect = 0, 0, 1000, "0"
+local CentralTimerFps, CentralTimerRefreshV, CentralOccurFramerate, CentralOccurCountFps = 1, 5, 1, 0
+local Central_ColorFPSA, Central_ColorFPSB, Central_ColorFPSC, Central_ColorFPSD, Central_ColorFPSE, Central_ColorFPSF, Central_ColorFPSG, Central_ColorFPSH = Color( 255,165,0, 255 ), Color( 0,160,0, 255 ), Color( 255,0,0, 255 ), Color( 0,175,0, 255 ), Color( 0, 69, 175, 250 ), Color( 255, 255, 255, 255 ), Color( 0,0, 0, 250 ), Color( 3, 43, 69, 245 )
 
--------------------- DO NOT TOUCH THIS !
-local CentralMap = game.GetMap()
-local CentralBoostFps = false
-local CentralTimerVOccur = true
-local CentralLoadRefresh = false
-local CentralOptionOpen = false
-local CentralToutCocher = false
-local CentralColorFps = Color( 0,0,0, 255 )
-local CentralColorFpsmin = Color( 0,0,0, 255 )
-local CentralColorFpsmax = Color( 0,0,0, 255 )
-local CentralColorFpsHud = Color(255,255,255, 255 )
-local CentralUrlWorkshop = "https://steamcommunity.com/sharedfiles/filedetails/?id=1762151370" 
-local CentralFpsGains = 0 
-local CentralFpsMax = 0 
-local CentralFpsMin = 1000
-local CentralFpsDetect = "0"
-local CentralFpsDetectHUD = "0"
-local CentralTimerFps = 0.6
-local CentralOccurTimer = 0
-local CentralTimerRefreshV = 5
-local CentralOccurFramerate = -CentralTimerFps
-local Central_Redimension = 56
-local Central_RedimensionActu = 28
-local Central_RedimensionActivation = 275
-
--------------------- DO NOT TOUCH THIS !
-local function InitCentralFpsBooster()
-
-if CentralIncludedMyLanguage == "Yes" then return end
+local function InitCentralFpsBooster(CentralPly)	
 
 local CentralTraductionFpsBoost = {
-	["BE"]=true,
-	["FR"]=true,
-	["DZ"]=true,
-	["MA"]=true,
-	["CA"]=true,
+["BE"]=true,
+["FR"]=true,
+["DZ"]=true,
+["MA"]=true,
+["CA"]=true,
 }
-
-if CentralTraductionFpsBoost[system.GetCountry()] then 
-Central_Texte1 = "   Quitter"
-Central_Texte2 = "Vous n'avez cochée aucune case dans l'onglet Options Optimization, Improved Fps Booster ne peut démarrer."
-Central_Texte3 = "FPS détection :"
-Central_Texte4 = "Attention, ce convar 'Shadow Removed' désactive aussi la lumière de votre lampe de poche."
-Central_Texte5 = "Actuel : "
-Central_Texte6 = "Activer"
-Central_Texte7 = "     Désactiver"
-Central_Texte9 = "Si vous rencontrez des problèmes graphiques ou crashs, utilisez le button Options pour modifier vos paramètres. Pour ouvrir Improved FPS Booster /boost."
-Central_Texte10 = "Pour ouvrir Improved FPS Booster /boost."
-Central_Texte11 = "Vous avez réinitialisé vos paramètres par défaut, pour ouvrir Improved FPS Booster /boost." 
-Central_Texte12 = "Voulez-vous activer Improved FPS Booster ?"
-Central_Texte13 = "Pour remplacer les paramètres par défaut, activer Improved Fps Booster"
-Central_Redimension = 53
-Central_RedimensionActu = 31
-Central_RedimensionActivation = 270
+if CentralTraductionFpsBoost[system.GetCountry()]  then 
+CentralPly.Central_ImprovedLanguage = "FR"
+else
+CentralPly.Central_ImprovedLanguage = "EN"
 end
 
 end
-hook.Add( "Initialize", "InitCentralFpsBooster", InitCentralFpsBooster )
+local CentralUrlWorkshop = "https://steamcommunity.com/sharedfiles/filedetails/?id=1762151370" 
+Central_NmV = "\67\101\110\116\114\97\108\67\105\116\121" -- Don't removed this or it's break :D
 
+local function Central_CheckClientFPS(CentralPanelFpsBoost)	
+
+if !IsValid(CentralPanelFpsBoost) then return end	
+if CentralFpsDetect < CentralFpsMin then CentralFpsMin = CentralFpsDetect  end
+if CentralBoostFps == false then 
+if CentralFpsDetect > CentralFpsMax then CentralFpsMax = CentralFpsDetect  end
+else
+if CentralFpsDetect > CentralFpsGains then CentralFpsGains = CentralFpsDetect end
+end
+if CentralFpsDetect > 20 and CentralFpsDetect <= 60 then
+CentralColorFps = Central_ColorFPSA
+elseif CentralFpsDetect > 60 then 
+CentralColorFps = Central_ColorFPSB
+elseif CentralFpsDetect <= 20 then
+CentralColorFps = Central_ColorFPSC
+end
+if CentralFpsMin > 40 then
+CentralColorFpsmin = Central_ColorFPSD
+else
+CentralColorFpsmin = Central_ColorFPSC
+end
+if CentralFpsMax > 40 then
+CentralColorFpsmax = Central_ColorFPSD
+else
+CentralColorFpsmax = Central_ColorFPSC
+end
+if CentralFpsMin == 0 then 
+CentralFpsMin = 1000
+end
+CentralCalculFPS = CentralFpsGains - CentralFpsMax
+CentralGainCalcul = "Gains : "
+CentralCalculReSize = 50
+if CentralCalculFPS <= 0 then CentralCalculFPS = 0 else CentralLoadRefresh = false end
+if CentralCalculFPS == 0 and CentralBoostFps == true and CentralLoadRefresh != true then 
+CentralGainCalcul = "" 
+CentralCalculReSize = 5 
+CentralCalculFPS = "Refreshing.." 
+if CentralTimerVOccur then
+CentralTimerVOccur = false
+timer.Simple( CentralTimerRefreshV, function() CentralLoadRefresh = true CentralCalculFPS = 0 CentralTimerVOccur = true end )
+end
+end
+
+end
+
+local function Central_ResetConCommand()
+
+local CentralPlyConC = LocalPlayer()
+CentralPlyConC:ConCommand("cl_threaded_bone_setup 0")
+CentralPlyConC:ConCommand("r_threaded_particles 0")
+CentralPlyConC:ConCommand("r_threaded_renderables 0")
+CentralPlyConC:ConCommand("cl_threaded_client_leaf_system 0")
+CentralPlyConC:ConCommand("gmod_mcore_test 0")
+CentralPlyConC:ConCommand("mat_queue_mode 0")
+CentralPlyConC:ConCommand("r_queued_ropes 0")
+CentralPlyConC:ConCommand("r_3dsky 1")
+CentralPlyConC:ConCommand("cl_playerspraydisable 0")
+CentralPlyConC:ConCommand("r_teeth 1")
+CentralPlyConC:ConCommand("r_shadows 1")
+CentralPlyConC:ConCommand("M9KGasEffect 1")
+CentralPlyConC:ConCommand("r_threaded_client_shadow_manager 0")	
+
+end
 
 local function CentralFpsBoostPanel()
 
 local CentralPly = LocalPlayer()
 if !IsValid(CentralPly) then return end
 
+if CentralLangueSys:GetString() != "" then
+CentralPly.Central_ImprovedLanguage = CentralLangueSys:GetString()
+elseif CentralLangueSys:GetString() == "" and (CentralIndexTableImprFPS == nil) then
+CentralIndexTableImprFPS = true
+InitCentralFpsBooster(CentralPly) --- By default if the client has not defined a language / the tracking system takes over
+end
+
 if CentralOptionOpen == false then
 
 local CentralPanelFpsBoost = vgui.Create( "DFrame" )
 local CentralDPanel = vgui.Create( "DPropertySheet", CentralPanelFpsBoost )
+local CentralLangue = vgui.Create( "DComboBox", CentralPanelFpsBoost )
 local CentralIcon = vgui.Create( "HTML", CentralDPanel )
-local CentralQuitterFps = vgui.Create("DButton", CentralIcon )
+local CentralQuitterFps = vgui.Create("DButton", CentralPanelFpsBoost )
 local CentralResetFps = vgui.Create("DButton", CentralIcon )
 local CentralFpsDetection = vgui.Create("DButton", CentralIcon )
 local CentralActiver = vgui.Create( "DButton", CentralPanelFpsBoost )
@@ -149,7 +166,7 @@ CentralFpsMin = 1000
 if CentralMultiCoreC:GetInt() == 0 and CentralSkyboxC:GetInt() == 0 and CentralSprayC:GetInt() == 0 and CentralTeethC:GetInt() == 0 and CentralShadowC:GetInt() == 0 and CentralM9KC:GetInt() == 0 and CentralAutresC:GetInt() == 0 then
 CentralToutCocher = true
 CentralBoostFps = false
-chat.AddText(Color( 255, 255, 255 ), "[", "ERROR", "] : ", Color( 255, 0, 0 ), Central_Texte2 )
+chat.AddText(Central_ColorFPSF, "[", "ERROR", "] : ", Central_ColorFPSC, CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte2"] )
 else
 CentralToutCocher = false
 end
@@ -162,65 +179,85 @@ CentralPanelFpsBoost:SetPos(ScrW()/2-160, ScrH()/2-180 )
 CentralPanelFpsBoost:SetSize( 0, 0 )
 CentralPanelFpsBoost:SizeTo( 300, 270, .5, 0, 10)
 function CentralPanelFpsBoost:Init()
-	self.startTime = SysTime()
+self.startTime = SysTime()
 end
 CentralPanelFpsBoost.Paint = function( self, w, h )
 Derma_DrawBackgroundBlur( self, self.startTime )
-draw.RoundedBox( 5, 0, 0, w, h, Color( 0, 69, 175, 255 ) ) 
-draw.RoundedBox( 5, 3, 3, w-7, h-7, Color( 255, 255, 255, 255 ) ) 
-draw.RoundedBox( 5, 0, 0, w, 32, Color(0,69,165,250))
-draw.SimpleText(( Central_Texte12 ),"CentralFpsBoost",Central_RedimensionActivation,3,Color( 255,255,255, 255 ), TEXT_ALIGN_RIGHT)
+draw.RoundedBox( 5, 0, 0, w, h, Central_ColorFPSE ) 
+draw.RoundedBox( 5, 3, 3, w-7, h-7, Central_ColorFPSF ) 
+draw.RoundedBox( 5, 0, 0, w, 32, Central_ColorFPSE)
+draw.SimpleText(( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte12"] ),"CentralFpsBoost",w/2,3,Central_ColorFPSF, TEXT_ALIGN_CENTER)
 if CentralBoostFps == true then 
-draw.SimpleText(("FPS :" ),"CentralFpsBoost",125,16,Color( 255,255,255, 255 ), TEXT_ALIGN_RIGHT)
-draw.SimpleText(("ON (BOOST)" ),"CentralFpsBoost",195,16,Color( 0, 160, 0, 255 ), TEXT_ALIGN_RIGHT)
+draw.SimpleText(("FPS :" ),"CentralFpsBoost",125,16,Central_ColorFPSF, TEXT_ALIGN_RIGHT)
+draw.SimpleText(("ON (BOOST)" ),"CentralFpsBoost",195,16,Central_ColorFPSB, TEXT_ALIGN_RIGHT)
 else
-draw.SimpleText(("FPS :" ),"CentralFpsBoost",118,16,Color( 255,255,255, 255 ), TEXT_ALIGN_RIGHT)
-draw.SimpleText(("OFF (Disabled)" ),"CentralFpsBoost",201,16,Color( 255, 0,0, 255 ), TEXT_ALIGN_RIGHT)
+draw.SimpleText(("FPS :" ),"CentralFpsBoost",118,16,Central_ColorFPSF, TEXT_ALIGN_RIGHT)
+draw.SimpleText((CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte14"] ),"CentralFpsBoost",w/2 + 15,16,Central_ColorFPSC, TEXT_ALIGN_CENTER)
 end
 end
 
 CentralDPanel:Dock( FILL )
-CentralDPanel:DockPadding( 52, 10, 0, 0)
+CentralDPanel:DockMargin( 1, 10, 0, 50 )
 CentralDPanel.Paint = function (self, w, h)
 end
-CentralIcon:SetPos(5,0)
+CentralIcon:SetPos(5,-10)
 CentralIcon:SetSize(300,300)
 CentralIcon:SetHTML([[
 <img src="https://centralcityrp.mtxserv.fr/centralboost.gif" alt="Img" style="width:300px;height:200px;">
-]])
+]]) --- HTML is good to avoid adding material for your players to download.
+
+
+CentralLangue:SetPos( 7, 36 )
+CentralLangue:SetSize( 105, 18 )
+CentralLangue:SetFont( "CentralFpsBoost" )
+if CentralLangueSys:GetString() == "" then
+CentralLangue:SetValue( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte38"] )
+else
+CentralLangue:SetValue( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte38"].. " : " ..CentralPly.Central_ImprovedLanguage )
+end
+for lang, _ in pairs(CentralTable.LangImprovedFpsBooster) do 
+CentralLangue:AddChoice( lang )
+end
+CentralLangue.OnSelect = function( self, index, value )
+if !IsValid(self) then return end
+CentralPly.Central_ImprovedLanguage = value
+CentralLangue:SetValue( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte38"].. " : " ..CentralPly.Central_ImprovedLanguage )
+CentralLangueSys:SetString( value ) 
+end
 	
-CentralQuitterFps:SetPos(203, 6)
+CentralQuitterFps:SetPos(213, 35)
 CentralQuitterFps:SetSize( 80, 20 )
-CentralQuitterFps:SetText( Central_Texte1 )
-CentralQuitterFps:SetTextColor( Color( 255, 255, 255 ) )
+CentralQuitterFps:SetText( "" )
+CentralQuitterFps:SetTextColor( Central_ColorFPSF )
 CentralQuitterFps:SetFont( "CentralFpsBoost" )
 CentralQuitterFps:SetImage( "icon16/cross.png" )
 function CentralQuitterFps:Paint( w, h )
 if CentralQuitterFps:IsHovered() then
-draw.RoundedBox( 6, 0, 0, w, h, Color( 255, 0, 0, 255 ) )
+draw.RoundedBox( 6, 0, 0, w, h, Central_ColorFPSC )
 else
-draw.RoundedBox( 6, 0, 0, w, h, Color( 3, 43, 69, 245 ) )
+draw.RoundedBox( 6, 0, 0, w, h, Central_ColorFPSH )
 end
-draw.RoundedBox( 6, 2, 2, w-2, h-1, Color( 0, 69, 175, 250 ) )
+draw.RoundedBox( 6, 2, 2, w-2, h-1, Central_ColorFPSE )
+draw.DrawText( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte1"], "CentralFpsBoost", w/2,3, Central_ColorFPSF, TEXT_ALIGN_CENTER )
 end
 CentralQuitterFps.DoClick = function()
-chat.AddText(Color( 255, 0, 0 ), "[", CentralNameOfYourCommunity.. " Boost Framerate", "] : ", Color( 255, 255, 255 ), Central_Texte10 )
+chat.AddText(Central_ColorFPSC, "[", Central_NmV.. " Boost Framerate", "] : ", Central_ColorFPSF, CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte10"] )
 CentralPanelFpsBoost:Remove()
 end 
 
 CentralResetFps:SetPos( 69, 165 )
 CentralResetFps:SetSize( 145, 21 )
 CentralResetFps:SetText( "  Reset FPS Max/Min" )
-CentralResetFps:SetTextColor( Color( 255, 255, 255 ) )
+CentralResetFps:SetTextColor( Central_ColorFPSF )
 CentralResetFps:SetImage( "icon16/arrow_refresh.png" )
 CentralResetFps:SetFont( "CentralFpsBoost" )
 function CentralResetFps:Paint( w, h )
 if CentralResetFps:IsHovered() then
-draw.RoundedBox( 6, 0, 0, w, h, Color( 255, 0, 0, 255 ) )
+draw.RoundedBox( 6, 0, 0, w, h, Central_ColorFPSC )
 else
-draw.RoundedBox( 6, 0, 0, w, h, Color( 3, 43, 69, 245 ) )
+draw.RoundedBox( 6, 0, 0, w, h, Central_ColorFPSH )
 end
-draw.RoundedBox( 6, 2, 2, w-2, h-1, Color( 0, 69, 175, 250 ) )
+draw.RoundedBox( 6, 2, 2, w-2, h-1, Central_ColorFPSE )
 end
 CentralResetFps.DoClick = function()
 if CentralFpsMin == 1000 then return end
@@ -236,75 +273,32 @@ end
 CentralFpsDetection:SetPos( 100, 54 )
 CentralFpsDetection:SetSize( 85, 75 )
 CentralFpsDetection:SetText( "" )
-CentralFpsDetection:SetTextColor( Color( 255, 255, 255 ) )
+CentralFpsDetection:SetTextColor( Central_ColorFPSF )
 CentralFpsDetection:SetFont( "CentralFpsBoost" )
 function CentralFpsDetection:Paint( w, h )
-local CentralValTimer = CentralOccurTimer - CurTime()
-if CentralValTimer < 0 then
-CentralFpsDetect = math.Round(1/RealFrameTime())
-CentralOccurTimer = CurTime() + CentralTimerFps
-end
-if CentralFpsDetect > 20 and CentralFpsDetect <= 60 then
-CentralColorFps = Color( 255,165,0, 255 )
-elseif CentralFpsDetect > 60 then 
-CentralColorFps = Color( 0,160,0, 255 )
-elseif CentralFpsDetect <= 20 then
-CentralColorFps = Color( 255,0,0, 255 )
-end
-if CentralFpsMin > 40 then
-CentralColorFpsmin = Color( 0,175,0, 255 )
-else
-CentralColorFpsmin = Color( 255,0,0, 255 )
-end
-if CentralFpsMax > 40 then
-CentralColorFpsmax = Color( 0,175,0, 255 )
-else
-CentralColorFpsmax = Color( 255,0,0, 255 )
-end
-if CentralFpsDetect < CentralFpsMin then CentralFpsMin = CentralFpsDetect  end
-if CentralBoostFps == false then 
-if CentralFpsDetect > CentralFpsMax then CentralFpsMax = CentralFpsDetect  end
-else
-if CentralFpsDetect > CentralFpsGains then CentralFpsGains = CentralFpsDetect end
-end
-if CentralFpsMin == 0 then 
-CentralFpsMin = 1000
-end
-local calculfps = CentralFpsGains - CentralFpsMax
-local CentralGainCalcul = "Gains : "
-local CentralCalculReSize = 50
-if calculfps <= 0 then calculfps = 0 else CentralLoadRefresh = false end
-if calculfps == 0 and CentralBoostFps == true and CentralLoadRefresh != true then 
-CentralGainCalcul = "" 
-CentralCalculReSize = 5 
-calculfps = "Refreshing.." 
-if CentralTimerVOccur then
-CentralTimerVOccur = false
-timer.Simple( CentralTimerRefreshV, function() CentralLoadRefresh = true calculfps = 0 CentralTimerVOccur = true end )
-end
-end
-draw.SimpleText(( Central_Texte3 ),"CentralFpsBoost",83,1,Color( 0,0,0, 255 ), TEXT_ALIGN_RIGHT)
-draw.SimpleText(( Central_Texte5 ), "CentralFpsBoost",Central_RedimensionActu,15,Color( 0,0,0, 255 ), TEXT_ALIGN_CENTER)
-draw.SimpleText(( CentralFpsDetect ), "CentralFpsBoostV", Central_Redimension,14,CentralColorFps, TEXT_ALIGN_LEFT)
-draw.SimpleText(("Min : " ), "CentralFpsBoost",32,43,Color( 0,0,0, 255 ), TEXT_ALIGN_CENTER)
+Central_CheckClientFPS(CentralPanelFpsBoost)
+draw.SimpleText(( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte3"] ),"CentralFpsBoost",w/2+35,1,Central_ColorFPSG, TEXT_ALIGN_RIGHT)
+draw.SimpleText(( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte5"] ), "CentralFpsBoost",w/2 +7,15,Central_ColorFPSG, TEXT_ALIGN_RIGHT)
+draw.SimpleText(( CentralFpsDetect ), "CentralFpsBoostV", w/2 + 12,14,CentralColorFps, TEXT_ALIGN_LEFT)
+draw.SimpleText(("Min : " ), "CentralFpsBoost",32,43,Central_ColorFPSG, TEXT_ALIGN_CENTER)
 draw.SimpleText(( CentralFpsMin ), "CentralFpsBoostV",48,42,CentralColorFpsmin, TEXT_ALIGN_LEFT)
-draw.SimpleText(("Max : "), "CentralFpsBoost",30,29,Color( 0,0,0, 255 ), TEXT_ALIGN_CENTER)
-draw.SimpleText(( CentralGainCalcul ), "CentralFpsBoost",31,57,Color( 0,0,0, 255 ), TEXT_ALIGN_CENTER)
+draw.SimpleText(("Max : "), "CentralFpsBoost",30,29,Central_ColorFPSG, TEXT_ALIGN_CENTER)
+draw.SimpleText(( CentralGainCalcul ), "CentralFpsBoost",31,57,Central_ColorFPSG, TEXT_ALIGN_CENTER)
 if CentralBoostFps == true then 
 draw.SimpleText(( CentralFpsGains ), "CentralFpsBoostV",48,28,CentralColorFpsmax, TEXT_ALIGN_LEFT)
-draw.SimpleText(( calculfps ), "CentralFpsBoostV",CentralCalculReSize,56, Color( 0,175,0, 255 ), TEXT_ALIGN_LEFT)
+draw.SimpleText(( CentralCalculFPS ), "CentralFpsBoostV",CentralCalculReSize,56, Central_ColorFPSD, TEXT_ALIGN_LEFT)
 else
 draw.SimpleText(( CentralFpsMax ), "CentralFpsBoostV",48,28,CentralColorFpsmax, TEXT_ALIGN_LEFT)
-draw.SimpleText(( "OFF" ), "CentralFpsBoost",50,57,Color( 255,0,0, 255 ), TEXT_ALIGN_LEFT)
+draw.SimpleText(( "OFF" ), "CentralFpsBoost",50,57,Central_ColorFPSC, TEXT_ALIGN_LEFT)
 end
 end
 CentralFpsDetection.DoClick = function()
 gui.OpenURL( CentralUrlWorkshop )
 end 
 
-CentralActiver:SetText( Central_Texte6 )
+CentralActiver:SetText( "" )
 CentralActiver:SetImage( "icon16/tick.png" )	
-CentralActiver:SetTextColor( Color( 255, 255, 255 ) )
+CentralActiver:SetTextColor( Central_ColorFPSF )
 CentralActiver:SetFont( "CentralFpsBoost" )
 CentralActiver:SetPos( 8, 233 )
 CentralActiver:SetSize( 110, 30 )
@@ -312,18 +306,19 @@ CentralActiver.Paint = function( self, w, h )
 local CentralColorFlash = math.abs(math.sin(CurTime() * 3) * 255)
 local CentralVert = Color(0, CentralColorFlash, 0)
 if CentralBoostFps == true then
-CentralVert = Color(0, 175, 0, 255)
+CentralVert = Central_ColorFPSD
 end		
 draw.RoundedBox( 6, 0, 0, w, h, CentralVert )
-draw.RoundedBox( 6, 2, 2, w-1, h-1, Color( 0, 69, 175, 250 ) )
+draw.RoundedBox( 6, 2, 2, w-1, h-1, Central_ColorFPSE )
+draw.DrawText( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte6"], "CentralFpsBoost", w/2,8, Central_ColorFPSF, TEXT_ALIGN_CENTER )
 end
 CentralActiver.DoClick = function() 
 if CentralToutCocher == true then
-chat.AddText(Color( 255, 255, 255 ), "[", "ERROR", "] : ", Color( 255, 0, 0 ), Central_Texte2 )
+chat.AddText(Central_ColorFPSF, "[", "ERROR", "] : ", Central_ColorFPSC, CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte2"] )
 CentralBoostFps = false
 return
 end
-chat.AddText(Color( 255, 0, 0 ), "[", CentralNameOfYourCommunity.. " Boost Framerate", "] : ", Color( 255, 255, 255 ), Central_Texte9 )
+chat.AddText(Central_ColorFPSC, "[", Central_NmV.. " Boost Framerate", "] : ", Central_ColorFPSF, CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte9"] )
 if CentralBoostFps == false then 
 CentralFpsMin = 1000
 else 
@@ -336,6 +331,7 @@ CentralPly:ConCommand("r_threaded_particles 1")
 CentralPly:ConCommand("r_threaded_renderables 1")
 CentralPly:ConCommand("r_queued_ropes 1")
 CentralPly:ConCommand("cl_threaded_client_leaf_system 1")
+CentralPly:ConCommand("r_threaded_client_shadow_manager 1")				
 end
 if CentralMultiCoreC:GetInt() == 1 then
 CentralPly:ConCommand("gmod_mcore_test 1")
@@ -361,8 +357,8 @@ CentralPanelFpsBoost:Remove()
 end
 		
 CentralDesactiver:SetImage( "icon16/cross.png" )		
-CentralDesactiver:SetText( Central_Texte7 )
-CentralDesactiver:SetTextColor( Color( 255, 255, 255 ) )
+CentralDesactiver:SetText( "" )
+CentralDesactiver:SetTextColor( Central_ColorFPSF )
 CentralDesactiver:SetFont( "CentralFpsBoost" )
 CentralDesactiver:SetPos( 181, 233 )
 CentralDesactiver:SetSize( 110, 30 )
@@ -370,47 +366,37 @@ CentralDesactiver.Paint = function( self, w, h )
 local CentralColorFlash = math.abs(math.sin(CurTime() * 3) * 255)
 local CentralRouge = Color(CentralColorFlash, 0, 0)
 if CentralBoostFps == false then
-CentralRouge = Color(255, 0, 0, 255)
+CentralRouge = Central_ColorFPSC
 end
 draw.RoundedBox( 6, 0, 0, w, h, CentralRouge )
-draw.RoundedBox( 6, 2, 2, w-2, h-1, Color( 0, 69, 175, 250 ) )
+draw.RoundedBox( 6, 2, 2, w-2, h-1, Central_ColorFPSE )
+draw.DrawText( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte7"], "CentralFpsBoost", w/2,8, Central_ColorFPSF, TEXT_ALIGN_CENTER )
 end
 CentralDesactiver.DoClick = function()
-chat.AddText(Color( 255, 0, 0 ), "[", CentralNameOfYourCommunity.. " Boost Framerate", "] : ", Color( 255, 255, 255 ), Central_Texte11 )
+chat.AddText(Central_ColorFPSC, "[", Central_NmV.. " Boost Framerate", "] : ", Central_ColorFPSF, CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte11"] )
 if CentralBoostFps == true then
 CentralFpsMin = 1000
 CentralFpsMax = 1
 CentralFpsGains = 1
 end
 CentralBoostFps = false
-CentralPly:ConCommand("cl_threaded_bone_setup 0")
-CentralPly:ConCommand("r_threaded_particles 0")
-CentralPly:ConCommand("r_threaded_renderables 0")
-CentralPly:ConCommand("cl_threaded_client_leaf_system 0")
-CentralPly:ConCommand("gmod_mcore_test 0")
-CentralPly:ConCommand("mat_queue_mode 0")
-CentralPly:ConCommand("r_queued_ropes 0")
-CentralPly:ConCommand("r_3dsky 1")
-CentralPly:ConCommand("cl_playerspraydisable 0")
-CentralPly:ConCommand("r_teeth 1")
-CentralPly:ConCommand("r_shadows 1")
-CentralPly:ConCommand("M9KGasEffect 1")
+Central_ResetConCommand()
 CentralPanelFpsBoost:Remove()
 end
 
 CentralOptions:SetImage( "icon16/bullet_wrench.png" )		
 CentralOptions:SetText( "  Options" )
-CentralOptions:SetTextColor( Color( 255, 255, 255 ) )
+CentralOptions:SetTextColor( Central_ColorFPSF )
 CentralOptions:SetFont( "CentralFpsBoost" )
 CentralOptions:SetPos(110, 58)
-CentralOptions:SetSize( 85, 19 )
+CentralOptions:SetSize( 86, 19 )
 CentralOptions.Paint = function( self, w, h )
 if CentralOptions:IsHovered() then
-draw.RoundedBox( 6, 0, 0, w, h, Color( 255, 0, 0, 255 ) )
+draw.RoundedBox( 6, 0, 0, w, h, Central_ColorFPSC )
 else
-draw.RoundedBox( 6, 0, 0, w, h, Color( 3, 43, 69, 245 ) )
+draw.RoundedBox( 6, 0, 0, w, h, Central_ColorFPSH )
 end
-draw.RoundedBox( 6, 2, 2, w-2, h-1, Color( 0, 69, 175, 245 ) )
+draw.RoundedBox( 6, 2, 2, w-2, h-1, Central_ColorFPSE )
 end
 CentralOptions.DoClick = function()
 surface.PlaySound( "buttons/combine_button7.wav" )
@@ -446,106 +432,106 @@ CentralOptionsBoost:SetPos(ScrW()/2-160, ScrH()/2-180 )
 CentralOptionsBoost:SetSize( 0, 0 )
 CentralOptionsBoost:SizeTo( 280, 360, .5, 0, 10)
 CentralOptionsBoost.Paint = function( self, w, h )
-draw.RoundedBox( 6, 0, 0, w, h, Color( 0, 69, 175, 255 ) ) 
-draw.RoundedBox( 6, 3, 3, w-7, h-7, Color( 255, 255, 255, 250 ) ) 
-draw.RoundedBox( 6, 0, 0, w-132, 25, Color(0,69,165,250))
-draw.SimpleText(( "[Options]" ),"CentralFpsBoost",78,5,Color( 255,255,255, 255 ), TEXT_ALIGN_RIGHT)
-draw.SimpleText(( "Improved Fps Booster version 1.2 / by Inj3" ),"CentralFpsBoost",273,342,Color(255,0,0, 255 ), TEXT_ALIGN_RIGHT)
-draw.SimpleText(( "Ping detection : " ..CentralPly:Ping()),"CentralFpsBoost",137,327,Color(0, 69, 175, 255 ), TEXT_ALIGN_CENTER)
-draw.SimpleText(( "Optimization :" ),"CentralFpsBoost",180,61,Color( 0, 69, 175, 255), TEXT_ALIGN_RIGHT)
-draw.SimpleText(( "Configuration :" ),"CentralFpsBoost",183,185,Color( 0, 69, 175, 255 ), TEXT_ALIGN_RIGHT)
-draw.SimpleText(( "Pos W :" ),"CentralFpsBoost",157,252,Color( 0,0,0, 255 ), TEXT_ALIGN_RIGHT)
-draw.SimpleText(( "Pos H :" ),"CentralFpsBoost",154,285,Color( 0,0,0, 255 ), TEXT_ALIGN_RIGHT)
-surface.SetDrawColor( Color( 0, 0, 0, 150 ) )
+draw.RoundedBox( 6, 0, 0, w, h, Central_ColorFPSE ) 
+draw.RoundedBox( 6, 3, 3, w-7, h-7, Central_ColorFPSF ) 
+draw.RoundedBox( 6, 0, 0, w-132, 25, Central_ColorFPSE)
+draw.SimpleText(( "[Options]" ),"CentralFpsBoost",78,5,Central_ColorFPSF, TEXT_ALIGN_RIGHT)
+draw.SimpleText(( "\73\109\112\114\111\118\101\100\32\70\112\115\32\66\111\111\115\116\101\114\32\118\101\114\115\105\111\110\32\50\46\48\32\47\32\73\110\106\51" ),"CentralFpsBoost",273,342,Central_ColorFPSC, TEXT_ALIGN_RIGHT)
+draw.SimpleText(( "Ping detection : " ..CentralPly:Ping()),"CentralFpsBoost",w/2 -1,327,Central_ColorFPSE, TEXT_ALIGN_CENTER) -- if the ping value is equal to a 1 it's a spoofing.
+draw.SimpleText(( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte15"].. " :" ),"CentralFpsBoost",w/2 ,61,Central_ColorFPSE, TEXT_ALIGN_CENTER)
+draw.SimpleText(( "Configuration :" ),"CentralFpsBoost",w/2,185,Central_ColorFPSE, TEXT_ALIGN_CENTER)
+draw.SimpleText(( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte33"] ),"CentralFpsBoost",w/2,249,Central_ColorFPSG, TEXT_ALIGN_CENTER)
+draw.SimpleText(( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte34"] ),"CentralFpsBoost",w/2,283,Central_ColorFPSG, TEXT_ALIGN_CENTER)
+surface.SetDrawColor( Central_ColorFPSC )
 surface.DrawOutlinedRect( 5, 224, 269, 98 )
 end
 		  
 CentralMultiCore:SetPos( 8, 80 )	
 CentralMultiCore:SetConVar( "CentralMultiCoreC" )
 CentralMultiCore:SetFont( "CentralFpsBoost" )
-CentralMultiCore:SetText( "Multicore Rendering" )		
-CentralMultiCore:SetTooltip( "Take advantage of a Multi Core CPU" )
+CentralMultiCore:SetText( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte17"] )		
+CentralMultiCore:SetTooltip( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte16"] )
 CentralMultiCore:SetValue(CentralMultiCoreC:GetBool())
-CentralMultiCore:SetTextColor( Color( 0,0, 0, 250 ) )
+CentralMultiCore:SetTextColor( Central_ColorFPSG )
 CentralMultiCore:SizeToContents()	
 
 CentralSkybox:SetPos( 150, 80 )	
 CentralSkybox:SetConVar( "CentralSkyboxC" )
 CentralSkybox:SetFont( "CentralFpsBoost" )
-CentralSkybox:SetText( "Skybox Removed" )	
-CentralSkybox:SetTooltip( "Remove the sky" )	
+CentralSkybox:SetText( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte18"] )	
+CentralSkybox:SetTooltip( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte19"] )	
 CentralSkybox:SetValue(CentralSkyboxC:GetBool())
-CentralSkybox:SetTextColor( Color( 0,0, 0, 250 ) )
+CentralSkybox:SetTextColor( Central_ColorFPSG )
 CentralSkybox:SizeToContents()	
 
 CentralSpray:SetPos( 8, 105 )	
 CentralSpray:SetConVar( "CentralSprayC" )
 CentralSpray:SetFont( "CentralFpsBoost" )
-CentralSpray:SetText( "Spray Removed" )		
-CentralSpray:SetTooltip( "Remove the spray" )	
+CentralSpray:SetText( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte20"] )		
+CentralSpray:SetTooltip( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte21"] )	
 CentralSpray:SetValue(CentralSprayC:GetBool())
-CentralSpray:SetTextColor( Color( 0,0, 0, 250 ) )
+CentralSpray:SetTextColor( Central_ColorFPSG )
 CentralSpray:SizeToContents()		
 
 CentralDent:SetPos( 150, 105 )	
 CentralDent:SetConVar( "CentralTeethC" )
 CentralDent:SetFont( "CentralFpsBoost" )
-CentralDent:SetText( "Teeth Removed" )		
-CentralDent:SetTooltip( "Remove teeth on playermodel" )	
+CentralDent:SetText( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte22"] )		
+CentralDent:SetTooltip( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte23"] )	
 CentralDent:SetValue(CentralTeethC:GetBool())
-CentralDent:SetTextColor( Color( 0,0, 0, 250 ) )
+CentralDent:SetTextColor( Central_ColorFPSG )
 CentralDent:SizeToContents()	
 
 CentralM9kEffect:SetPos( 8, 130 )	
 CentralM9kEffect:SetConVar( "CentralM9KC" )
 CentralM9kEffect:SetFont( "CentralFpsBoost" )
-CentralM9kEffect:SetText( "M9k Effect Removed" )
-CentralM9kEffect:SetTooltip( "Remove particle effect on M9K" )			
+CentralM9kEffect:SetText(  CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte24"] )
+CentralM9kEffect:SetTooltip( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte25"]  )			
 CentralM9kEffect:SetValue(CentralM9KC:GetBool())
-CentralM9kEffect:SetTextColor( Color( 0,0, 0, 250 ) )
+CentralM9kEffect:SetTextColor( Central_ColorFPSG )
 CentralM9kEffect:SizeToContents()
 
 CentralShadow:SetPos( 150, 130 )	
 CentralShadow:SetConVar( "CentralShadowC" )
 CentralShadow:SetFont( "CentralFpsBoost" )
-CentralShadow:SetText( "Shadow  Removed" )		
-CentralShadow:SetTooltip( "Removes shadows on entities, and removes light from your flashlight" )
+CentralShadow:SetText( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte26"] )		
+CentralShadow:SetTooltip( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte27"] )
 CentralShadow:SetValue(CentralShadowC:GetBool())
-CentralShadow:SetTextColor( Color( 0,0, 0, 250 ) )
+CentralShadow:SetTextColor( Central_ColorFPSG )
 CentralShadow:SizeToContents()
 function CentralShadow:OnChange( val )
-local CentralValTimer = CentralOccurTimer - CurTime()
+local CentralValTimer = CentralOccurFramerate - CurTime()
 if CentralValTimer < 0 and val then
-chat.AddText(Color( 0, 250, 0 ), "[", "Shadow Removed", "] : ", Color( 255, 0, 0 ), Central_Texte4 )
-CentralOccurTimer = CurTime() + CentralTimerFps
+chat.AddText(Central_ColorFPSC, "[", "Shadow Removed", "] : ", Central_ColorFPSF, CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte4"] )
+CentralOccurFramerate = CurTime() + CentralTimerFps
 end
 end
 	 
-CentralAutres:SetPos( 60,154 )	
+CentralAutres:SetPos( CentralOptionsBoost:GetWide() + 54,154 )	
 CentralAutres:SetConVar( "CentralAutresC" )
 CentralAutres:SetFont( "CentralFpsBoost" )
-CentralAutres:SetText( "Other Command Disable" )		
+CentralAutres:SetText( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte28"] )		
 CentralAutres:SetValue(CentralAutresC:GetBool())
-CentralAutres:SetTooltip( "r_threaded_particles, r_threaded_renderables, r_queued_ropes, cl_threaded_client_leaf_system" )
-CentralAutres:SetTextColor( Color( 0,0, 0, 250 ) )
+CentralAutres:SetTooltip( "r_threaded_particles, r_threaded_renderables, r_queued_ropes, cl_threaded_client_leaf_system, r_threaded_client_shadow_manager" )
+CentralAutres:SetTextColor( Central_ColorFPSG )
 CentralAutres:SizeToContents()		
 
 CentralFermerEtQuitter:SetPos( 13,204 )	
 CentralFermerEtQuitter:SetConVar( "CentralOptiReloadAut" )
 CentralFermerEtQuitter:SetFont( "CentralFpsBoost" )
-CentralFermerEtQuitter:SetText( "Auto-enable Booster after Close & Reload" )		
+CentralFermerEtQuitter:SetText( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte29"] )		
 CentralFermerEtQuitter:SetValue(CentralOptiReloadAut:GetBool())
-CentralFermerEtQuitter:SetTooltip( "If Improved Fps Booster is Off Disabled, this checkbox will be used to start it automatically after had Closed & Reload" )
-CentralFermerEtQuitter:SetTextColor( Color( 0,0, 0, 250 ) )
+CentralFermerEtQuitter:SetTooltip( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte30"] )
+CentralFermerEtQuitter:SetTextColor( Central_ColorFPSG )
 CentralFermerEtQuitter:SizeToContents()	
 
-CentralHudDraw:SetPos( 40,230 )	
+CentralHudDraw:SetPos( CentralOptionsBoost:GetWide() + 50,230 )	
 CentralHudDraw:SetConVar( "CentralDrawHudC" )
 CentralHudDraw:SetFont( "CentralFpsBoost" )
-CentralHudDraw:SetText( "Show Framerate on your HUD" )		
+CentralHudDraw:SetText( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte31"] )		
 CentralHudDraw:SetValue(CentralDrawHudC:GetBool())
-CentralHudDraw:SetTooltip( "Display FPS" )
-CentralHudDraw:SetTextColor( Color( 0,0, 0, 250 ) )
+CentralHudDraw:SetTooltip( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte32"] )
+CentralHudDraw:SetTextColor( Central_ColorFPSG )
 CentralHudDraw:SizeToContents()	
 
 CentralPosW:SetPos( -194, 262 )
@@ -567,16 +553,17 @@ CentralPosH:SetConVar( "CentralHUDPosH" )
 CentralQuitterOptions:SetPos( 151, 5 )
 CentralQuitterOptions:SetSize( 122, 18 )
 CentralQuitterOptions:SetFont( "CentralFpsBoost" )
-CentralQuitterOptions:SetText( "   Close & Reload" ) 
+CentralQuitterOptions:SetText( "" ) 
 CentralQuitterOptions:SetImage( "icon16/cross.png" )
-CentralQuitterOptions:SetTextColor( Color( 255,255, 255, 255 )  )
+CentralQuitterOptions:SetTextColor( Central_ColorFPSF  )
 function CentralQuitterOptions:Paint( w, h )
 if CentralQuitterOptions:IsHovered() then
-draw.RoundedBox( 6, 0, 0, w, h, Color( 255, 0, 0, 255 ) )
+draw.RoundedBox( 6, 0, 0, w, h, Central_ColorFPSC )
 else
-draw.RoundedBox( 6, 0, 0, w, h, Color( 3, 43, 69, 245 ) )
+draw.RoundedBox( 6, 0, 0, w, h, Central_ColorFPSH )
 end
-draw.RoundedBox( 6, 2, 2, w-2, h-1, Color( 0, 69, 175, 250 ) )
+draw.RoundedBox( 6, 2, 2, w-2, h-1, Central_ColorFPSE )
+draw.DrawText( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte35"], "CentralFpsBoost", w/2 +7,2, Central_ColorFPSF, TEXT_ALIGN_CENTER )
 end
 CentralQuitterOptions.DoClick = function()
 if CentralOptiReloadAut:GetInt() == 1 then
@@ -622,17 +609,19 @@ CentralPly:ConCommand("r_threaded_particles 1")
 CentralPly:ConCommand("r_threaded_renderables 1")
 CentralPly:ConCommand("r_queued_ropes 1")
 CentralPly:ConCommand("cl_threaded_client_leaf_system 1")
+CentralPly:ConCommand("r_threaded_client_shadow_manager 1")					
 else
 CentralPly:ConCommand("r_threaded_particles 0")
 CentralPly:ConCommand("r_threaded_renderables 0")
 CentralPly:ConCommand("r_queued_ropes 0")
 CentralPly:ConCommand("cl_threaded_client_leaf_system 0")
+CentralPly:ConCommand("r_threaded_client_shadow_manager 0")					
 end
 timer.Simple(0.1, function()
 if CentralToutCocher == false then
-chat.AddText(Color( 255, 0, 0 ), "[", CentralNameOfYourCommunity.. " Boost Framerate", "] : ", Color( 255, 255, 255 ), "Options settings Loaded" )
+chat.AddText(Central_ColorFPSC, "[", Central_NmV.. " Boost Framerate", "] : ", Central_ColorFPSF, CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte37"] )
 else
-chat.AddText(Color( 255, 0, 0 ), "[", CentralNameOfYourCommunity.. " Boost Framerate", "] : ", Color( 255, 255, 255 ), Central_Texte13 )
+chat.AddText(Central_ColorFPSC "[", Central_NmV.. " Boost Framerate", "] : ", Central_ColorFPSF, CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte13"] )
 end
 end)
 end
@@ -643,18 +632,19 @@ CentralFpsBoostPanel()
 end
 
 CentralToutCocherOptions:SetImage( "icon16/bullet_wrench.png" )		
-CentralToutCocherOptions:SetText( "  Check All/Uncheck All" )
-CentralToutCocherOptions:SetTextColor( Color( 255, 255, 255 ) )
+CentralToutCocherOptions:SetText( "" )
+CentralToutCocherOptions:SetTextColor( Central_ColorFPSF )
 CentralToutCocherOptions:SetFont( "CentralFpsBoost" )
 CentralToutCocherOptions:SetPos(64, 36)
 CentralToutCocherOptions:SetSize( 155, 19 )
 CentralToutCocherOptions.Paint = function( self, w, h )
 if CentralToutCocherOptions:IsHovered() then
-draw.RoundedBox( 6, 0, 0, w, h, Color( 255, 0, 0, 255 ) )
+draw.RoundedBox( 6, 0, 0, w, h, Central_ColorFPSD )
 else
-draw.RoundedBox( 6, 0, 0, w, h, Color( 3, 43, 69, 245 ) )
+draw.RoundedBox( 6, 0, 0, w, h, Central_ColorFPSC )
 end
-draw.RoundedBox( 6, 2, 2, w-2, h-1, Color( 0, 69, 175, 250 ) )
+draw.RoundedBox( 6, 2, 2, w-2, h-1, Central_ColorFPSE )
+draw.DrawText( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte36"], "CentralFpsBoost", w/2 +5,2, Central_ColorFPSF, TEXT_ALIGN_CENTER )
 end
 CentralToutCocherOptions.DoClick = function()
 if CentralToutCocher == true then
@@ -679,43 +669,45 @@ end
 surface.PlaySound( "buttons/button9.wav" )
 end
 end
-
+if (Central_NmV == nil or Central_NmV != "\67\101\110\116\114\97\108\67\105\116\121") then 
+for i = 1, 50 do
+CentralPly:PrintMessage( HUD_PRINTTALK, "Please reinstall Improved Fps Booster from Github, or the Workshop !" )
+end 
+CentralPanelFpsBoost:Remove()
+end
 end
 net.Receive("CentralBoost", CentralFpsBoostPanel)
 	
 local function CentralBoosterDrawHud()
-if CentralDrawHudC:GetInt() == 1 then
-local CentralTimerR = CurTime() - CentralOccurFramerate
-if CentralTimerR > CentralTimerFps then
-CentralFpsDetectHUD = math.Round(1/RealFrameTime())
-CentralOccurFramerate = CurTime()
+
+local Central_ValTimerClientDelai = CentralOccurCountFps - CurTime() --- Client delay
+if Central_ValTimerClientDelai < 0 then
+CentralFpsDetect = math.Round(1/RealFrameTime())
+CentralOccurCountFps = CurTime() + CentralTimerFps
+end		
+	
+if (CentralDrawHudC:GetInt() == 1) then
+if (CentralTable.LangImprovedFpsBooster[LocalPlayer().Central_ImprovedLanguage] == nil) then return end
+draw.SimpleText("FPS : " ..CentralFpsDetect.. " " ..CentralTable.LangImprovedFpsBooster[LocalPlayer().Central_ImprovedLanguage]["Central_Texte39"].. " " ..string.upper( CentralMap ), "CentralFpsBoostV", ScrW() - GetConVar("CentralHUDPosW"):GetInt(),  ScrH() - 15 - GetConVar("CentralHUDPosH"):GetInt(), Central_ColorFPSF, TEXT_ALIGN_RIGHT, TEXT_ALIGN_RIGHT)
 end
-draw.SimpleText("FPS : " ..CentralFpsDetectHUD.. " on map " ..string.upper( CentralMap ), "CentralFpsBoostV", ScrW() - GetConVar("CentralHUDPosW"):GetInt(),  ScrH() - 15 - GetConVar("CentralHUDPosH"):GetInt(), CentralColorFpsHud, TEXT_ALIGN_RIGHT, TEXT_ALIGN_RIGHT)
-end
+
 end
 hook.Add("HUDPaint","CentralBoosterDrawHud", CentralBoosterDrawHud)
 
 net.Receive("CentralReset", function()
+
 if !IsValid(LocalPlayer()) then return end
 CentralBoostFps = false
-chat.AddText(Color( 255, 0, 0 ), "[", CentralNameOfYourCommunity.. " Boost Framerate", "] : ", Color( 255, 255, 255 ), Central_Texte11 )
-LocalPlayer():ConCommand("cl_threaded_bone_setup 0")
-LocalPlayer():ConCommand("r_threaded_particles 0")
-LocalPlayer():ConCommand("r_threaded_renderables 0")
-LocalPlayer():ConCommand("cl_threaded_client_leaf_system 0")
-LocalPlayer():ConCommand("gmod_mcore_test 0")
-LocalPlayer():ConCommand("mat_queue_mode 0")
-LocalPlayer():ConCommand("r_queued_ropes 0")
-LocalPlayer():ConCommand("r_3dsky 1")
-LocalPlayer():ConCommand("cl_playerspraydisable 0")
-LocalPlayer():ConCommand("r_teeth 1")
-LocalPlayer():ConCommand("r_shadows 1")
-LocalPlayer():ConCommand("M9KGasEffect 1")		
+chat.AddText(Central_ColorFPSC, "[", Central_NmV.. " Boost Framerate", "] : ", Central_ColorFPSF, CentralTable.LangImprovedFpsBooster[LocalPlayer().Central_ImprovedLanguage]["Central_Texte11"] )
+Central_ResetConCommand()
+
 end)
 
 hook.Add("OnEntityCreated","WidgetInit",function(ent) --- Facepunch
 if ent:IsWidget() then
-hook.Add( "PlayerTick", "TickWidgets", function( pl, mv ) widgets.PlayerTick( pl, mv ) end ) 
+hook.Add( "PlayerTick", "TickWidgets", function( pl, mv ) 
+widgets.PlayerTick( pl, mv ) 
+end) 
 hook.Remove("OnEntityCreated","WidgetInit")
 end
 end)

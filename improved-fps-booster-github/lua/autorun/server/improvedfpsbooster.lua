@@ -1,4 +1,4 @@
-local CentralVersion = "1.2"
+local CentralVersion = "2.0"
 
 util.AddNetworkString( "CentralBoost" )
 util.AddNetworkString( "CentralReset" )
@@ -21,11 +21,29 @@ if !ply:IsSuperAdmin() then return end
 		end
 	end,
 	function( error )
-		-- We failed. =(
+		print("Improved Fps booster HTTTP (error) : " , error)
 	end)
 
 end)
 end)
+
+local function Central_FpsRemoveConvarDisco(ply)
+-- Removed convars on client disconnect 
+ply:ConCommand("cl_threaded_bone_setup 0")
+ply:ConCommand("r_threaded_particles 0")
+ply:ConCommand("r_threaded_renderables 0")
+ply:ConCommand("cl_threaded_client_leaf_system 0")
+ply:ConCommand("gmod_mcore_test 0")
+ply:ConCommand("mat_queue_mode 0")
+ply:ConCommand("r_queued_ropes 0")
+ply:ConCommand("r_3dsky 1")
+ply:ConCommand("cl_playerspraydisable 0")
+ply:ConCommand("r_teeth 1")
+ply:ConCommand("r_shadows 1")
+ply:ConCommand("M9KGasEffect 1")
+ply:ConCommand("r_threaded_client_shadow_manager 0")
+end
+hook.Add("PlayerDisconnected","Central_FpsRemoveConvarDisco", Central_FpsRemoveConvarDisco)
 
 hook.Add("Initialize","CentralFpsRemoveHook",function()
 if timer.Exists("HostnameThink") then
