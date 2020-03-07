@@ -1,12 +1,10 @@
 ------------- Script by Inj3, prohibited to copy the code
--- *The configuration part on this file doesn't exist anymore, i deleted it for recoded all, now is automatic for the language (You can include anyway your own language in this file 'lang_improvedfpsbooter.lua').
--- If you have a language to add or a suggestion contact me on my steam.
--- If you want to support me, come and check out "Centralcity RP" server.
+-- If you have any language to add or a suggestion, contact me on my steam.
 ------------- https://steamcommunity.com/id/Inj3/
-------------- https://centralcityrp.mtxserv.fr/
+------------- CentralCityrp.fr/
 ------------- https://steamcommunity.com/groups/CentralCityRoleplay
 
--------------------- Include Font
+-------------------- Included Font
 surface.CreateFont( "CentralFpsBoost", {
     font = "Segoe UI Black Italic",
     size = 14,
@@ -38,7 +36,7 @@ CreateClientConVar("CentralHUDPosW",50,true,false)
 CreateClientConVar("CentralHUDPosH",50,true,false)
 CreateClientConVar("CentralImprovedLanguageCV","",true,false)
 local Central_NmV, Central_ImprovedLanguage, CentralGainCalcul, CentralCalculFPS, CentralCalculReSize, CentralIndexTableImprFPS
-local CentralBoostFps, CentralTimerVOccur, CentralLoadRefresh, CentralOptionOpen, CentralToutCocher, CentralMap = false, true, false, false, false, game.GetMap()
+local CentralBoostFps, CentralTimerVOccur, CentralLoadRefresh, CentralOptionOpen, CentralToutCocher, CentralMap, CentralBoostOV, CentralPanelFpsBoost = false, true, false, false, false, game.GetMap(), false, nil
 local CentralColorFps, CentralColorFpsmin, CentralColorFpsmax = Color( 0,0,0, 255 ), Color( 0,0,0, 255 ), Color( 0,0,0, 255 ) --- Dynamic Value
 local CentralMultiCoreC, CentralSkyboxC, CentralSprayC, CentralTeethC, CentralShadowC, CentralM9KC, CentralAutresC, CentralOptiReloadAut, CentralDrawHudC, CentralLangueSys = GetConVar("CentralMultiCoreC"), GetConVar("CentralSkyboxC"), GetConVar("CentralSprayC"), GetConVar("CentralTeethC"), GetConVar("CentralShadowC"), GetConVar("CentralM9KC"), GetConVar("CentralAutresC"), GetConVar("CentralOptiReloadAut"), GetConVar("CentralDrawHudC"), GetConVar("CentralImprovedLanguageCV")
 local CentralFpsGains, CentralFpsMax, CentralFpsMin, CentralFpsDetect = 0, 0, 1000, 0
@@ -62,7 +60,7 @@ end
 
 end
 local CentralUrlWorkshop = "https://steamcommunity.com/sharedfiles/filedetails/?id=1762151370" 
-Central_NmV = "\67\101\110\116\114\97\108\67\105\116\121" -- Don't removed this or it's break :D
+Central_NmV = "\67\101\110\116\114\97\108\67\105\116\121"
 
 local function Central_CheckClientFPS(CentralPanelFpsBoost)	
 
@@ -109,6 +107,12 @@ end
 
 end
 
+local function Central_FrmPanel()
+if !IsValid(CentralPanelFpsBoost) then return end
+CentralPanelFpsBoost:Remove()
+CentralBoostOV = false
+end
+
 local function Central_ResetConCommand()
 
 local CentralPlyConC = LocalPlayer()
@@ -140,9 +144,11 @@ CentralIndexTableImprFPS = true
 InitCentralFpsBooster(CentralPly) --- By default if the client has not defined a language / the tracking system takes over
 end
 
+CentralBoostOV = true
+
 if CentralOptionOpen == false then
 
-local CentralPanelFpsBoost = vgui.Create( "DFrame" )
+CentralPanelFpsBoost = vgui.Create( "DFrame" )
 local CentralDPanel = vgui.Create( "DPropertySheet", CentralPanelFpsBoost )
 local CentralLangue = vgui.Create( "DComboBox", CentralPanelFpsBoost )
 local CentralIcon = vgui.Create( "HTML", CentralDPanel )
@@ -242,7 +248,7 @@ draw.DrawText( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLa
 end
 CentralQuitterFps.DoClick = function()
 chat.AddText(Central_ColorFPSC, "[", Central_NmV.. " Boost Framerate", "] : ", Central_ColorFPSF, CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte10"] )
-CentralPanelFpsBoost:Remove()
+Central_FrmPanel()
 end 
 
 CentralResetFps:SetPos( 69, 165 )
@@ -322,7 +328,7 @@ chat.AddText(Central_ColorFPSC, "[", Central_NmV.. " Boost Framerate", "] : ", C
 if CentralBoostFps == false then 
 CentralFpsMin = 1000
 else 
-CentralPanelFpsBoost:Remove() 
+Central_FrmPanel()
 return 
 end
 CentralBoostFps = true
@@ -353,7 +359,7 @@ end
 if CentralM9KC:GetInt() == 1 then
 CentralPly:ConCommand("M9KGasEffect 0")
 end
-CentralPanelFpsBoost:Remove()
+Central_FrmPanel()
 end
 		
 CentralDesactiver:SetImage( "icon16/cross.png" )		
@@ -381,7 +387,7 @@ CentralFpsGains = 1
 end
 CentralBoostFps = false
 Central_ResetConCommand()
-CentralPanelFpsBoost:Remove()
+Central_FrmPanel()
 end
 
 CentralOptions:SetImage( "icon16/bullet_wrench.png" )		
@@ -401,7 +407,7 @@ end
 CentralOptions.DoClick = function()
 surface.PlaySound( "buttons/combine_button7.wav" )
 CentralOptionOpen = true
-CentralPanelFpsBoost:Remove()
+Central_FrmPanel()
 CentralFpsBoostPanel()
 end
 
@@ -673,12 +679,16 @@ if (Central_NmV == nil or Central_NmV != "\67\101\110\116\114\97\108\67\105\116\
 for i = 1, 50 do
 CentralPly:PrintMessage( HUD_PRINTTALK, "Please reinstall Improved Fps Booster from Github, or the Workshop !" )
 end 
-CentralPanelFpsBoost:Remove()
+timer.Simple(0.1, function()
+Central_FrmPanel()
+end)
 end
 end
 net.Receive("CentralBoost", CentralFpsBoostPanel)
 	
 local function CentralBoosterDrawHud()
+
+if (CentralBoostOV or CentralDrawHudC:GetInt() == 1) then --- We only execute the code when we need to.
 
 local Central_ValTimerClientDelai = CentralOccurCountFps - CurTime() --- Client delay
 if Central_ValTimerClientDelai < 0 then
@@ -686,9 +696,10 @@ CentralFpsDetect = math.Round(1/RealFrameTime())
 CentralOccurCountFps = CurTime() + CentralTimerFps
 end		
 	
-if (CentralDrawHudC:GetInt() == 1) then
+if (CentralDrawHudC:GetInt() != 1) then return end
 if (CentralTable.LangImprovedFpsBooster[LocalPlayer().Central_ImprovedLanguage] == nil) then return end
 draw.SimpleText("FPS : " ..CentralFpsDetect.. " " ..CentralTable.LangImprovedFpsBooster[LocalPlayer().Central_ImprovedLanguage]["Central_Texte39"].. " " ..string.upper( CentralMap ), "CentralFpsBoostV", ScrW() - GetConVar("CentralHUDPosW"):GetInt(),  ScrH() - 15 - GetConVar("CentralHUDPosH"):GetInt(), Central_ColorFPSF, TEXT_ALIGN_RIGHT, TEXT_ALIGN_RIGHT)
+
 end
 
 end
