@@ -551,7 +551,7 @@ CentralPosW:SetPos( -194, 295 )
 CentralPosW:SetSize( 485, 20 )	
 CentralPosW:SetText( "" )	
 CentralPosW:SetMin( 0 )	
-CentralPosW:SetMax( ScrW() - 198 )	
+CentralPosW:SetMax( 100 )	
 CentralPosW:SetDecimals( 0 )
 CentralPosW:SetConVar( "CentralHUDPosW" ) 
 
@@ -559,7 +559,7 @@ CentralPosH:SetPos( -195, 335 )
 CentralPosH:SetSize( 485, 20 )	
 CentralPosH:SetText( "" )	
 CentralPosH:SetMin( 0 )	
-CentralPosH:SetMax( ScrH() - 15 )	
+CentralPosH:SetMax( 100 )	
 CentralPosH:SetDecimals( 0 )
 CentralPosH:SetConVar( "CentralHUDPosH" ) 
 	
@@ -701,7 +701,7 @@ end
 	
 if (CentralDrawHudC:GetInt() != 1) then return end
 if (CentralTable.LangImprovedFpsBooster[LocalPlayer().Central_ImprovedLanguage] == nil) then return end
-draw.SimpleText("FPS : " ..CentralFpsDetect.. " " ..CentralTable.LangImprovedFpsBooster[LocalPlayer().Central_ImprovedLanguage]["Central_Texte39"].. " " ..string.upper( CentralMap ), "CentralFpsBoostV", ScrW() - CentralHUDposW:GetInt(),  ScrH() - 15 - CentralHUDposH:GetInt(), Central_ColorFPSF, TEXT_ALIGN_RIGHT, TEXT_ALIGN_RIGHT)
+draw.SimpleText("FPS : " ..CentralFpsDetect.. " " ..CentralTable.LangImprovedFpsBooster[LocalPlayer().Central_ImprovedLanguage]["Central_Texte39"].. " " ..string.upper( CentralMap ), "CentralFpsBoostV", ScrW() * (CentralHUDposW:GetInt() / 100),  ScrH() * (CentralHUDposH:GetInt() / 100), Central_ColorFPSF, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 
 end
 
