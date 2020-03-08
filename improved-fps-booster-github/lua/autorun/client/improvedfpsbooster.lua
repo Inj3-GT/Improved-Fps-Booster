@@ -38,7 +38,7 @@ CreateClientConVar("CentralImprovedLanguageCV","",true,false)
 local Central_NmV, Central_ImprovedLanguage, CentralGainCalcul, CentralCalculFPS, CentralCalculReSize, CentralIndexTableImprFPS
 local CentralBoostFps, CentralTimerVOccur, CentralLoadRefresh, CentralOptionOpen, CentralToutCocher, CentralMap, CentralBoostOV, CentralPanelFpsBoost = false, true, false, false, false, game.GetMap(), false, nil
 local CentralColorFps, CentralColorFpsmin, CentralColorFpsmax = Color( 0,0,0, 255 ), Color( 0,0,0, 255 ), Color( 0,0,0, 255 ) --- Dynamic Value
-local CentralMultiCoreC, CentralSkyboxC, CentralSprayC, CentralTeethC, CentralShadowC, CentralM9KC, CentralAutresC, CentralOptiReloadAut, CentralDrawHudC, CentralLangueSys = GetConVar("CentralMultiCoreC"), GetConVar("CentralSkyboxC"), GetConVar("CentralSprayC"), GetConVar("CentralTeethC"), GetConVar("CentralShadowC"), GetConVar("CentralM9KC"), GetConVar("CentralAutresC"), GetConVar("CentralOptiReloadAut"), GetConVar("CentralDrawHudC"), GetConVar("CentralImprovedLanguageCV")
+local CentralMultiCoreC, CentralSkyboxC, CentralSprayC, CentralTeethC, CentralShadowC, CentralM9KC, CentralAutresC, CentralOptiReloadAut, CentralDrawHudC, CentralLangueSys, CentralHUDposW, CentralHUDposH = GetConVar("CentralMultiCoreC"), GetConVar("CentralSkyboxC"), GetConVar("CentralSprayC"), GetConVar("CentralTeethC"), GetConVar("CentralShadowC"), GetConVar("CentralM9KC"), GetConVar("CentralAutresC"), GetConVar("CentralOptiReloadAut"), GetConVar("CentralDrawHudC"), GetConVar("CentralImprovedLanguageCV"), GetConVar("CentralHUDPosW"), GetConVar("CentralHUDPosH")
 local CentralFpsGains, CentralFpsMax, CentralFpsMin, CentralFpsDetect = 0, 0, 1000, 0
 local CentralTimerFps, CentralTimerRefreshV, CentralOccurFramerate, CentralOccurCountFps = 1, 5, 1, 0
 local Central_ColorFPSA, Central_ColorFPSB, Central_ColorFPSC, Central_ColorFPSD, Central_ColorFPSE, Central_ColorFPSF, Central_ColorFPSG, Central_ColorFPSH = Color( 255,165,0, 255 ), Color( 0,160,0, 255 ), Color( 255,0,0, 255 ), Color( 0,175,0, 255 ), Color( 0, 69, 175, 250 ), Color( 255, 255, 255, 255 ), Color( 0,0, 0, 250 ), Color( 3, 43, 69, 245 )
@@ -183,6 +183,8 @@ CentralPanelFpsBoost:MakePopup()
 CentralPanelFpsBoost:SetTitle("")
 CentralPanelFpsBoost:SetPos(ScrW()/2-160, ScrH()/2-180 )
 CentralPanelFpsBoost:SetSize( 0, 0 )
+CentralPanelFpsBoost:AlphaTo(5, 0, 0)
+CentralPanelFpsBoost:AlphaTo(255, 1, 0)
 CentralPanelFpsBoost:SizeTo( 300, 270, .5, 0, 10)
 function CentralPanelFpsBoost:Init()
 self.startTime = SysTime()
@@ -209,7 +211,7 @@ end
 CentralIcon:SetPos(5,-10)
 CentralIcon:SetSize(300,300)
 CentralIcon:SetHTML([[
-<img src="https://centralcityrp.mtxserv.fr/centralboost.gif" alt="Img" style="width:300px;height:200px;">
+<img src="https://centralcityrp.mtxserv.fr/centralboost1.gif" alt="Img" style="width:300px;height:200px;">
 ]]) --- HTML is good to avoid adding material for your players to download.
 
 
@@ -238,11 +240,7 @@ CentralQuitterFps:SetTextColor( Central_ColorFPSF )
 CentralQuitterFps:SetFont( "CentralFpsBoost" )
 CentralQuitterFps:SetImage( "icon16/cross.png" )
 function CentralQuitterFps:Paint( w, h )
-if CentralQuitterFps:IsHovered() then
 draw.RoundedBox( 6, 0, 0, w, h, Central_ColorFPSC )
-else
-draw.RoundedBox( 6, 0, 0, w, h, Central_ColorFPSH )
-end
 draw.RoundedBox( 6, 2, 2, w-2, h-1, Central_ColorFPSE )
 draw.DrawText( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte1"], "CentralFpsBoost", w/2,3, Central_ColorFPSF, TEXT_ALIGN_CENTER )
 end
@@ -258,11 +256,7 @@ CentralResetFps:SetTextColor( Central_ColorFPSF )
 CentralResetFps:SetImage( "icon16/arrow_refresh.png" )
 CentralResetFps:SetFont( "CentralFpsBoost" )
 function CentralResetFps:Paint( w, h )
-if CentralResetFps:IsHovered() then
 draw.RoundedBox( 6, 0, 0, w, h, Central_ColorFPSC )
-else
-draw.RoundedBox( 6, 0, 0, w, h, Central_ColorFPSH )
-end
 draw.RoundedBox( 6, 2, 2, w-2, h-1, Central_ColorFPSE )
 end
 CentralResetFps.DoClick = function()
@@ -397,11 +391,7 @@ CentralOptions:SetFont( "CentralFpsBoost" )
 CentralOptions:SetPos(110, 58)
 CentralOptions:SetSize( 86, 19 )
 CentralOptions.Paint = function( self, w, h )
-if CentralOptions:IsHovered() then
-draw.RoundedBox( 6, 0, 0, w, h, Central_ColorFPSC )
-else
-draw.RoundedBox( 6, 0, 0, w, h, Central_ColorFPSH )
-end
+draw.RoundedBox( 6, 0, 0, w, h, Central_ColorFPSB )
 draw.RoundedBox( 6, 2, 2, w-2, h-1, Central_ColorFPSE )
 end
 CentralOptions.DoClick = function()
@@ -414,13 +404,14 @@ end
 else
 
 local CentralOptionsBoost = vgui.Create( "DFrame" )
-local CentralMultiCore = vgui.Create( "DCheckBoxLabel", CentralOptionsBoost)
-local CentralSkybox = vgui.Create( "DCheckBoxLabel", CentralOptionsBoost)
-local CentralSpray = vgui.Create( "DCheckBoxLabel", CentralOptionsBoost)
-local CentralDent = vgui.Create( "DCheckBoxLabel", CentralOptionsBoost)
-local CentralAutres = vgui.Create( "DCheckBoxLabel", CentralOptionsBoost)
-local CentralM9kEffect = vgui.Create( "DCheckBoxLabel", CentralOptionsBoost)
-local CentralShadow = vgui.Create( "DCheckBoxLabel", CentralOptionsBoost)
+local Central_OptionsBoost_Dscroll = vgui.Create( "DScrollPanel", CentralOptionsBoost )
+local CentralMultiCore = vgui.Create( "DCheckBoxLabel", Central_OptionsBoost_Dscroll)
+local CentralSkybox = vgui.Create( "DCheckBoxLabel", Central_OptionsBoost_Dscroll)
+local CentralSpray = vgui.Create( "DCheckBoxLabel", Central_OptionsBoost_Dscroll)
+local CentralDent = vgui.Create( "DCheckBoxLabel", Central_OptionsBoost_Dscroll)
+local CentralAutres = vgui.Create( "DCheckBoxLabel", Central_OptionsBoost_Dscroll)
+local CentralM9kEffect = vgui.Create( "DCheckBoxLabel", Central_OptionsBoost_Dscroll)
+local CentralShadow = vgui.Create( "DCheckBoxLabel", Central_OptionsBoost_Dscroll)
 local CentralHudDraw = vgui.Create( "DCheckBoxLabel", CentralOptionsBoost)
 local CentralToutCocherOptions = vgui.Create("DButton", CentralOptionsBoost)
 local CentralFermerEtQuitter = vgui.Create("DCheckBoxLabel", CentralOptionsBoost)
@@ -436,23 +427,39 @@ CentralOptionsBoost:MakePopup()
 CentralOptionsBoost:SetTitle("")
 CentralOptionsBoost:SetPos(ScrW()/2-160, ScrH()/2-180 )
 CentralOptionsBoost:SetSize( 0, 0 )
-CentralOptionsBoost:SizeTo( 280, 360, .5, 0, 10)
+CentralOptionsBoost:SizeTo( 280, 395, .5, 0, 10)
 CentralOptionsBoost.Paint = function( self, w, h )
 draw.RoundedBox( 6, 0, 0, w, h, Central_ColorFPSE ) 
 draw.RoundedBox( 6, 3, 3, w-7, h-7, Central_ColorFPSF ) 
 draw.RoundedBox( 6, 0, 0, w-132, 25, Central_ColorFPSE)
 draw.SimpleText(( "[Options]" ),"CentralFpsBoost",78,5,Central_ColorFPSF, TEXT_ALIGN_RIGHT)
-draw.SimpleText(( "\73\109\112\114\111\118\101\100\32\70\112\115\32\66\111\111\115\116\101\114\32\118\101\114\115\105\111\110\32\50\46\48\32\47\32\73\110\106\51" ),"CentralFpsBoost",273,342,Central_ColorFPSC, TEXT_ALIGN_RIGHT)
-draw.SimpleText(( "Ping detection : " ..CentralPly:Ping()),"CentralFpsBoost",w/2 -1,327,Central_ColorFPSE, TEXT_ALIGN_CENTER) -- if the ping value is equal to a 1 it's a spoofing.
-draw.SimpleText(( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte15"].. " :" ),"CentralFpsBoost",w/2 ,61,Central_ColorFPSE, TEXT_ALIGN_CENTER)
-draw.SimpleText(( "Configuration :" ),"CentralFpsBoost",w/2,185,Central_ColorFPSE, TEXT_ALIGN_CENTER)
-draw.SimpleText(( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte33"] ),"CentralFpsBoost",w/2,249,Central_ColorFPSG, TEXT_ALIGN_CENTER)
-draw.SimpleText(( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte34"] ),"CentralFpsBoost",w/2,283,Central_ColorFPSG, TEXT_ALIGN_CENTER)
-surface.SetDrawColor( Central_ColorFPSC )
-surface.DrawOutlinedRect( 5, 224, 269, 98 )
+draw.SimpleText(( "\73\109\112\114\111\118\101\100\32\70\112\115\32\66\111\111\115\116\101\114\32\118\101\114\115\105\111\110\32\50\46\48\32\47\32\73\110\106\51" ),"CentralFpsBoost",w/2,376,Central_ColorFPSE, TEXT_ALIGN_CENTER)
+draw.SimpleText(( "Ping detection : " ..CentralPly:Ping()),"CentralFpsBoost",w/2,360,Central_ColorFPSE, TEXT_ALIGN_CENTER) -- if the ping value is equal to a 1 it's a spoofing.
+draw.SimpleText(( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte15"].. " :" ),"CentralFpsBoost",w/2 ,62,Central_ColorFPSE, TEXT_ALIGN_CENTER)
+draw.SimpleText(( "Configuration :" ),"CentralFpsBoost",w/2,215,Central_ColorFPSE, TEXT_ALIGN_CENTER)
+draw.SimpleText(( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte33"] ),"CentralFpsBoost",w/2,280,Central_ColorFPSG, TEXT_ALIGN_CENTER)
+draw.SimpleText(( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte34"] ),"CentralFpsBoost",w/2,320,Central_ColorFPSG, TEXT_ALIGN_CENTER)
+draw.RoundedBox(1, 10, 57, 260, 2, Central_ColorFPSC)
+draw.RoundedBox(1, 10, 209, 260, 2, Central_ColorFPSC)
 end
+
+Central_OptionsBoost_Dscroll:Dock( FILL )
+Central_OptionsBoost_Dscroll:DockMargin( -5,50, 0, 195 )
+local Central_OptionsBoost_DscrollSbar = Central_OptionsBoost_Dscroll:GetVBar()
+function Central_OptionsBoost_DscrollSbar:Paint(w, h)
+end
+function Central_OptionsBoost_DscrollSbar.btnUp:Paint(w, h)
+draw.RoundedBox(2, 0, 0, w, h, Color(0, 69, 175, 250))
+end
+function Central_OptionsBoost_DscrollSbar.btnDown:Paint(w, h)
+draw.RoundedBox(2, 0, 0, w, h, Color(0, 69, 175, 250))
+end
+function Central_OptionsBoost_DscrollSbar.btnGrip:Paint(w, h)
+draw.RoundedBox(2, 0, 0, w, h, Color(255, 0, 0, 250))
+end
+	
 		  
-CentralMultiCore:SetPos( 8, 80 )	
+CentralMultiCore:SetPos( 20, 0 )	
 CentralMultiCore:SetConVar( "CentralMultiCoreC" )
 CentralMultiCore:SetFont( "CentralFpsBoost" )
 CentralMultiCore:SetText( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte17"] )		
@@ -461,7 +468,7 @@ CentralMultiCore:SetValue(CentralMultiCoreC:GetBool())
 CentralMultiCore:SetTextColor( Central_ColorFPSG )
 CentralMultiCore:SizeToContents()	
 
-CentralSkybox:SetPos( 150, 80 )	
+CentralSkybox:SetPos( 20, 25 )	
 CentralSkybox:SetConVar( "CentralSkyboxC" )
 CentralSkybox:SetFont( "CentralFpsBoost" )
 CentralSkybox:SetText( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte18"] )	
@@ -470,7 +477,7 @@ CentralSkybox:SetValue(CentralSkyboxC:GetBool())
 CentralSkybox:SetTextColor( Central_ColorFPSG )
 CentralSkybox:SizeToContents()	
 
-CentralSpray:SetPos( 8, 105 )	
+CentralSpray:SetPos(  20, 50 )	
 CentralSpray:SetConVar( "CentralSprayC" )
 CentralSpray:SetFont( "CentralFpsBoost" )
 CentralSpray:SetText( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte20"] )		
@@ -479,7 +486,7 @@ CentralSpray:SetValue(CentralSprayC:GetBool())
 CentralSpray:SetTextColor( Central_ColorFPSG )
 CentralSpray:SizeToContents()		
 
-CentralDent:SetPos( 150, 105 )	
+CentralDent:SetPos(  20, 75)	
 CentralDent:SetConVar( "CentralTeethC" )
 CentralDent:SetFont( "CentralFpsBoost" )
 CentralDent:SetText( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte22"] )		
@@ -488,7 +495,7 @@ CentralDent:SetValue(CentralTeethC:GetBool())
 CentralDent:SetTextColor( Central_ColorFPSG )
 CentralDent:SizeToContents()	
 
-CentralM9kEffect:SetPos( 8, 130 )	
+CentralM9kEffect:SetPos(  20, 100 )	
 CentralM9kEffect:SetConVar( "CentralM9KC" )
 CentralM9kEffect:SetFont( "CentralFpsBoost" )
 CentralM9kEffect:SetText(  CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte24"] )
@@ -497,7 +504,7 @@ CentralM9kEffect:SetValue(CentralM9KC:GetBool())
 CentralM9kEffect:SetTextColor( Central_ColorFPSG )
 CentralM9kEffect:SizeToContents()
 
-CentralShadow:SetPos( 150, 130 )	
+CentralShadow:SetPos(  20, 125 )	
 CentralShadow:SetConVar( "CentralShadowC" )
 CentralShadow:SetFont( "CentralFpsBoost" )
 CentralShadow:SetText( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte26"] )		
@@ -513,7 +520,7 @@ CentralOccurFramerate = CurTime() + CentralTimerFps
 end
 end
 	 
-CentralAutres:SetPos( CentralOptionsBoost:GetWide() + 54,154 )	
+CentralAutres:SetPos(  20, 150 )	
 CentralAutres:SetConVar( "CentralAutresC" )
 CentralAutres:SetFont( "CentralFpsBoost" )
 CentralAutres:SetText( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte28"] )		
@@ -522,7 +529,7 @@ CentralAutres:SetTooltip( "r_threaded_particles, r_threaded_renderables, r_queue
 CentralAutres:SetTextColor( Central_ColorFPSG )
 CentralAutres:SizeToContents()		
 
-CentralFermerEtQuitter:SetPos( 13,204 )	
+CentralFermerEtQuitter:SetPos( 20,233 )	
 CentralFermerEtQuitter:SetConVar( "CentralOptiReloadAut" )
 CentralFermerEtQuitter:SetFont( "CentralFpsBoost" )
 CentralFermerEtQuitter:SetText( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte29"] )		
@@ -531,7 +538,7 @@ CentralFermerEtQuitter:SetTooltip( CentralTable.LangImprovedFpsBooster[CentralPl
 CentralFermerEtQuitter:SetTextColor( Central_ColorFPSG )
 CentralFermerEtQuitter:SizeToContents()	
 
-CentralHudDraw:SetPos( CentralOptionsBoost:GetWide() + 50,230 )	
+CentralHudDraw:SetPos( 20,258 )	
 CentralHudDraw:SetConVar( "CentralDrawHudC" )
 CentralHudDraw:SetFont( "CentralFpsBoost" )
 CentralHudDraw:SetText( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte31"] )		
@@ -540,7 +547,7 @@ CentralHudDraw:SetTooltip( CentralTable.LangImprovedFpsBooster[CentralPly.Centra
 CentralHudDraw:SetTextColor( Central_ColorFPSG )
 CentralHudDraw:SizeToContents()	
 
-CentralPosW:SetPos( -194, 262 )
+CentralPosW:SetPos( -194, 295 )
 CentralPosW:SetSize( 485, 20 )	
 CentralPosW:SetText( "" )	
 CentralPosW:SetMin( 0 )	
@@ -548,7 +555,7 @@ CentralPosW:SetMax( ScrW() - 198 )
 CentralPosW:SetDecimals( 0 )
 CentralPosW:SetConVar( "CentralHUDPosW" ) 
 
-CentralPosH:SetPos( -195, 295 )
+CentralPosH:SetPos( -195, 335 )
 CentralPosH:SetSize( 485, 20 )	
 CentralPosH:SetText( "" )	
 CentralPosH:SetMin( 0 )	
@@ -563,11 +570,7 @@ CentralQuitterOptions:SetText( "" )
 CentralQuitterOptions:SetImage( "icon16/cross.png" )
 CentralQuitterOptions:SetTextColor( Central_ColorFPSF  )
 function CentralQuitterOptions:Paint( w, h )
-if CentralQuitterOptions:IsHovered() then
 draw.RoundedBox( 6, 0, 0, w, h, Central_ColorFPSC )
-else
-draw.RoundedBox( 6, 0, 0, w, h, Central_ColorFPSH )
-end
 draw.RoundedBox( 6, 2, 2, w-2, h-1, Central_ColorFPSE )
 draw.DrawText( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte35"], "CentralFpsBoost", w/2 +7,2, Central_ColorFPSF, TEXT_ALIGN_CENTER )
 end
@@ -641,7 +644,7 @@ CentralToutCocherOptions:SetImage( "icon16/bullet_wrench.png" )
 CentralToutCocherOptions:SetText( "" )
 CentralToutCocherOptions:SetTextColor( Central_ColorFPSF )
 CentralToutCocherOptions:SetFont( "CentralFpsBoost" )
-CentralToutCocherOptions:SetPos(64, 36)
+CentralToutCocherOptions:SetPos(64, 31)
 CentralToutCocherOptions:SetSize( 155, 19 )
 CentralToutCocherOptions.Paint = function( self, w, h )
 if CentralToutCocherOptions:IsHovered() then
@@ -698,7 +701,7 @@ end
 	
 if (CentralDrawHudC:GetInt() != 1) then return end
 if (CentralTable.LangImprovedFpsBooster[LocalPlayer().Central_ImprovedLanguage] == nil) then return end
-draw.SimpleText("FPS : " ..CentralFpsDetect.. " " ..CentralTable.LangImprovedFpsBooster[LocalPlayer().Central_ImprovedLanguage]["Central_Texte39"].. " " ..string.upper( CentralMap ), "CentralFpsBoostV", ScrW() - GetConVar("CentralHUDPosW"):GetInt(),  ScrH() - 15 - GetConVar("CentralHUDPosH"):GetInt(), Central_ColorFPSF, TEXT_ALIGN_RIGHT, TEXT_ALIGN_RIGHT)
+draw.SimpleText("FPS : " ..CentralFpsDetect.. " " ..CentralTable.LangImprovedFpsBooster[LocalPlayer().Central_ImprovedLanguage]["Central_Texte39"].. " " ..string.upper( CentralMap ), "CentralFpsBoostV", ScrW() - CentralHUDposW:GetInt(),  ScrH() - 15 - CentralHUDposH:GetInt(), Central_ColorFPSF, TEXT_ALIGN_RIGHT, TEXT_ALIGN_RIGHT)
 
 end
 
