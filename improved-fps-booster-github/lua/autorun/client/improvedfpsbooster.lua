@@ -43,8 +43,7 @@ local CentralFpsGains, CentralFpsMax, CentralFpsMin, CentralFpsDetect = 0, 0, 10
 local CentralTimerFps, CentralTimerRefreshV, CentralOccurFramerate, CentralOccurCountFps = 1, 5, 1, 0
 local Central_ColorFPSA, Central_ColorFPSB, Central_ColorFPSC, Central_ColorFPSD, Central_ColorFPSE, Central_ColorFPSF, Central_ColorFPSG, Central_ColorFPSH = Color( 255,165,0, 255 ), Color( 0,160,0, 255 ), Color( 255,0,0, 255 ), Color( 0,175,0, 255 ), Color( 0, 69, 175, 250 ), Color( 255, 255, 255, 255 ), Color( 0,0, 0, 250 ), Color( 3, 43, 69, 245 )
 
-local function InitCentralFpsBooster(CentralPly)	
-
+local function InitCentralFpsBooster(CentralPly)
 local CentralTraductionFpsBoost = {
 ["BE"]=true,
 ["FR"]=true,
@@ -57,13 +56,11 @@ CentralPly.Central_ImprovedLanguage = "FR"
 else
 CentralPly.Central_ImprovedLanguage = "EN"
 end
-
 end
 local CentralUrlWorkshop = "https://steamcommunity.com/sharedfiles/filedetails/?id=1762151370" 
 Central_NmV = "\67\101\110\116\114\97\108\67\105\116\121"
 
 local function Central_CheckClientFPS(CentralPanelFpsBoost)	
-
 if !IsValid(CentralPanelFpsBoost) then return end	
 if CentralFpsDetect < CentralFpsMin then CentralFpsMin = CentralFpsDetect  end
 if CentralBoostFps == false then 
@@ -104,7 +101,6 @@ CentralTimerVOccur = false
 timer.Simple( CentralTimerRefreshV, function() CentralLoadRefresh = true CentralCalculFPS = 0 CentralTimerVOccur = true end )
 end
 end
-
 end
 
 local function Central_FrmPanel()
@@ -114,7 +110,6 @@ CentralBoostOV = false
 end
 
 local function Central_ResetConCommand()
-
 local CentralPlyConC = LocalPlayer()
 CentralPlyConC:ConCommand("cl_threaded_bone_setup 0")
 CentralPlyConC:ConCommand("r_threaded_particles 0")
@@ -129,23 +124,18 @@ CentralPlyConC:ConCommand("r_teeth 1")
 CentralPlyConC:ConCommand("r_shadows 1")
 CentralPlyConC:ConCommand("M9KGasEffect 1")
 CentralPlyConC:ConCommand("r_threaded_client_shadow_manager 0")	
-
 end
 
 local function CentralFpsBoostPanel()
-
 local CentralPly = LocalPlayer()
 if !IsValid(CentralPly) then return end
-
 if CentralLangueSys:GetString() != "" then
 CentralPly.Central_ImprovedLanguage = CentralLangueSys:GetString()
 elseif CentralLangueSys:GetString() == "" and (CentralIndexTableImprFPS == nil) then
 CentralIndexTableImprFPS = true
 InitCentralFpsBooster(CentralPly) --- By default if the client has not defined a language / the tracking system takes over
 end
-
 CentralBoostOV = true
-
 if CentralOptionOpen == false then
 
 CentralPanelFpsBoost = vgui.Create( "DFrame" )
@@ -457,7 +447,6 @@ end
 function Central_OptionsBoost_DscrollSbar.btnGrip:Paint(w, h)
 draw.RoundedBox(2, 0, 0, w, h, Color(255, 0, 0, 250))
 end
-	
 		  
 CentralMultiCore:SetPos( 20, 0 )	
 CentralMultiCore:SetConVar( "CentralMultiCoreC" )
@@ -690,31 +679,24 @@ end
 net.Receive("CentralBoost", CentralFpsBoostPanel)
 	
 local function CentralBoosterDrawHud()
-
 if (CentralBoostOV or CentralDrawHudC:GetInt() == 1) then --- We only execute the code when we need to.
-
 local Central_ValTimerClientDelai = CentralOccurCountFps - CurTime() --- Client delay
 if Central_ValTimerClientDelai < 0 then
 CentralFpsDetect = math.Round(1/RealFrameTime())
 CentralOccurCountFps = CurTime() + CentralTimerFps
-end		
-	
+end			
 if (CentralDrawHudC:GetInt() != 1) then return end
 if (CentralTable.LangImprovedFpsBooster[LocalPlayer().Central_ImprovedLanguage] == nil) then return end
 draw.SimpleText("FPS : " ..CentralFpsDetect.. " " ..CentralTable.LangImprovedFpsBooster[LocalPlayer().Central_ImprovedLanguage]["Central_Texte39"].. " " ..string.upper( CentralMap ), "CentralFpsBoostV", ScrW() * (CentralHUDposW:GetInt() / 100),  ScrH() * (CentralHUDposH:GetInt() / 100), Central_ColorFPSF, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-
 end
-
 end
 hook.Add("HUDPaint","CentralBoosterDrawHud", CentralBoosterDrawHud)
 
 net.Receive("CentralReset", function()
-
 if !IsValid(LocalPlayer()) then return end
 CentralBoostFps = false
 chat.AddText(Central_ColorFPSC, "[", Central_NmV.. " Boost Framerate", "] : ", Central_ColorFPSF, CentralTable.LangImprovedFpsBooster[LocalPlayer().Central_ImprovedLanguage]["Central_Texte11"] )
 Central_ResetConCommand()
-
 end)
 
 hook.Add("OnEntityCreated","WidgetInit",function(ent) --- Facepunch
