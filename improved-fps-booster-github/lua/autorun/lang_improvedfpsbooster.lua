@@ -1,14 +1,15 @@
-------------- Script by Inj3, prohibited to copy the code
+------------- Script by Inj3, PROHIBITED to copy the code !
+------------- If you have any language to add or suggestion, contact me on my steam.
+------------- If you want to take a piece of code -> contact Inj3
+------------- GNU General Public License v3.0
 ------------- https://steamcommunity.com/id/Inj3/
-------------- https://centralcityrp.mtxserv.fr/
-------------- https://steamcommunity.com/groups/CentralCityRoleplay
-------------- Language / Contact me if you want me to add other languages.
+------------- www.centralcityrp.fr/ --- Affiliated Website 
+------------- https://steamcommunity.com/groups/CentralCityRoleplay --- Affiliated Group
 if SERVER then return end
 
 CentralTable = {}
 
 CentralTable.LangImprovedFpsBooster = {
-
 ["FR"] = {
 Central_Texte1 = "Quitter",
 Central_Texte2 = "Vous n'avez cochée aucune case dans l'onglet Options Optimisation, Improved Fps Booster ne peut démarrer.",
@@ -37,19 +38,22 @@ Central_Texte25 = "Retirer les particules sur les armes M9K",
 Central_Texte26 = "Ombre - Lampe",
 Central_Texte27 = "Enlève les ombres sur les entités, et enlève la lumière de votre lampe de poche",
 Central_Texte28 = "Autre commande désactivé",
-Central_Texte29 = "Activation automatique après fermeture",
+Central_Texte29 = "Activation automatique [FPS Booster]",
 Central_Texte30 = "Si Improved Fps Booster est désactivé, cette case à cocher sera utilisée pour le démarrer automatiquement après avoir quitté",
 Central_Texte31 = "Afficher FPS sur votre HUD",
 Central_Texte32 = "Afficher vos FPS sur votre HUD, vous pouvez ajuster la position avec les sliders ci-dessous",
-Central_Texte33 = "Position (droite-gauche) :",
-Central_Texte34 = "Position (bas-haut) :",
+Central_Texte33 = "Position (gauche-droite) :",
+Central_Texte34 = "Position (haut-bas) :",
 Central_Texte35 = "Fermer & charger",
 Central_Texte36 = "Cocher/Décocher tout",
 Central_Texte37 = "Paramètres des options Chargée",
 Central_Texte38 = "Langue",
 Central_Texte39 = "dans la map",
+Central_Texte40 = "Filtre Texture (lissage)",
+Central_Texte41 = "Filtre Lumière (lissage)",
+Central_Texte42 = "Retire le lissage sur les textures",
+Central_Texte43 = "Retire le lissage sur la lumière",
 },
-	
 ["EN"] = {
 Central_Texte1 = "Close",
 Central_Texte2 = "You have not checked any checkbox in the Options Tab Optimization, Improved Fps Booster cannot load, it disabled automatically.",
@@ -78,17 +82,20 @@ Central_Texte25 = "Remove particle effect on M9K",
 Central_Texte26 = "Shadow - Lamp",
 Central_Texte27 = "Removes shadows on entities, and removes light from your flashlight",
 Central_Texte28 = "Other Command Disable",
-Central_Texte29 = "Auto-enable Booster after Close & Reload",
+Central_Texte29 = "Auto-enable after Close & Reload",
 Central_Texte30 =  "If Improved Fps Booster is Off Disabled, this checkbox will be used to start it automatically after had Closed & Reload",
 Central_Texte31 = "Show Framerate on HUD",
 Central_Texte32 = "Display your FPS on your HUD, you can adjust the position with the sliders below",
-Central_Texte33 = "Right-Left position :",
-Central_Texte34 = "Down-Up position :",
+Central_Texte33 = "Left-Right position :",
+Central_Texte34 = "Up-Down position :",
 Central_Texte35 = "Close & Reload",
 Central_Texte36 = "Check All/Uncheck All",
 Central_Texte37 = "Options settings Loaded",
 Central_Texte38 = "Language",
 Central_Texte39 = "on map",
+Central_Texte40 = "Texture filter (smoothing)",
+Central_Texte41 = "Light filter (smoothing)",
+Central_Texte42 = "Removes smoothing on textures",
+Central_Texte43 = "Removes smoothing on the light",
 },
-	
 }	

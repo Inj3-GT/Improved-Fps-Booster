@@ -1,7 +1,16 @@
+------------- Script by Inj3, PROHIBITED to copy the code !
+------------- If you have any language to add or suggestion, contact me on my steam.
+------------- If you want to take a piece of code -> contact Inj3
+------------- GNU General Public License v3.0
+------------- https://steamcommunity.com/id/Inj3/
+------------- www.centralcityrp.fr/ --- Affiliated Website 
+------------- https://steamcommunity.com/groups/CentralCityRoleplay --- Affiliated Group
+
 local CentralVersion = "2.0"
 
 util.AddNetworkString( "CentralBoost" )
 util.AddNetworkString( "CentralReset" )
+util.AddNetworkString( "CentralBoostLDData" )
 
 resource.AddSingleFile("resource/fonts/seguibl.ttf")
 resource.AddSingleFile("resource/fonts/seguibli.ttf")
@@ -10,7 +19,7 @@ hook.Add( "PlayerInitialSpawn", "OuvertureCentralFpsSpawn", function(ply)
 timer.Simple(5, function()
 if !IsValid(ply) then return end
 
-net.Start("CentralBoost") 
+net.Start("CentralBoostLDData") 
 net.Send(ply)
 
 if !ply:IsSuperAdmin() then return end
@@ -42,6 +51,8 @@ ply:ConCommand("r_teeth 1")
 ply:ConCommand("r_shadows 1")
 ply:ConCommand("M9KGasEffect 1")
 ply:ConCommand("r_threaded_client_shadow_manager 0")
+ply:ConCommand("mat_filterlightmaps 1")
+ply:ConCommand("mat_filtertextures 1")
 end
 hook.Add("PlayerDisconnected","Central_FpsRemoveConvarDisco", Central_FpsRemoveConvarDisco)
 
