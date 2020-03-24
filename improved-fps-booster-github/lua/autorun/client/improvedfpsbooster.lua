@@ -65,7 +65,7 @@ end
 local CentralUrlWorkshop = "https://steamcommunity.com/sharedfiles/filedetails/?id=1762151370" 
 Central_NmV = "\67\101\110\116\114\97\108\67\105\116\121"
 
-local function Central_FpsBoostRetTableV(Central_Commande) ---- Allows you to check table to see if a value exists, and return it if you do.
+local function Central_FpsBoostRetTableV(Central_Commande) ---- Allows you to check table to see if a value exists, and return it.
 local Central_CommandeV = Central_Commande
 local Central_ValueRet = 0
 if istable(Central_FpsBooster_TblUtil) then
@@ -103,7 +103,7 @@ Central_FpsBooster_TblUtil = util.JSONToTable(file.Read(CentralFPSbooster_Sauveg
 end 
 
 local Central_CountTable = 0
-local function Central_FpsBoosterChgDataClient(Central_CV_ConvarNom, Central_CV_Valeur) ---- Check if new value exists, if not, I add it.
+local function Central_FpsBoosterChgDataClient(Central_CV_ConvarNom, Central_CV_Valeur) ---- Check if new value exists, if not, add it.
 Central_FpsBooster_TblUtil = util.JSONToTable(file.Read(CentralFPSbooster_SauvegardeChemin, "DATA")) 
 Central_CountTable = Central_CountTable + 1 
 if (Central_FpsBooster_TblUtil[Central_CountTable] == nil) then
@@ -147,11 +147,11 @@ end
 end  
 end  
 
-local function Central_FpsBoosterCheckDataClient()
+local function Central_FpsBoosterCheckDataClient() --- Only use on clientside/ does not affect server performance
 timer.Simple(0.3, function()
 Central_ChgLangueSys() -- Load Language
 end)
-if !file.Exists( CentralFPSbooster_SauvegardeChemin, "DATA" ) then --- Only use on clientside/ does not affect server performance
+if !file.Exists( CentralFPSbooster_SauvegardeChemin, "DATA" ) then
 file.CreateDir("improvedfpsbooster/sauvegarde")
 CentralCreateConvar(true)
 else
@@ -256,7 +256,7 @@ CentralFpsGains = 1
 end
 CentralFpsMin = 1000
 
-if Central_FpsBoostRetTableV("CentralMultiCoreC") == 0 and Central_FpsBoostRetTableV("CentralSkyboxC") == 0 and Central_FpsBoostRetTableV("CentralSprayC") == 0 and Central_FpsBoostRetTableV("CentralTeethC") == 0 and Central_FpsBoostRetTableV("CentralM9KC") == 0 and Central_FpsBoostRetTableV("CentralShadowC") == 0 and Central_FpsBoostRetTableV("CentralAutresC") == 0 then
+if Central_FpsBoostRetTableV("CentralMultiCoreC") == 0 and Central_FpsBoostRetTableV("CentralSkyboxC") == 0 and Central_FpsBoostRetTableV("CentralSprayC") == 0 and Central_FpsBoostRetTableV("CentralTeethC") == 0 and Central_FpsBoostRetTableV("CentralM9KC") == 0 and Central_FpsBoostRetTableV("CentralShadowC") == 0 and Central_FpsBoostRetTableV("CentralAutresC") == 0 and Central_FpsBoostRetTableV("CentralMatFilterTextures") == 0 and Central_FpsBoostRetTableV("CentralMatFilterLightmaps") == 0 then
 CentralToutCocher = true
 CentralBoostFps = false
 chat.AddText(Central_ColorFPSF, "[", "ERROR", "] : ", Central_ColorFPSC, CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte2"] )
