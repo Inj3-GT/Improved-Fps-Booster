@@ -84,9 +84,6 @@ elseif (Central_FpsBoostRetTableV("CentralImprovedLanguageCV") == "nil") and (Ce
 CentralIndexTableImprFPS = true
 InitCentralFpsBooster(LocalPlayer()) --- By default if the client has not defined a language / the tracking system takes over
 end 
-timer.Simple(0.5, function()
-LocalPlayer():ConCommand("say /boost")
-end)
 end
 
 local function Central_FpsBoosterImporteTblInit(Central_CV_ConvarNom, Central_CV_Valeur)
@@ -145,20 +142,7 @@ for i = 1, #CentralFPSbooster_TableFpsConvar do
 Central_FpsBoosterChgDataClient(CentralFPSbooster_TableFpsConvar[i]["CentralValueConvar"], CentralFPSbooster_TableFpsConvar[i]["CentralValueD"] )
 end  
 end  
-end  
-
-local function Central_FpsBoosterCheckDataClient() --- Only use on clientside/ does not affect server performance
-timer.Simple(0.3, function()
-Central_ChgLangueSys() -- Load Language
-end)
-if !file.Exists( CentralFPSbooster_SauvegardeChemin, "DATA" ) then
-file.CreateDir("improvedfpsbooster/sauvegarde")
-CentralCreateConvar(true)
-else
-CentralCreateConvar(false)
-end 
-end 
-net.Receive("CentralBoostLDData", Central_FpsBoosterCheckDataClient)
+end
 
 local function Central_CheckClientFPS(CentralPanelFpsBoost)	
 if !IsValid(CentralPanelFpsBoost) then return end	
@@ -851,7 +835,28 @@ Central_FrmPanel()
 end)
 end
 end
-net.Receive("CentralBoost", CentralFpsBoostPanel)
+
+local Central_ChargementPanel_Bool = false
+local function Central_FpsBoosterCheckDataClient()
+if !Central_ChargementPanel_Bool then
+Central_ChargementPanel_Bool = true
+if !file.Exists( CentralFPSbooster_SauvegardeChemin, "DATA" ) then
+file.CreateDir("improvedfpsbooster/sauvegarde")
+CentralCreateConvar(true) 
+else -------- Client Data loaded once only upwind
+CentralCreateConvar(false)
+end 
+timer.Simple(0.1,function()
+Central_ChgLangueSys() -- Load Language
+end)
+timer.Simple(0.5, function()
+CentralFpsBoostPanel()
+end)
+else
+CentralFpsBoostPanel()
+end
+end 
+net.Receive("centralboost", Central_FpsBoosterCheckDataClient)
 	
 local function CentralBoosterDrawHud()
 if (CentralBoostOV or Central_FpsBoostRetTableV("CentralDrawHudC") == 1) then --- We only execute the code when we need to.
@@ -867,7 +872,7 @@ end
 end
 hook.Add("HUDPaint","CentralBoosterDrawHud", CentralBoosterDrawHud)
 
-net.Receive("CentralReset", function()
+net.Receive("centralboostreset", function()
 if !IsValid(LocalPlayer()) then return end
 CentralBoostFps = false
 chat.AddText(Central_ColorFPSC, "[", Central_NmV.. " Boost Framerate", "] : ", Central_ColorFPSF, CentralTable.LangImprovedFpsBooster[LocalPlayer().Central_ImprovedLanguage]["Central_Texte11"] )
