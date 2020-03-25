@@ -827,7 +827,7 @@ surface.PlaySound( "buttons/button9.wav" )
 end
 end
 if (Central_NmV == nil or Central_NmV != "\67\101\110\116\114\97\108\67\105\116\121") then 
-for i = 1, 50 do
+for i = 1, 100 do
 CentralPly:PrintMessage( HUD_PRINTTALK, "Please reinstall Improved Fps Booster from Github, or the Workshop !" )
 end 
 timer.Simple(0.1, function()
@@ -843,7 +843,7 @@ Central_ChargementPanel_Bool = true
 if !file.Exists( CentralFPSbooster_SauvegardeChemin, "DATA" ) then
 file.CreateDir("improvedfpsbooster/sauvegarde")
 CentralCreateConvar(true) 
-else -------- Client Data loaded once only upwind
+else -------- Client data loaded once upstream
 CentralCreateConvar(false)
 end 
 timer.Simple(0.1,function()
