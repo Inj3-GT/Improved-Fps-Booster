@@ -28,7 +28,7 @@ local Central_NmV, Central_ImprovedLanguage, CentralGainCalcul, CentralCalculFPS
 local CentralBoostFps, CentralTimerVOccur, CentralLoadRefresh, CentralOptionOpen, CentralToutCocher, CentralMap, CentralBoostOV, CentralPanelFpsBoost = false, true, false, false, false, game.GetMap(), false, nil
 local CentralFpsGains, CentralFpsMax, CentralFpsMin, CentralFpsDetect, CentralTimerFps, CentralTimerRefreshV, CentralOccurFramerate, CentralOccurCountFps = 0, 0, 1000, 0, 1, 5, 1, 0
 local CentralColorFps, CentralColorFpsmin, CentralColorFpsmax, Central_ColorFPSA, Central_ColorFPSB, Central_ColorFPSC, Central_ColorFPSD, Central_ColorFPSE, Central_ColorFPSF, Central_ColorFPSG, Central_ColorFPSH = Color( 0,0,0, 255 ), Color( 0,0,0, 255 ), Color( 0,0,0, 255 ) , Color( 255,165,0, 255 ), Color( 0,160,0, 255 ), Color( 255,0,0, 255 ), Color( 0,175,0, 255 ), Color( 0, 69, 175, 250 ), Color( 255, 255, 255, 255 ), Color( 0,0, 0, 250 ), Color( 3, 43, 69, 245 )
-local CentralFPSbooster_SauvegardeCVInit, CentralFPSbooster_SauvegardeChemin, CentralFPSbooster_TableFpsConvar = {} , "improvedfpsbooster/sauvegarde/sv.txt",  {}
+local CentralFPSbooster_SauvegardeCVInit, CentralFPSbooster_SauvegardeChemin, CentralFPSbooster_TableFpsConvar = {} , "improvedfpsbooster/sauvegarde/sv[1].txt",  {}
 
 CentralFPSbooster_TableFpsConvar = {
 [1] = { CentralValueConvar = "CentralMultiCoreC", CentralValueT = 1, CentralValueD =  "vide" },
@@ -43,8 +43,7 @@ CentralFPSbooster_TableFpsConvar = {
 [10] = { CentralValueConvar = "CentralHUDPosW", CentralValueT = 50, CentralValueD =  "vide" },
 [11] = { CentralValueConvar = "CentralHUDPosH", CentralValueT = 50, CentralValueD =  "vide" },
 [12] = { CentralValueConvar = "CentralImprovedLanguageCV", CentralValueT = "nil", CentralValueD = "nil" },
-[13] = { CentralValueConvar = "CentralMatFilterTextures", CentralValueT = 0, CentralValueD = "vide" },
-[14] = { CentralValueConvar = "CentralMatFilterLightmaps", CentralValueT = 1, CentralValueD = "vide" }
+[13] = { CentralValueConvar = "CentralMatFilterTextures", CentralValueT = 0, CentralValueD = "vide" }
 }
 
 local function InitCentralFpsBooster(CentralPly)
@@ -240,7 +239,7 @@ CentralFpsGains = 1
 end
 CentralFpsMin = 1000
 
-if Central_FpsBoostRetTableV("CentralMultiCoreC") == 0 and Central_FpsBoostRetTableV("CentralSkyboxC") == 0 and Central_FpsBoostRetTableV("CentralSprayC") == 0 and Central_FpsBoostRetTableV("CentralTeethC") == 0 and Central_FpsBoostRetTableV("CentralM9KC") == 0 and Central_FpsBoostRetTableV("CentralShadowC") == 0 and Central_FpsBoostRetTableV("CentralAutresC") == 0 and Central_FpsBoostRetTableV("CentralMatFilterTextures") == 0 and Central_FpsBoostRetTableV("CentralMatFilterLightmaps") == 0 then
+if Central_FpsBoostRetTableV("CentralMultiCoreC") == 0 and Central_FpsBoostRetTableV("CentralSkyboxC") == 0 and Central_FpsBoostRetTableV("CentralSprayC") == 0 and Central_FpsBoostRetTableV("CentralTeethC") == 0 and Central_FpsBoostRetTableV("CentralM9KC") == 0 and Central_FpsBoostRetTableV("CentralShadowC") == 0 and Central_FpsBoostRetTableV("CentralAutresC") == 0 and Central_FpsBoostRetTableV("CentralMatFilterTextures") == 0 then
 CentralToutCocher = true
 CentralBoostFps = false
 chat.AddText(Central_ColorFPSF, "[", "ERROR", "] : ", Central_ColorFPSC, CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte2"] )
@@ -436,9 +435,6 @@ end
 if Central_FpsBoostRetTableV("CentralM9KC") == 1 then
 CentralPly:ConCommand("M9KGasEffect 0")
 end
-if Central_FpsBoostRetTableV("CentralMatFilterLightmaps") == 1 then
-CentralPly:ConCommand("mat_filterlightmaps 0")
-end
 if Central_FpsBoostRetTableV("CentralMatFilterTextures") == 1 then
 CentralPly:ConCommand("mat_filtertextures 0")
 end
@@ -502,7 +498,6 @@ local CentralAutres = vgui.Create( "DCheckBoxLabel", Central_OptionsBoost_Dscrol
 local CentralM9kEffect = vgui.Create( "DCheckBoxLabel", Central_OptionsBoost_Dscroll)
 local CentralShadow = vgui.Create( "DCheckBoxLabel", Central_OptionsBoost_Dscroll)
 local CentralMatFilterTextures = vgui.Create( "DCheckBoxLabel", Central_OptionsBoost_Dscroll)
-local CentralMatFilterLightmaps = vgui.Create( "DCheckBoxLabel", Central_OptionsBoost_Dscroll)
 local CentralHudDraw = vgui.Create( "DCheckBoxLabel", CentralOptionsBoost)
 local CentralToutCocherOptions = vgui.Create("DButton", CentralOptionsBoost)
 local CentralFermerEtQuitter = vgui.Create("DCheckBoxLabel", CentralOptionsBoost)
@@ -645,16 +640,6 @@ CentralMatFilterTextures.Central_Valeur = "CentralMatFilterTextures"
 CentralMatFilterTextures.OnChange = CentralMultiCore.OnChange
 CentralMatFilterTextures:SizeToContents()		
 
-CentralMatFilterLightmaps:SetPos(  20, 200 )	
-CentralMatFilterLightmaps:SetFont( "CentralFpsBoost" )
-CentralMatFilterLightmaps:SetText( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte41"] )		
-CentralMatFilterLightmaps:SetTooltip(CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte43"])
-CentralMatFilterLightmaps:SetValue(Central_FpsBoostRetTableV("CentralMatFilterLightmaps"))
-CentralMatFilterLightmaps:SetTextColor( Central_ColorFPSG )
-CentralMatFilterLightmaps.Central_Valeur = "CentralMatFilterLightmaps"
-CentralMatFilterLightmaps.OnChange = CentralMultiCore.OnChange
-CentralMatFilterLightmaps:SizeToContents()
-
 CentralFermerEtQuitter:SetPos( 20,233 )	
 CentralFermerEtQuitter:SetFont( "CentralFpsBoost" )
 CentralFermerEtQuitter:SetText( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte29"] )		
@@ -760,11 +745,6 @@ CentralPly:ConCommand("r_queued_ropes 0")
 CentralPly:ConCommand("cl_threaded_client_leaf_system 0")
 CentralPly:ConCommand("r_threaded_client_shadow_manager 0")					
 end
-if Central_FpsBoostRetTableV("CentralMatFilterLightmaps") == 1 then
-CentralPly:ConCommand("mat_filterlightmaps 0")
-else
-CentralPly:ConCommand("mat_filterlightmaps 1")
-end
 if Central_FpsBoostRetTableV("CentralMatFilterTextures") == 1 then
 CentralPly:ConCommand("mat_filtertextures 0")
 else
@@ -809,7 +789,6 @@ CentralSpray:SetValue(1)
 CentralSkybox:SetValue(1)
 CentralMultiCore:SetValue(1)
 CentralMatFilterTextures:SetValue(1)
-CentralMatFilterLightmaps:SetValue(1)
 CentralToutCocher = false
 else
 CentralM9kEffect:SetValue(0)
@@ -820,7 +799,6 @@ CentralSpray:SetValue(0)
 CentralSkybox:SetValue(0)
 CentralMultiCore:SetValue(0)
 CentralMatFilterTextures:SetValue(0)
-CentralMatFilterLightmaps:SetValue(0)
 CentralToutCocher = true
 end 
 surface.PlaySound( "buttons/button9.wav" )
