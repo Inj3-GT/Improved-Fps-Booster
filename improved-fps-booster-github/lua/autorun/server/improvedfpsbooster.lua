@@ -33,22 +33,9 @@ end)
 end)
 
 local function Central_FpsRemoveConvarDisco(ply)
--- Removed convars on client disconnect 
-ply:ConCommand("cl_threaded_bone_setup 0")
-ply:ConCommand("r_threaded_particles 0")
-ply:ConCommand("r_threaded_renderables 0")
-ply:ConCommand("cl_threaded_client_leaf_system 0")
-ply:ConCommand("gmod_mcore_test 0")
-ply:ConCommand("mat_queue_mode 0")
-ply:ConCommand("r_queued_ropes 0")
-ply:ConCommand("r_3dsky 1")
-ply:ConCommand("cl_playerspraydisable 0")
-ply:ConCommand("r_teeth 1")
-ply:ConCommand("r_shadows 1")
-ply:ConCommand("M9KGasEffect 1")
-ply:ConCommand("r_threaded_client_shadow_manager 0")
-ply:ConCommand("mat_filterlightmaps 1")
-ply:ConCommand("mat_filtertextures 1")
+for i = 1, #CentralTable.CentralFPSbooster_DResetConC do
+ply:ConCommand(CentralTable.CentralFPSbooster_DResetConC[i]["CentralFPSbooster_ConCom"])
+end
 end
 hook.Add("PlayerDisconnected","Central_FpsRemoveConvarDisco", Central_FpsRemoveConvarDisco)
 

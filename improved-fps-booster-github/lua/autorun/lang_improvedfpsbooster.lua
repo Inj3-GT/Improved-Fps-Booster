@@ -5,9 +5,27 @@
 ------------- https://steamcommunity.com/id/Inj3/
 ------------- www.centralcityrp.fr/ --- Affiliated Website 
 ------------- https://steamcommunity.com/groups/CentralCityRoleplay --- Affiliated Group
-if SERVER then return end
 
 CentralTable = {}
+
+CentralTable.CentralFPSbooster_DResetConC = {
+[1] = {CentralFPSbooster_ConCom = "cl_threaded_bone_setup 0"},
+[2] = {CentralFPSbooster_ConCom = "r_threaded_particles 0"},
+[3] = {CentralFPSbooster_ConCom = "r_threaded_renderables 0"},
+[4] = {CentralFPSbooster_ConCom = "cl_threaded_client_leaf_system 0"},
+[5] = {CentralFPSbooster_ConCom = "gmod_mcore_test 0"},
+[6] = {CentralFPSbooster_ConCom = "mat_queue_mode 0"},
+[7] = {CentralFPSbooster_ConCom = "r_queued_ropes 0"},
+[8] = {CentralFPSbooster_ConCom = "r_3dsky 1"},
+[9] = {CentralFPSbooster_ConCom = "cl_playerspraydisable 0"},
+[10] = {CentralFPSbooster_ConCom = "r_teeth 1"},
+[11] = {CentralFPSbooster_ConCom = "r_shadows 1"},
+[12] = {CentralFPSbooster_ConCom = "M9KGasEffect 1"},
+[13] = {CentralFPSbooster_ConCom = "r_threaded_client_shadow_manager 0"},
+[14] = {CentralFPSbooster_ConCom = "mat_filtertextures 1"}
+}
+
+if SERVER then return end
 
 CentralTable.LangImprovedFpsBooster = {
 ["FR"] = {
@@ -50,9 +68,7 @@ Central_Texte37 = "Paramètres des options Chargée",
 Central_Texte38 = "Langue",
 Central_Texte39 = "dans la map",
 Central_Texte40 = "Filtre Texture (lissage)",
-Central_Texte41 = "Filtre Lumière (lissage)",
 Central_Texte42 = "Retire le lissage sur les textures",
-Central_Texte43 = "Retire le lissage sur la lumière",
 },
 ["EN"] = {
 Central_Texte1 = "Close",
@@ -94,8 +110,6 @@ Central_Texte37 = "Options settings Loaded",
 Central_Texte38 = "Language",
 Central_Texte39 = "on map",
 Central_Texte40 = "Texture filter (smoothing)",
-Central_Texte41 = "Light filter (smoothing)",
 Central_Texte42 = "Removes smoothing on textures",
-Central_Texte43 = "Removes smoothing on the light",
 },
-}	
+}
