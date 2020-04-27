@@ -1,6 +1,5 @@
 ------------- Script by Inj3, PROHIBITED to copy the code !
 ------------- If you have any language to add or suggestion, contact me on my steam.
-------------- If you want to take a piece of code -> contact Inj3
 ------------- GNU General Public License v3.0
 ------------- https://steamcommunity.com/id/Inj3/
 ------------- www.centralcityrp.fr/ --- Affiliated Website 
@@ -28,7 +27,94 @@ local Central_NmV, Central_ImprovedLanguage, CentralGainCalcul, CentralCalculFPS
 local CentralBoostFps, CentralTimerVOccur, CentralLoadRefresh, CentralOptionOpen, CentralToutCocher, CentralMap, CentralBoostOV, CentralPanelFpsBoost = false, true, false, false, false, game.GetMap(), false, nil
 local CentralFpsGains, CentralFpsMax, CentralFpsMin, CentralFpsDetect, CentralTimerFps, CentralTimerRefreshV, CentralOccurFramerate, CentralOccurCountFps = 0, 0, 1000, 0, 1, 5, 1, 0
 local CentralColorFps, CentralColorFpsmin, CentralColorFpsmax, Central_ColorFPSA, Central_ColorFPSB, Central_ColorFPSC, Central_ColorFPSD, Central_ColorFPSE, Central_ColorFPSF, Central_ColorFPSG, Central_ColorFPSH = Color( 0,0,0, 255 ), Color( 0,0,0, 255 ), Color( 0,0,0, 255 ) , Color( 255,165,0, 255 ), Color( 0,160,0, 255 ), Color( 255,0,0, 255 ), Color( 0,175,0, 255 ), Color( 0, 69, 175, 250 ), Color( 255, 255, 255, 255 ), Color( 0,0, 0, 250 ), Color( 3, 43, 69, 245 )
-local CentralFPSbooster_SauvegardeCVInit, CentralFPSbooster_SauvegardeChemin, CentralFPSbooster_TableFpsConvar, CentralFPSbooster_DCheckBoxLabel = {} , "improvedfpsbooster/sauvegarde/sv[1].txt",  {}, {}
+local CentralFPSbooster_SauvegardeCVInit, CentralFPSbooster_SauvegardeChemin, CentralFPSbooster_TableFpsConvar, CentralFPSbooster_DCheckBoxLabel, CentralFPSbooster_ImprovedLang, Central_FpsBooster_TblUtil  = {} , "improvedfpsbooster/sauvegarde/sv[1].txt",  {}, {}, {}, nil
+ 
+CentralFPSbooster_ImprovedLang = {
+["FR"] = {
+Central_Texte1 = "Quitter",
+Central_Texte2 = "Vous n'avez cochée aucune case dans l'onglet Options Optimisation, Improved Fps Booster ne peut démarrer.",
+Central_Texte3 = "FPS détection",
+Central_Texte4 = "Attention, ce convar 'Shadow Removed' désactive aussi la lumière de votre lampe de poche.",
+Central_Texte5 = "Actuel :",
+Central_Texte6 = "Activer",
+Central_Texte7 = "Désactiver",
+Central_Texte9 = "Si vous rencontrez des problèmes graphiques ou crashs, utilisez le button Options pour modifier vos paramètres. Pour ouvrir Improved FPS Booster /boost.",
+Central_Texte10 = "Pour ouvrir Improved FPS Booster /boost.",
+Central_Texte11 = "Vous avez réinitialisé vos paramètres par défaut, pour ouvrir Improved FPS Booster /boost.",
+Central_Texte12 = "Voulez-vous activer Improved FPS Booster ?",
+Central_Texte13 = "Pour remplacer les paramètres par défaut, activer Improved Fps Booster",
+Central_Texte14 = "OFF (Désactivé)",
+Central_Texte15 = "Optimisation",
+Central_Texte16 = "Activer la performance multi-coeur de votre CPU (Peut être instable)",
+Central_Texte17 = "Rendu multi-coeur",
+Central_Texte18 = "Supprimer SkyBox",
+Central_Texte19 = "Supprimer l'arrière plan",
+Central_Texte20 = "Supprimer Spray",
+Central_Texte21 = "Retire l'effet spray",
+Central_Texte22 = "Supprimer Dents",
+Central_Texte23 = "Les dents sont retirées sur les models",
+Central_Texte24 = "Retirer effet M9k",
+Central_Texte25 = "Retirer les particules sur les armes M9K",
+Central_Texte26 = "Ombre - Lampe",
+Central_Texte27 = "Enlève les ombres sur les entités, et enlève la lumière de votre lampe de poche",
+Central_Texte28 = "Autre commande désactivé",
+Central_Texte29 = "Activation automatique [FPS Booster]",
+Central_Texte30 = "Si Improved Fps Booster est désactivé, cette case à cocher sera utilisée pour le démarrer automatiquement après avoir quitté",
+Central_Texte31 = "Afficher FPS sur votre HUD",
+Central_Texte32 = "Afficher vos FPS sur votre HUD, vous pouvez ajuster la position avec les sliders ci-dessous",
+Central_Texte33 = "Position (gauche-droite) :",
+Central_Texte34 = "Position (haut-bas) :",
+Central_Texte35 = "Fermer & charger",
+Central_Texte36 = "Cocher/Décocher tout",
+Central_Texte37 = "Paramètres des options Chargée",
+Central_Texte38 = "Langue",
+Central_Texte39 = "dans la map",
+Central_Texte40 = "Filtre Texture (lissage)",
+Central_Texte42 = "Retire le lissage sur les textures"
+},
+["EN"] = {
+Central_Texte1 = "Close",
+Central_Texte2 = "You have not checked any checkbox in the Options Tab Optimization, Improved Fps Booster cannot load, it disabled automatically.",
+Central_Texte3 = "FPS detection",
+Central_Texte4 = "Be careful this convar 'Shadow Removed' also deactivates the light of your flashlight.",
+Central_Texte5 = "Current :",
+Central_Texte6 = "Enable",
+Central_Texte7 = "Disable",
+Central_Texte9 = "If you encounter graphic problems or crashes, use the Options button to change your settings. For open Improved Fps Booster /boost.",
+Central_Texte10 = "For open Improved FPS Booster /boost.",
+Central_Texte11 = "You have reset your settings to the default values.",
+Central_Texte12 = "Do you want activate Improved FPS Booster ?",
+Central_Texte13 = "To override the default settings, enable Improved Fps Booster",
+Central_Texte14 = "OFF (Disabled)",
+Central_Texte15 = "Optimization",
+Central_Texte16 = "Take advantage of a Multi Core CPU",
+Central_Texte17 = "Multicore Rendering",
+Central_Texte18 = "Skybox Removed",
+Central_Texte19 = "Remove skybox",
+Central_Texte20 = "Spray Removed",
+Central_Texte21 = "Remove the spray",
+Central_Texte22 = "Teeth Removed",
+Central_Texte23 = "Remove teeth on model",
+Central_Texte24 = "M9K Effect Removed" ,
+Central_Texte25 = "Remove particle effect on M9K",
+Central_Texte26 = "Shadow - Lamp",
+Central_Texte27 = "Removes shadows on entities, and removes light from your flashlight",
+Central_Texte28 = "Other Command Disable",
+Central_Texte29 = "Auto-enable after Close & Reload",
+Central_Texte30 =  "If Improved Fps Booster is Off Disabled, this checkbox will be used to start it automatically after had Closed & Reload",
+Central_Texte31 = "Show Framerate on HUD",
+Central_Texte32 = "Display your FPS on your HUD, you can adjust the position with the sliders below",
+Central_Texte33 = "Left-Right position :",
+Central_Texte34 = "Up-Down position :",
+Central_Texte35 = "Close & Reload",
+Central_Texte36 = "Check All/Uncheck All",
+Central_Texte37 = "Options settings Loaded",
+Central_Texte38 = "Language",
+Central_Texte39 = "on map",
+Central_Texte40 = "Texture filter (smoothing)",
+Central_Texte42 = "Removes smoothing on textures"
+},
+} 
  
 CentralFPSbooster_TableFpsConvar = {
 [1] = {CentralValueConvar = "CentralMultiCoreC", CentralValueT = 1, CentralValueD =  "vide"},
@@ -78,7 +164,7 @@ Central_NmV = "\67\101\110\116\114\97\108\67\105\116\121"
 local function Central_FpsBoostRetTableV(Central_Commande) ---- Allows you to check table to see if a value exists, and return it.
 local Central_CommandeV = Central_Commande
 local Central_ValueRet = 0
-if istable(Central_FpsBooster_TblUtil) then
+if (Central_FpsBooster_TblUtil != nil) then
 for k, v in pairs(Central_FpsBooster_TblUtil) do 
 if (v[Central_CommandeV] == nil) then continue end
 Central_ValueRet = v[Central_CommandeV]["Central_CV_ValeurV"]
@@ -242,7 +328,7 @@ CentralFpsMin = 1000
 if Central_FpsBoostRetTableV("CentralMultiCoreC") == 0 and Central_FpsBoostRetTableV("CentralSkyboxC") == 0 and Central_FpsBoostRetTableV("CentralSprayC") == 0 and Central_FpsBoostRetTableV("CentralTeethC") == 0 and Central_FpsBoostRetTableV("CentralM9KC") == 0 and Central_FpsBoostRetTableV("CentralShadowC") == 0 and Central_FpsBoostRetTableV("CentralAutresC") == 0 and Central_FpsBoostRetTableV("CentralMatFilterTextures") == 0 then
 CentralToutCocher = true
 CentralBoostFps = false
-chat.AddText(Central_ColorFPSF, "[", "ERROR", "] : ", Central_ColorFPSC, CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte2"] )
+chat.AddText(Central_ColorFPSF, "[", "ERROR", "] : ", Central_ColorFPSC, CentralFPSbooster_ImprovedLang[CentralPly.Central_ImprovedLanguage]["Central_Texte2"] )
 else
 CentralToutCocher = false
 end
@@ -264,13 +350,13 @@ Derma_DrawBackgroundBlur( self, self.startTime )
 draw.RoundedBox( 5, 0, 0, w, h, Central_ColorFPSE ) 
 draw.RoundedBox( 5, 3, 3, w-7, h-7, Central_ColorFPSF ) 
 draw.RoundedBox( 5, 0, 0, w, 32, Central_ColorFPSE)
-draw.SimpleText(( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte12"] ),"CentralFpsBoost",w/2,3,Central_ColorFPSF, TEXT_ALIGN_CENTER)
+draw.SimpleText(( CentralFPSbooster_ImprovedLang[CentralPly.Central_ImprovedLanguage]["Central_Texte12"] ),"CentralFpsBoost",w/2,3,Central_ColorFPSF, TEXT_ALIGN_CENTER)
 if CentralBoostFps then 
 draw.SimpleText(("FPS :" ),"CentralFpsBoost",125,16,Central_ColorFPSF, TEXT_ALIGN_RIGHT)
 draw.SimpleText(("ON (BOOST)" ),"CentralFpsBoost",195,16,Central_ColorFPSB, TEXT_ALIGN_RIGHT)
 else
 draw.SimpleText(("FPS :" ),"CentralFpsBoost",118,16,Central_ColorFPSF, TEXT_ALIGN_RIGHT)
-draw.SimpleText((CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte14"] ),"CentralFpsBoost",w/2 + 15,16,Central_ColorFPSC, TEXT_ALIGN_CENTER)
+draw.SimpleText((CentralFPSbooster_ImprovedLang[CentralPly.Central_ImprovedLanguage]["Central_Texte14"] ),"CentralFpsBoost",w/2 + 15,16,Central_ColorFPSC, TEXT_ALIGN_CENTER)
 end
 end
 
@@ -289,11 +375,11 @@ CentralLangue:SetSize( 105, 18 )
 CentralLangue:SetFont( "CentralFpsBoost" )
 CentralLangue.Central_Valeur = "CentralImprovedLanguageCV"
 if Central_FpsBoostRetTableV("CentralImprovedLanguageCV") == 0 then
-CentralLangue:SetValue( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte38"] )
+CentralLangue:SetValue( CentralFPSbooster_ImprovedLang[CentralPly.Central_ImprovedLanguage]["Central_Texte38"] )
 else
-CentralLangue:SetValue( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte38"].. " : " ..CentralPly.Central_ImprovedLanguage )
+CentralLangue:SetValue( CentralFPSbooster_ImprovedLang[CentralPly.Central_ImprovedLanguage]["Central_Texte38"].. " : " ..CentralPly.Central_ImprovedLanguage )
 end
-for lang, _ in pairs(CentralTable.LangImprovedFpsBooster) do 
+for lang, _ in pairs(CentralFPSbooster_ImprovedLang) do 
 CentralLangue:AddChoice( lang )
 end
 CentralLangue.OnSelect = function( self, index, value )
@@ -309,7 +395,7 @@ end)
 timer.Simple(1,function()
 if !IsValid(self) then return end
 CentralPly.Central_ImprovedLanguage = Central_ValueLang
-CentralLangue:SetValue( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte38"].. " : " ..CentralPly.Central_ImprovedLanguage )
+CentralLangue:SetValue( CentralFPSbooster_ImprovedLang[CentralPly.Central_ImprovedLanguage]["Central_Texte38"].. " : " ..CentralPly.Central_ImprovedLanguage )
 CentralLangue:SetEnabled( true )
 CentralOptions:SetEnabled( true )
 end)
@@ -324,10 +410,10 @@ CentralQuitterFps:SetImage( "icon16/cross.png" )
 function CentralQuitterFps:Paint( w, h )
 draw.RoundedBox( 6, 0, 0, w, h, Central_ColorFPSC )
 draw.RoundedBox( 6, 2, 2, w-2, h-1, Central_ColorFPSE )
-draw.DrawText( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte1"], "CentralFpsBoost", w/2,3, Central_ColorFPSF, TEXT_ALIGN_CENTER )
+draw.DrawText( CentralFPSbooster_ImprovedLang[CentralPly.Central_ImprovedLanguage]["Central_Texte1"], "CentralFpsBoost", w/2,3, Central_ColorFPSF, TEXT_ALIGN_CENTER )
 end
 CentralQuitterFps.DoClick = function()
-chat.AddText(Central_ColorFPSC, "[", Central_NmV.. " Boost Framerate", "] : ", Central_ColorFPSF, CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte10"] )
+chat.AddText(Central_ColorFPSC, "[", Central_NmV.. " Boost Framerate", "] : ", Central_ColorFPSF, CentralFPSbooster_ImprovedLang[CentralPly.Central_ImprovedLanguage]["Central_Texte10"] )
 Central_FrmPanel()
 end 
 
@@ -359,8 +445,8 @@ CentralFpsDetection:SetTextColor( Central_ColorFPSF )
 CentralFpsDetection:SetFont( "CentralFpsBoost" )
 function CentralFpsDetection:Paint( w, h )
 Central_CheckClientFPS(CentralPanelFpsBoost)
-draw.SimpleText(( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte3"] ),"CentralFpsBoost",w/2+35,1,Central_ColorFPSG, TEXT_ALIGN_RIGHT)
-draw.SimpleText(( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte5"] ), "CentralFpsBoost",w/2 +7,15,Central_ColorFPSG, TEXT_ALIGN_RIGHT)
+draw.SimpleText(( CentralFPSbooster_ImprovedLang[CentralPly.Central_ImprovedLanguage]["Central_Texte3"] ),"CentralFpsBoost",w/2+35,1,Central_ColorFPSG, TEXT_ALIGN_RIGHT)
+draw.SimpleText(( CentralFPSbooster_ImprovedLang[CentralPly.Central_ImprovedLanguage]["Central_Texte5"] ), "CentralFpsBoost",w/2 +7,15,Central_ColorFPSG, TEXT_ALIGN_RIGHT)
 draw.SimpleText(( CentralFpsDetect ), "CentralFpsBoostV", w/2 + 12,14,CentralColorFps, TEXT_ALIGN_LEFT)
 draw.SimpleText(("Min : " ), "CentralFpsBoost",32,43,Central_ColorFPSG, TEXT_ALIGN_CENTER)
 draw.SimpleText(( CentralFpsMin ), "CentralFpsBoostV",48,42,CentralColorFpsmin, TEXT_ALIGN_LEFT)
@@ -392,15 +478,15 @@ CentralVert = Central_ColorFPSD
 end		
 draw.RoundedBox( 6, 0, 0, w, h, CentralVert )
 draw.RoundedBox( 6, 2, 2, w-1, h-1, Central_ColorFPSE )
-draw.DrawText( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte6"], "CentralFpsBoost", w/2,8, Central_ColorFPSF, TEXT_ALIGN_CENTER )
+draw.DrawText( CentralFPSbooster_ImprovedLang[CentralPly.Central_ImprovedLanguage]["Central_Texte6"], "CentralFpsBoost", w/2,8, Central_ColorFPSF, TEXT_ALIGN_CENTER )
 end
 CentralActiver.DoClick = function() 
 if CentralToutCocher then
-chat.AddText(Central_ColorFPSF, "[", "ERROR", "] : ", Central_ColorFPSC, CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte2"] )
+chat.AddText(Central_ColorFPSF, "[", "ERROR", "] : ", Central_ColorFPSC, CentralFPSbooster_ImprovedLang[CentralPly.Central_ImprovedLanguage]["Central_Texte2"] )
 CentralBoostFps = false
 return
 end
-chat.AddText(Central_ColorFPSC, "[", Central_NmV.. " Boost Framerate", "] : ", Central_ColorFPSF, CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte9"] )
+chat.AddText(Central_ColorFPSC, "[", Central_NmV.. " Boost Framerate", "] : ", Central_ColorFPSF, CentralFPSbooster_ImprovedLang[CentralPly.Central_ImprovedLanguage]["Central_Texte9"] )
 if CentralBoostFps == false then 
 CentralFpsMin = 1000
 else 
@@ -455,10 +541,10 @@ CentralRouge = Central_ColorFPSC
 end
 draw.RoundedBox( 6, 0, 0, w, h, CentralRouge )
 draw.RoundedBox( 6, 2, 2, w-2, h-1, Central_ColorFPSE )
-draw.DrawText( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte7"], "CentralFpsBoost", w/2,8, Central_ColorFPSF, TEXT_ALIGN_CENTER )
+draw.DrawText( CentralFPSbooster_ImprovedLang[CentralPly.Central_ImprovedLanguage]["Central_Texte7"], "CentralFpsBoost", w/2,8, Central_ColorFPSF, TEXT_ALIGN_CENTER )
 end
 CentralDesactiver.DoClick = function()
-chat.AddText(Central_ColorFPSC, "[", Central_NmV.. " Boost Framerate", "] : ", Central_ColorFPSF, CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte11"] )
+chat.AddText(Central_ColorFPSC, "[", Central_NmV.. " Boost Framerate", "] : ", Central_ColorFPSF, CentralFPSbooster_ImprovedLang[CentralPly.Central_ImprovedLanguage]["Central_Texte11"] )
 if CentralBoostFps then
 CentralFpsMin = 1000
 CentralFpsMax = 1
@@ -513,10 +599,10 @@ draw.RoundedBox( 6, 0, 0, w-132, 25, Central_ColorFPSE)
 draw.SimpleText(( "[Options]" ),"CentralFpsBoost",78,5,Central_ColorFPSF, TEXT_ALIGN_RIGHT)
 draw.SimpleText(( "\73\109\112\114\111\118\101\100\32\70\112\115\32\66\111\111\115\116\101\114\32\118\101\114\115\105\111\110\32\50\46\48\32\47\32\73\110\106\51" ),"CentralFpsBoost",w/2,376,Central_ColorFPSE, TEXT_ALIGN_CENTER)
 draw.SimpleText(( "Ping detection : " ..CentralPly:Ping()),"CentralFpsBoost",w/2,360,Central_ColorFPSE, TEXT_ALIGN_CENTER) -- if the ping value is equal to a 1 it's a spoofing.
-draw.SimpleText(( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte15"].. " :" ),"CentralFpsBoost",w/2 ,62,Central_ColorFPSE, TEXT_ALIGN_CENTER)
+draw.SimpleText(( CentralFPSbooster_ImprovedLang[CentralPly.Central_ImprovedLanguage]["Central_Texte15"].. " :" ),"CentralFpsBoost",w/2 ,62,Central_ColorFPSE, TEXT_ALIGN_CENTER)
 draw.SimpleText(( "Configuration :" ),"CentralFpsBoost",w/2,215,Central_ColorFPSE, TEXT_ALIGN_CENTER)
-draw.SimpleText(( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte33"] ),"CentralFpsBoost",w/2,280,Central_ColorFPSG, TEXT_ALIGN_CENTER)
-draw.SimpleText(( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte34"] ),"CentralFpsBoost",w/2,320,Central_ColorFPSG, TEXT_ALIGN_CENTER)
+draw.SimpleText(( CentralFPSbooster_ImprovedLang[CentralPly.Central_ImprovedLanguage]["Central_Texte33"] ),"CentralFpsBoost",w/2,280,Central_ColorFPSG, TEXT_ALIGN_CENTER)
+draw.SimpleText(( CentralFPSbooster_ImprovedLang[CentralPly.Central_ImprovedLanguage]["Central_Texte34"] ),"CentralFpsBoost",w/2,320,Central_ColorFPSG, TEXT_ALIGN_CENTER)
 draw.RoundedBox(1, 10, 57, 260, 2, Central_ColorFPSC)
 draw.RoundedBox(1, 10, 209, 260, 2, Central_ColorFPSC)
 end
@@ -543,7 +629,7 @@ local CentralSaveConV_Val = nil
 if self.Central_Valeur == "CentralShadowC" then
 local CentralValTimer = CentralOccurFramerate - CurTime()
 if CentralValTimer < 0 and val then
-chat.AddText(Central_ColorFPSC, "[", "Shadow Removed", "] : ", Central_ColorFPSF, CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte4"] )
+chat.AddText(Central_ColorFPSC, "[", "Shadow Removed", "] : ", Central_ColorFPSF, CentralFPSbooster_ImprovedLang[CentralPly.Central_ImprovedLanguage]["Central_Texte4"] )
 CentralOccurFramerate = CurTime() + CentralTimerFps
 end
 end
@@ -561,9 +647,9 @@ local Central_DTexte_ToolTip = CentralFPSbooster_DCheckBoxLabel[i]["CentralToolT
 Central_Create_Checkbox = vgui.Create( "DCheckBoxLabel", Central_OptionsBoost_Dscroll)
 Central_Create_Checkbox:SetPos( 20, i * (1+ 24) - 20 )	
 Central_Create_Checkbox:SetFont( "CentralFpsBoost" )
-Central_Create_Checkbox:SetText( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage][Central_DTexte_T] )	
+Central_Create_Checkbox:SetText( CentralFPSbooster_ImprovedLang[CentralPly.Central_ImprovedLanguage][Central_DTexte_T] )	
 Central_Create_Checkbox:SetValue(Central_FpsBoostRetTableV(Central_DTexte_Val))
-Central_Create_Checkbox:SetTooltip( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage][Central_DTexte_ToolTip] )
+Central_Create_Checkbox:SetTooltip( CentralFPSbooster_ImprovedLang[CentralPly.Central_ImprovedLanguage][Central_DTexte_ToolTip] )
 Central_Create_Checkbox:SetTextColor( Central_ColorFPSG )
 Central_Create_Checkbox.Central_Valeur = Central_DTexte_Val
 Central_Create_Checkbox.OnChange = Central_Fake_DCheckbox.OnChange
@@ -575,8 +661,8 @@ end
 
 CentralFermerEtQuitter:SetPos( 20,233 )	
 CentralFermerEtQuitter:SetFont( "CentralFpsBoost" )
-CentralFermerEtQuitter:SetText( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte29"] )		
-CentralFermerEtQuitter:SetTooltip( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte30"]  )
+CentralFermerEtQuitter:SetText( CentralFPSbooster_ImprovedLang[CentralPly.Central_ImprovedLanguage]["Central_Texte29"] )		
+CentralFermerEtQuitter:SetTooltip( CentralFPSbooster_ImprovedLang[CentralPly.Central_ImprovedLanguage]["Central_Texte30"]  )
 CentralFermerEtQuitter:SetValue(Central_FpsBoostRetTableV("CentralOptiReloadAut"))
 CentralFermerEtQuitter:SetTextColor( Central_ColorFPSG )
 CentralFermerEtQuitter.Central_Valeur = "CentralOptiReloadAut"
@@ -585,8 +671,8 @@ CentralFermerEtQuitter:SizeToContents()
 
 CentralHudDraw:SetPos( 20,258 )	
 CentralHudDraw:SetFont( "CentralFpsBoost" )
-CentralHudDraw:SetText( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte31"] )		
-CentralHudDraw:SetTooltip( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte32"] )
+CentralHudDraw:SetText( CentralFPSbooster_ImprovedLang[CentralPly.Central_ImprovedLanguage]["Central_Texte31"] )		
+CentralHudDraw:SetTooltip( CentralFPSbooster_ImprovedLang[CentralPly.Central_ImprovedLanguage]["Central_Texte32"] )
 CentralHudDraw:SetValue(Central_FpsBoostRetTableV("CentralDrawHudC"))
 CentralHudDraw:SetTextColor( Central_ColorFPSG )
 CentralHudDraw.Central_Valeur = "CentralDrawHudC"
@@ -624,7 +710,7 @@ CentralQuitterOptions:SetTextColor( Central_ColorFPSF  )
 function CentralQuitterOptions:Paint( w, h )
 draw.RoundedBox( 6, 0, 0, w, h, Central_ColorFPSC )
 draw.RoundedBox( 6, 2, 2, w-2, h-1, Central_ColorFPSE )
-draw.DrawText( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte35"], "CentralFpsBoost", w/2 +7,2, Central_ColorFPSF, TEXT_ALIGN_CENTER )
+draw.DrawText( CentralFPSbooster_ImprovedLang[CentralPly.Central_ImprovedLanguage]["Central_Texte35"], "CentralFpsBoost", w/2 +7,2, Central_ColorFPSF, TEXT_ALIGN_CENTER )
 end
 CentralQuitterOptions.DoClick = function()
 if Central_FpsBoostRetTableV("CentralOptiReloadAut") == 1 then
@@ -685,9 +771,9 @@ CentralPly:ConCommand("mat_filtertextures 1")
 end
 timer.Simple(0.1, function()
 if CentralToutCocher == false then
-chat.AddText(Central_ColorFPSC, "[", Central_NmV.. " Boost Framerate", "] : ", Central_ColorFPSF, CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte37"] )
+chat.AddText(Central_ColorFPSC, "[", Central_NmV.. " Boost Framerate", "] : ", Central_ColorFPSF, CentralFPSbooster_ImprovedLang[CentralPly.Central_ImprovedLanguage]["Central_Texte37"] )
 else
-chat.AddText(Central_ColorFPSC, "[", Central_NmV.. " Boost Framerate", "] : ", Central_ColorFPSF, CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte13"] )
+chat.AddText(Central_ColorFPSC, "[", Central_NmV.. " Boost Framerate", "] : ", Central_ColorFPSF, CentralFPSbooster_ImprovedLang[CentralPly.Central_ImprovedLanguage]["Central_Texte13"] )
 end
 end)
 end
@@ -710,7 +796,7 @@ else
 draw.RoundedBox( 6, 0, 0, w, h, Central_ColorFPSC )
 end
 draw.RoundedBox( 6, 2, 2, w-2, h-1, Central_ColorFPSE )
-draw.DrawText( CentralTable.LangImprovedFpsBooster[CentralPly.Central_ImprovedLanguage]["Central_Texte36"], "CentralFpsBoost", w/2 +5,2, Central_ColorFPSF, TEXT_ALIGN_CENTER )
+draw.DrawText( CentralFPSbooster_ImprovedLang[CentralPly.Central_ImprovedLanguage]["Central_Texte36"], "CentralFpsBoost", w/2 +5,2, Central_ColorFPSF, TEXT_ALIGN_CENTER )
 end
 CentralToutCocherOptions.DoClick = function()
 if CentralToutCocher then
@@ -767,8 +853,8 @@ CentralFpsDetect = math.Round(1/RealFrameTime())
 CentralOccurCountFps = CurTime() + CentralTimerFps
 end			
 if (Central_FpsBoostRetTableV("CentralDrawHudC") != 1) then return end
-if (CentralTable.LangImprovedFpsBooster[LocalPlayer().Central_ImprovedLanguage] == nil) then return end
-draw.SimpleText("FPS : " ..CentralFpsDetect.. " " ..CentralTable.LangImprovedFpsBooster[LocalPlayer().Central_ImprovedLanguage]["Central_Texte39"].. " " ..string.upper( CentralMap ), "CentralFpsBoostV", ScrW() * (Central_FpsBoostRetTableV("CentralHUDPosW") / 100),  ScrH() * (Central_FpsBoostRetTableV("CentralHUDPosH") / 100), Central_ColorFPSF, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+if (CentralFPSbooster_ImprovedLang[LocalPlayer().Central_ImprovedLanguage] == nil) then return end
+draw.SimpleText("FPS : " ..CentralFpsDetect.. " " ..CentralFPSbooster_ImprovedLang[LocalPlayer().Central_ImprovedLanguage]["Central_Texte39"].. " " ..string.upper( CentralMap ), "CentralFpsBoostV", ScrW() * (Central_FpsBoostRetTableV("CentralHUDPosW") / 100),  ScrH() * (Central_FpsBoostRetTableV("CentralHUDPosH") / 100), Central_ColorFPSF, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 end
 end
 hook.Add("HUDPaint","CentralBoosterDrawHud", CentralBoosterDrawHud)
@@ -776,7 +862,7 @@ hook.Add("HUDPaint","CentralBoosterDrawHud", CentralBoosterDrawHud)
 net.Receive("centralboostreset", function()
 if !IsValid(LocalPlayer()) then return end
 CentralBoostFps = false
-chat.AddText(Central_ColorFPSC, "[", Central_NmV.. " Boost Framerate", "] : ", Central_ColorFPSF, CentralTable.LangImprovedFpsBooster[LocalPlayer().Central_ImprovedLanguage]["Central_Texte11"] )
+chat.AddText(Central_ColorFPSC, "[", Central_NmV.. " Boost Framerate", "] : ", Central_ColorFPSF, CentralFPSbooster_ImprovedLang[LocalPlayer().Central_ImprovedLanguage]["Central_Texte11"] )
 Central_ResetConCommand()
 end)
 

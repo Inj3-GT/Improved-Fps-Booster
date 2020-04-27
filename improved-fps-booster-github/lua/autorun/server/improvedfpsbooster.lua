@@ -1,6 +1,4 @@
 ------------- Script by Inj3, PROHIBITED to copy the code !
-------------- If you have any language to add or suggestion, contact me on my steam.
-------------- If you want to take a piece of code -> contact Inj3
 ------------- GNU General Public License v3.0
 ------------- https://steamcommunity.com/id/Inj3/
 ------------- www.centralcityrp.fr/ --- Affiliated Website 
