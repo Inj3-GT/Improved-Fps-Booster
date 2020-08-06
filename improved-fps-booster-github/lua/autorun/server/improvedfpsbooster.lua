@@ -31,8 +31,8 @@ end)
 end)
 
 local function Central_FpsRemoveConvarDisco(ply)
-for i = 1, #CentralTable.CentralFPSbooster_DResetConC do
-ply:ConCommand(CentralTable.CentralFPSbooster_DResetConC[i]["CentralFPSbooster_ConCom"])
+for i = 1, #CentralTableIFB.CentralFPSbooster_DResetConC do
+ply:ConCommand(CentralTableIFB.CentralFPSbooster_DResetConC[i]["CentralFPSbooster_ConCom"])
 end
 end
 hook.Add("PlayerDisconnected","Central_FpsRemoveConvarDisco", Central_FpsRemoveConvarDisco)
