@@ -607,16 +607,14 @@ CentralPosH:SetDecimals( 0 )
 CentralPosH.Central_Valeur = "CentralHUDPosH"
 CentralPosH.OnValueChanged = CentralPosW.OnValueChanged
 
+CentralQuitterOptions:SetText( "" ) 
 CentralQuitterOptions:SetPos( 151, 5 )
 CentralQuitterOptions:SetSize( 122, 18 )
-CentralQuitterOptions:SetFont( Central_FontIFB )
-CentralQuitterOptions:SetText( "" ) 
 CentralQuitterOptions:SetImage( "icon16/cross.png" )
-CentralQuitterOptions:SetTextColor( Central_ColorFPSF  )
 function CentralQuitterOptions:Paint( w, h )
 draw.RoundedBox( 6, 0, 0, w, h, Central_ColorFPSC )
 draw.RoundedBox( 6, 2, 2, w-2, h-1, Central_ColorFPSE )
-draw.DrawText( CentralTableIFB.CentralFPSbooster_ImprovedLang[CentralPly.Central_ImprovedLanguage]["Central_Texte35"], Central_FontIFB, w/2 +7,2, Central_ColorFPSF, TEXT_ALIGN_CENTER )
+draw.DrawText( CentralTableIFB.CentralFPSbooster_ImprovedLang[CentralPly.Central_ImprovedLanguage]["Central_Texte35"], Central_FontIFB, w/2 +6,2, Central_ColorFPSF, TEXT_ALIGN_CENTER )
 end
 CentralQuitterOptions.DoClick = function()
 if Central_FpsBoostRetTableV("CentralOptiReloadAut") == 1 then
@@ -689,12 +687,10 @@ CentralOptionsBoost:Remove()
 CentralFpsBoostPanel()
 end
 
-CentralToutCocherOptions:SetImage( "icon16/bullet_wrench.png" )		
 CentralToutCocherOptions:SetText( "" )
-CentralToutCocherOptions:SetTextColor( Central_ColorFPSF )
-CentralToutCocherOptions:SetFont( Central_FontIFB )
 CentralToutCocherOptions:SetPos(64, 31)
 CentralToutCocherOptions:SetSize( 155, 19 )
+CentralToutCocherOptions:SetImage( "icon16/bullet_wrench.png" )		
 CentralToutCocherOptions.Paint = function( self, w, h )
 if CentralToutCocherOptions:IsHovered() then
 draw.RoundedBox( 6, 0, 0, w, h, Central_ColorFPSD )
@@ -702,7 +698,7 @@ else
 draw.RoundedBox( 6, 0, 0, w, h, Central_ColorFPSC )
 end
 draw.RoundedBox( 6, 2, 2, w-2, h-1, Central_ColorFPSE )
-draw.DrawText( CentralTableIFB.CentralFPSbooster_ImprovedLang[CentralPly.Central_ImprovedLanguage]["Central_Texte36"], Central_FontIFB, w/2 +5,2, Central_ColorFPSF, TEXT_ALIGN_CENTER )
+draw.DrawText( CentralTableIFB.CentralFPSbooster_ImprovedLang[CentralPly.Central_ImprovedLanguage]["Central_Texte36"], Central_FontIFB, w/2 +5,3, Central_ColorFPSF, TEXT_ALIGN_CENTER )
 end
 CentralToutCocherOptions.DoClick = function()
 if CentralToutCocher then
