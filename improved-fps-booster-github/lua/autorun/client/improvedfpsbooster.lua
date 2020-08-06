@@ -313,7 +313,7 @@ CentralQuitterFps:SetImage( "icon16/cross.png" )
 function CentralQuitterFps:Paint( w, h )
 draw.RoundedBox( 6, 0, 0, w, h, Central_ColorFPSC )
 draw.RoundedBox( 6, 2, 2, w-2, h-1, Central_ColorFPSE )
-draw.DrawText( CentralTableIFB.CentralFPSbooster_ImprovedLang[CentralPly.Central_ImprovedLanguage]["Central_Texte1"], Central_FontIFB, w/2,3, Central_ColorFPSF, TEXT_ALIGN_CENTER )
+draw.DrawText( CentralTableIFB.CentralFPSbooster_ImprovedLang[CentralPly.Central_ImprovedLanguage]["Central_Texte1"], Central_FontIFB, w/2+5,3, Central_ColorFPSF, TEXT_ALIGN_CENTER )
 end
 CentralQuitterFps.DoClick = function()
 chat.AddText(Central_ColorFPSC, "[", Central_NmV.. " Boost Framerate", "] : ", Central_ColorFPSF, CentralTableIFB.CentralFPSbooster_ImprovedLang[CentralPly.Central_ImprovedLanguage]["Central_Texte10"] )
