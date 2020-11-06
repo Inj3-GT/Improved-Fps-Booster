@@ -239,7 +239,7 @@ local function Central_CheckClientFPS(CentralPanelFpsBoost)
 end
 
 local function Central_FrmPanel()
-   if !IsValid(CentralPanelFpsBoost) then return end
+   if not IsValid(CentralPanelFpsBoost) then return end
    CentralFPSbooster_DCheckBoxLabel = nil
    CentralPanelFpsBoost:Remove()
    CentralBoostOV = false
@@ -247,7 +247,7 @@ end
 
 local function Central_ResetConCommand()
    local CentralPlyConC = LocalPlayer()
-   if !IsValid(CentralPlyConC) then return end
+   if not IsValid(CentralPlyConC) then return end
    
    for i = 1, #CentralTableIFB.CentralFPSbooster_DResetConC do
       CentralPlyConC:ConCommand(CentralTableIFB.CentralFPSbooster_DResetConC[i]["CentralFPSbooster_ConCom"])
@@ -256,7 +256,7 @@ end
 
 local function CentralFpsBoostPanel()
 local CentralPly = LocalPlayer()
-if !IsValid(CentralPly) then return end
+if not IsValid(CentralPly) then return end
 
 CentralBoostOV = true
 CentralPly.Central_ImprovedLanguage = CentralPly.Central_ImprovedLanguage or "EN"
@@ -274,7 +274,7 @@ local CentralActiver = vgui.Create( "DButton", CentralPanelFpsBoost )
 local CentralDesactiver = vgui.Create( "DButton", CentralPanelFpsBoost )
 local CentralOptions = vgui.Create( "DButton", CentralPanelFpsBoost )
 
-if !CentralFpsGains then
+if not CentralFpsGains then
    CentralFpsGains = 1
 end
 
@@ -298,7 +298,7 @@ for i = 1, #CentralTableIFB.CentralFPSbooster_TableFpsConvar do
    
 end
 
-if !Central_TableCheckConv then
+if not Central_TableCheckConv then
    CentralToutCocher = true
    CentralBoostFps = false
    
@@ -866,7 +866,7 @@ local function Central_FpsBoosterCheckDataClient()
    
       Central_ChargementPanel_Bool = true
 	  
-      if !file.Exists( CentralFPSbooster_SauvegardeChemin, "DATA" ) then
+      if not file.Exists( CentralFPSbooster_SauvegardeChemin, "DATA" ) then
          file.CreateDir("improvedfpsbooster/sauvegarde")
          CentralCreateConvar(true)
       else -------- Client data loaded once upstream
