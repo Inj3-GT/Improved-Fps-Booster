@@ -43,7 +43,7 @@ local Central_Col_Boost = {
    [7] = Color( 0,0, 0, 250 )
 }
 
-local CentralFPSbooster_SauvegardeCVInit, CentralFPSbooster_SauvegardeChemin  = CentralFPSbooster_SauvegardeCVInit or {} , "improvedfpsbooster/sauvegarde/sv[1].txt"
+local CentralFPSbooster_SauvegardeCVInit, CentralFPSbooster_SauvegardeChemin  = CentralFPSbooster_SauvegardeCVInit or {} , "improvedfpsbooster/sauvegarde/sv_1.txt"
 local Central_CountTable, Central_FpsBooster_TblUtil = 0, Central_FpsBooster_TblUtil or nil
 local CentralUrlWorkshop, Central_NmV = "https://steamcommunity.com/sharedfiles/filedetails/?id=1762151370", util.Base64Decode( "Q2VudHJhbENpdHk=" )
 
@@ -69,10 +69,10 @@ local function InitCentralFpsBooster(CentralPly)
 end
 
 local function Central_FpsBoostRetTableV(Central_Commande) ---- Allows you to check table to see if a value exists, and return it.
-   local Central_Table_Ret, Central_ValueRet = Central_Table_Ret or util.JSONToTable(file.Read(CentralFPSbooster_SauvegardeChemin, "DATA"))
-   local Central_Commande = Central_Commande
+   local Central_Table_Ret = Central_Table_Ret or file.Exists(CentralFPSbooster_SauvegardeChemin, "DATA") and util.JSONToTable(file.Read(CentralFPSbooster_SauvegardeChemin, "DATA")) or {}
+   local Central_ValueRet = 0
    
-      for k, v in pairs(Central_Table_Ret) do
+      for _, v in pairs(Central_Table_Ret) do
          if (v[Central_Commande] == nil) then continue end
 		 
          Central_ValueRet = v[Central_Commande]["Central_CV_Valeur"]
@@ -168,7 +168,9 @@ local function CentralCreateConvar(Central_Bool)
    end
 end
 
-local CentralGainCalcul, CentralCalculFPS, CentralCalculRSZ
+local CentralGainCalcul = CentralGainCalcul or ""
+local CentralCalculFPS = CentralCalculFPS or ""
+local CentralCalculRSZ = CentralCalculRSZ or ""
 
 local function Central_CheckClientFPS(CentralPanelFpsBoost)
    if not IsValid(CentralPanelFpsBoost) then return end
