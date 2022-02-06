@@ -110,7 +110,7 @@ local function Ipr_Fps_Booster_OverrideDcb(ipr_gui, ipr_bool)
             end
 
             v.Paint = function(panel, w, h)
-                draw.RoundedBox(12, 9, 6, w - 10, h - 10, color_white)
+                draw.RoundedBox(12, 9, 6, w - 10, h - 10, Ipr_Fps_Booster_Color["blanc"])
             end
         end
     else
@@ -149,7 +149,6 @@ local function Ipr_Fps_Booster_CalculationFps()
 
     if (Ipr_Cur > (Ipr_CurtLast or 0)) then
         Ipr_Current = math.Round(1/RealFrameTime(), 0)
-
         if (Ipr_Current < Ipr_Min) then
             Ipr_Min = Ipr_Current
         end
@@ -162,7 +161,6 @@ local function Ipr_Fps_Booster_CalculationFps()
         if (Ipr_Max > Ipr_LastMax) then
             Ipr_Gain = Ipr_Max - Ipr_LastMax
         end
-
         Ipr_CurtLast = CurTime() + 0.3
     end
 
@@ -229,12 +227,12 @@ local function Ipr_Booster_Option_Func(panel)
         Ipr_Lang_C = Ipr_FPS_Booster_Call_Lang()
 
         draw.RoundedBox( 6, 0, 0, w, 20, Ipr_Fps_Booster_Color["bleu"])
-        draw.SimpleText("Options FPS Booster","Ipr_Fps_Booster_Font",w/2,1, color_white, TEXT_ALIGN_CENTER)
-        draw.SimpleText(Ipr_Fps_Booster.Lang[Ipr_Lang_C].ipr_vgui_opti_t,"Ipr_Fps_Booster_Font",w/2,50, color_white, TEXT_ALIGN_CENTER)
-        draw.SimpleText("Configuration :","Ipr_Fps_Booster_Font",w/2,h-145, color_white, TEXT_ALIGN_CENTER)
+        draw.SimpleText("Options FPS Booster","Ipr_Fps_Booster_Font",w/2,1, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_CENTER)
+        draw.SimpleText(Ipr_Fps_Booster.Lang[Ipr_Lang_C].ipr_vgui_opti_t,"Ipr_Fps_Booster_Font",w/2,50, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_CENTER)
+        draw.SimpleText("Configuration :","Ipr_Fps_Booster_Font",w/2,h-145, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_CENTER)
         draw.SimpleText("V3.0 by Inj3","Ipr_Fps_Booster_Font", w-38,h-17, Color(Ior_Sys_Abs, Ior_Sys_Abs, Ior_Sys_Abs), TEXT_ALIGN_CENTER)
-        draw.SimpleText(Ipr_Fps_Booster.Lang[Ipr_Lang_C].ipr_vgui_posw_t,"Ipr_Fps_Booster_Font",w/2+2,h-100, color_white, TEXT_ALIGN_CENTER)
-        draw.SimpleText(Ipr_Fps_Booster.Lang[Ipr_Lang_C].ipr_vgui_posh_t,"Ipr_Fps_Booster_Font",w/2+2,h-60, color_white, TEXT_ALIGN_CENTER)
+        draw.SimpleText(Ipr_Fps_Booster.Lang[Ipr_Lang_C].ipr_vgui_posw_t,"Ipr_Fps_Booster_Font",w/2+2,h-100, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_CENTER)
+        draw.SimpleText(Ipr_Fps_Booster.Lang[Ipr_Lang_C].ipr_vgui_posh_t,"Ipr_Fps_Booster_Font",w/2+2,h-60, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_CENTER)
     end
 
     Ipr_Fps_Booster_Dscroll:Dock( FILL )
@@ -276,7 +274,7 @@ local function Ipr_Booster_Option_Func(panel)
     Ipr_Fps_Booster_DChb_ShowHud:SetTextColor(Ipr_Fps_Booster_Color["blanc"])
     Ipr_Fps_Booster_DChb_ShowHud:SetWide(200)
     function Ipr_Fps_Booster_DChb_ShowHud:Paint(w, h)
-        draw.SimpleText(Ipr_Fps_Booster.Lang[Ipr_Lang_C].ipr_vgui_hudshow_t, "Ipr_Fps_Booster_Font", w / 2 - 11, 0, color_white, TEXT_ALIGN_CENTER)
+        draw.SimpleText(Ipr_Fps_Booster.Lang[Ipr_Lang_C].ipr_vgui_hudshow_t, "Ipr_Fps_Booster_Font", w / 2 - 11, 0, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_CENTER)
     end
     Ipr_Fps_Booster_DChb_ShowHud.OnChange = function(self)
         Ipr_Fps_Booster_SaveConvar(self, 1)
@@ -322,7 +320,7 @@ local function Ipr_Booster_Option_Func(panel)
         else
             draw.RoundedBox( 6, 0, 0, w, h, Ipr_Fps_Booster_Color["bleu"])
         end
-        draw.SimpleText("Load Settings", "Ipr_Fps_Booster_Font", w / 2 + 4, 0, color_white, TEXT_ALIGN_CENTER)
+        draw.SimpleText("Load Settings", "Ipr_Fps_Booster_Font", w / 2 + 4, 0, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_CENTER)
     end
     Ipr_Fps_Booster_SaveLoad.DoClick = function()
         Ipr_Fps_Booster_Enabled_Disabled(false)
@@ -341,14 +339,13 @@ local function Ipr_Fps_Booster_Vgui_Func()
     Ipr_Fps_Booster_Vgui = vgui.Create( "DFrame" )
     local Ipr_Fps_Booster_Vgui_Dp = vgui.Create( "DPropertySheet", Ipr_Fps_Booster_Vgui )
     local Ipr_Fps_Booster_Vgui_HT = vgui.Create( "HTML", Ipr_Fps_Booster_Vgui_Dp )
+    local Ipr_Fps_Booster_Exp = vgui.Create("DImageButton", Ipr_Fps_Booster_Vgui)
+    local Ipr_Fps_Booster_Vgui_HTurl = vgui.Create("DButton", Ipr_Fps_Booster_Vgui)
     local Ipr_Fps_Booster_En = vgui.Create("DButton", Ipr_Fps_Booster_Vgui)
     local Ipr_Fps_Booster_Di = vgui.Create("DButton", Ipr_Fps_Booster_Vgui)
     local Ipr_Fps_Booster_Opt = vgui.Create("DButton", Ipr_Fps_Booster_Vgui)
     local Ipr_Fps_Booster_Res = vgui.Create("DButton", Ipr_Fps_Booster_Vgui)
     local Ipr_Fps_Booster_Dcb = vgui.Create( "DComboBox", Ipr_Fps_Booster_Vgui)
-    local Ipr_Fps_Booster_Exp = vgui.Create("DImageButton", Ipr_Fps_Booster_Vgui)
-    local Ipr_Fps_Booster_Vgui_HTurl = vgui.Create("DButton", Ipr_Fps_Booster_Vgui)
-
     Ipr_Lang_C = Ipr_FPS_Booster_Call_Lang()
 
     Ipr_Fps_Booster_Vgui:SetTitle( "" )
@@ -362,8 +359,8 @@ local function Ipr_Fps_Booster_Vgui_Func()
         Ipr_Lang_C = Ipr_FPS_Booster_Call_Lang()
 
         draw.RoundedBox( 6, 0, 0, w, 33, Ipr_Fps_Booster_Color["bleu"])
-        draw.SimpleText(Ipr_Fps_Booster.Lang[Ipr_Lang_C].ipr_vgui_enabled,"Ipr_Fps_Booster_Font",w/2,1, color_white, TEXT_ALIGN_CENTER)
-        draw.SimpleText("FPS :","Ipr_Fps_Booster_Font",(Ipr_StatusVgui and w/2 -25) or w/2 -10,16, color_white, TEXT_ALIGN_CENTER)
+        draw.SimpleText(Ipr_Fps_Booster.Lang[Ipr_Lang_C].ipr_vgui_enabled,"Ipr_Fps_Booster_Font",w/2,1, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_CENTER)
+        draw.SimpleText("FPS :","Ipr_Fps_Booster_Font",(Ipr_StatusVgui and w/2 -25) or w/2 -10,16, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_CENTER)
         draw.SimpleText((Ipr_StatusVgui and "On (Boost)") or "Off", "Ipr_Fps_Booster_Font",(Ipr_StatusVgui and w/2 + 22) or w/2 + 18,16, Ipr_StatusVgui and Ipr_Fps_Booster_Color["vert"] or Ipr_Fps_Booster_Color["rouge"], TEXT_ALIGN_CENTER)
     end 
   
@@ -371,14 +368,14 @@ local function Ipr_Fps_Booster_Vgui_Func()
     Ipr_Fps_Booster_Vgui_Dp:DockPadding( 52, 10, 0, 0)
     Ipr_Fps_Booster_Vgui_Dp.Paint = function (self, w, h)
         local Ipr_Cur, Ipr_Min, Ipr_Max_, Ipr_Gain = Ipr_Fps_Booster_CalculationFps()
-        draw.SimpleText("FPS Status","Ipr_Fps_Booster_Font",w/2,h/2-71, color_white, TEXT_ALIGN_CENTER)
-        draw.SimpleText(Ipr_Fps_Booster.Lang[Ipr_Lang_C].ipr_vgui_fps_cur,"Ipr_Fps_Booster_Font",w/2-10,h/2-55, color_white, TEXT_ALIGN_CENTER)
+        draw.SimpleText("FPS Status","Ipr_Fps_Booster_Font",w/2,h/2-71, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_CENTER)
+        draw.SimpleText(Ipr_Fps_Booster.Lang[Ipr_Lang_C].ipr_vgui_fps_cur,"Ipr_Fps_Booster_Font",w/2-10,h/2-55, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_CENTER)
         draw.SimpleText(Ipr_Cur, "Ipr_Fps_Booster_Font",w/2+15,h/2-55, Ipr_Fps_Booster_RgbTransition(Ipr_Cur), TEXT_ALIGN_LEFT)
-        draw.SimpleText("Max : ","Ipr_Fps_Booster_Font",w/2-10,h/2-40, color_white, TEXT_ALIGN_CENTER)
+        draw.SimpleText("Max : ","Ipr_Fps_Booster_Font",w/2-10,h/2-40, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_CENTER)
         draw.SimpleText(Ipr_Max_,"Ipr_Fps_Booster_Font",w/2+10,h/2-40, Ipr_Fps_Booster_RgbTransition(Ipr_Max_), TEXT_ALIGN_LEFT)
-        draw.SimpleText("Min : ","Ipr_Fps_Booster_Font",w/2-10,h/2-25, color_white, TEXT_ALIGN_CENTER)
+        draw.SimpleText("Min : ","Ipr_Fps_Booster_Font",w/2-10,h/2-25, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_CENTER)
         draw.SimpleText(Ipr_Min,"Ipr_Fps_Booster_Font",w/2+10,h/2-25, Ipr_Fps_Booster_RgbTransition(Ipr_Min), TEXT_ALIGN_LEFT)
-        draw.SimpleText("Gain : ","Ipr_Fps_Booster_Font",w/2-10, h/2-10, color_white, TEXT_ALIGN_CENTER)
+        draw.SimpleText("Gain : ","Ipr_Fps_Booster_Font",w/2-10, h/2-10, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_CENTER)
         draw.SimpleText((Ipr_StatusVgui and Ipr_Gain or "OFF"),"Ipr_Fps_Booster_Font",w/2+10, h/2-10, Ipr_StatusVgui and Ipr_Fps_Booster_Color["vert"] or Ipr_Fps_Booster_Color["rouge"], TEXT_ALIGN_LEFT)
     end
     Ipr_Fps_Booster_Vgui_HT:SetPos(-20, -6)
@@ -403,7 +400,7 @@ local function Ipr_Fps_Booster_Vgui_Func()
         else
             draw.RoundedBox( 6, 0, 0, w, h, Ipr_Fps_Booster_Color["bleu"] )
         end
-        draw.SimpleText(Ipr_Fps_Booster.Lang[Ipr_Lang_C].ipr_vgui_enable_t, "Ipr_Fps_Booster_Font", w / 2 + 5, 3, color_white, TEXT_ALIGN_CENTER)
+        draw.SimpleText(Ipr_Fps_Booster.Lang[Ipr_Lang_C].ipr_vgui_enable_t, "Ipr_Fps_Booster_Font", w / 2 + 5, 3, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_CENTER)
     end
     Ipr_Fps_Booster_En.DoClick = function()
         if Ipr_StatusVgui then
@@ -430,7 +427,7 @@ local function Ipr_Fps_Booster_Vgui_Func()
         else
             draw.RoundedBox( 6, 0, 0, w, h, Ipr_Fps_Booster_Color["bleu"])
         end
-        draw.SimpleText(Ipr_Fps_Booster.Lang[Ipr_Lang_C].ipr_vgui_disable_t, "Ipr_Fps_Booster_Font", w / 2 + 7, 3, color_white, TEXT_ALIGN_CENTER)
+        draw.SimpleText(Ipr_Fps_Booster.Lang[Ipr_Lang_C].ipr_vgui_disable_t, "Ipr_Fps_Booster_Font", w / 2 + 7, 3, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_CENTER)
     end
     Ipr_Fps_Booster_Di.DoClick = function()
         Ipr_Max, Ipr_Min, Ipr_Gain, Ipr_StatusVgui = 0, math.huge, 0, false
@@ -455,7 +452,7 @@ local function Ipr_Fps_Booster_Vgui_Func()
         else
             draw.RoundedBox( 6, 0, 0, w, h, Ipr_Fps_Booster_Color["bleu"])
         end
-        draw.SimpleText("Options ", "Ipr_Fps_Booster_Font", w / 2 + 4, 1, color_white, TEXT_ALIGN_CENTER)
+        draw.SimpleText("Options ", "Ipr_Fps_Booster_Font", w / 2 + 4, 1, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_CENTER)
     end
     Ipr_Fps_Booster_Opt.DoClick = function()
         Ipr_Booster_Option_Func(Ipr_Fps_Booster_Vgui)
@@ -472,7 +469,7 @@ local function Ipr_Fps_Booster_Vgui_Func()
         else
             draw.RoundedBox( 6, 0, 0, w, h, Ipr_Fps_Booster_Color["bleu"])
         end
-        draw.SimpleText("Reset FPS max/min", "Ipr_Fps_Booster_Font", w / 2 + 5, 2, color_white, TEXT_ALIGN_CENTER)
+        draw.SimpleText("Reset FPS max/min", "Ipr_Fps_Booster_Font", w / 2 + 5, 2, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_CENTER)
     end
     Ipr_Fps_Booster_Res.DoClick = function()
         Ipr_Max, Ipr_Min = 0, math.huge
@@ -486,7 +483,7 @@ local function Ipr_Fps_Booster_Vgui_Func()
     for lang in pairs(Ipr_Fps_Booster.Lang) do
     Ipr_Fps_Booster_Dcb:AddChoice("Langue : " ..lang)
     end
-    Ipr_Fps_Booster_Dcb:SetTextColor( color_white )
+    Ipr_Fps_Booster_Dcb:SetTextColor( Ipr_Fps_Booster_Color["blanc"] )
     function Ipr_Fps_Booster_Dcb:Paint(w, h)
         if self:IsHovered() then
             draw.RoundedBox( 6, 0, 0, w, h, Ipr_Fps_Booster_Color["bleuc"])
@@ -508,7 +505,7 @@ local function Ipr_Fps_Booster_Vgui_Func()
                    continue
                 end
                 for _, y in pairs(d:GetChildren()) do
-                    y:SetTextColor(color_white)
+                    y:SetTextColor(Ipr_Fps_Booster_Color["blanc"])
                     y:SetFont( "Ipr_Fps_Booster_Font" )
                 end
             end
