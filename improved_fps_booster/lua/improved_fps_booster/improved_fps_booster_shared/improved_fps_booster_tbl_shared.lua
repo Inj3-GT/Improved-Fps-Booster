@@ -118,6 +118,14 @@ Ipr_Fps_Booster.DefautCommand = {
 }
 
 if CLIENT then
+    Ipr_Fps_Booster.Country = {
+        ["BE"] = true,
+        ["FR"] = true,
+        ["DZ"] = true,
+        ["MA"] = true,
+        ["CA"] = true,
+    }
+
     Ipr_Fps_Booster.Lang = {
         ["FR"] = {
             ipr_vgui_enabled = "Voulez-vous activer Improved FPS Booster ?",
