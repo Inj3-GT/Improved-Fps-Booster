@@ -274,7 +274,7 @@ local function Ipr_Booster_Option_Func(panel)
     Ipr_Fps_Booster_DChb_ShowHud:SetTextColor(Ipr_Fps_Booster_Color["blanc"])
     Ipr_Fps_Booster_DChb_ShowHud:SetWide(200)
     function Ipr_Fps_Booster_DChb_ShowHud:Paint(w, h)
-        draw.SimpleText(Ipr_Fps_Booster.Lang[Ipr_Lang_C].ipr_vgui_hudshow_t, "Ipr_Fps_Booster_Font", w / 2 - 11, 0, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_CENTER)
+        draw.SimpleText(Ipr_Fps_Booster.Lang[Ipr_Lang_C].ipr_vgui_hudshow_t, "Ipr_Fps_Booster_Font", w / 2 - 11, -1, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_CENTER)
     end
     Ipr_Fps_Booster_DChb_ShowHud.OnChange = function(self)
         Ipr_Fps_Booster_SaveConvar(self, 1)
