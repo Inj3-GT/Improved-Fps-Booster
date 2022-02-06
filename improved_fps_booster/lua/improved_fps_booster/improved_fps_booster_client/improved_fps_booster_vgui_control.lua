@@ -310,7 +310,7 @@ local function Ipr_Booster_Option_Func(panel)
         Ipr_Fps_Booster_Opt_Vgui:Remove()
     end
 
-    Ipr_Fps_Booster_SaveLoad:SetPos(60, 25)
+    Ipr_Fps_Booster_SaveLoad:SetPos(61, 25)
     Ipr_Fps_Booster_SaveLoad:SetSize(120, 18)
     Ipr_Fps_Booster_SaveLoad:SetText("")
     Ipr_Fps_Booster_SaveLoad:SetImage( "icon16/arrow_rotate_clockwise.png" )
@@ -320,7 +320,7 @@ local function Ipr_Booster_Option_Func(panel)
         else
             draw.RoundedBox( 6, 0, 0, w, h, Ipr_Fps_Booster_Color["bleu"])
         end
-        draw.SimpleText("Load Settings", "Ipr_Fps_Booster_Font", w / 2 + 4, 0, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_CENTER)
+        draw.SimpleText("Load Settings", "Ipr_Fps_Booster_Font", w / 2 + 6, 0, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_CENTER)
     end
     Ipr_Fps_Booster_SaveLoad.DoClick = function()
         Ipr_Fps_Booster_Enabled_Disabled(false)
@@ -390,8 +390,8 @@ local function Ipr_Fps_Booster_Vgui_Func()
         gui.OpenURL("https://steamcommunity.com/sharedfiles/filedetails/?id=1762151370")
     end
 
-    Ipr_Fps_Booster_En:SetPos(6, 258)
-    Ipr_Fps_Booster_En:SetSize(110, 25)
+    Ipr_Fps_Booster_En:SetPos(6, 259)
+    Ipr_Fps_Booster_En:SetSize(110, 24)
     Ipr_Fps_Booster_En:SetImage( "icon16/tick.png" )
     Ipr_Fps_Booster_En:SetText("")
     function Ipr_Fps_Booster_En:Paint(w, h)
@@ -400,7 +400,7 @@ local function Ipr_Fps_Booster_Vgui_Func()
         else
             draw.RoundedBox( 6, 0, 0, w, h, Ipr_Fps_Booster_Color["bleu"] )
         end
-        draw.SimpleText(Ipr_Fps_Booster.Lang[Ipr_Lang_C].ipr_vgui_enable_t, "Ipr_Fps_Booster_Font", w / 2 + 5, 3, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_CENTER)
+        draw.SimpleText(Ipr_Fps_Booster.Lang[Ipr_Lang_C].ipr_vgui_enable_t, "Ipr_Fps_Booster_Font", w / 2 + 3, 3, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_CENTER)
     end
     Ipr_Fps_Booster_En.DoClick = function()
         if Ipr_StatusVgui then
@@ -417,8 +417,8 @@ local function Ipr_Fps_Booster_Vgui_Func()
         surface.PlaySound("buttons/combine_button7.wav")
     end
 
-    Ipr_Fps_Booster_Di:SetPos(184, 258)
-    Ipr_Fps_Booster_Di:SetSize(110, 25)
+    Ipr_Fps_Booster_Di:SetPos(184, 259)
+    Ipr_Fps_Booster_Di:SetSize(110, 24)
     Ipr_Fps_Booster_Di:SetImage( "icon16/cross.png" )
     Ipr_Fps_Booster_Di:SetText("")
     function Ipr_Fps_Booster_Di:Paint(w, h)
@@ -427,7 +427,7 @@ local function Ipr_Fps_Booster_Vgui_Func()
         else
             draw.RoundedBox( 6, 0, 0, w, h, Ipr_Fps_Booster_Color["bleu"])
         end
-        draw.SimpleText(Ipr_Fps_Booster.Lang[Ipr_Lang_C].ipr_vgui_disable_t, "Ipr_Fps_Booster_Font", w / 2 + 7, 3, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_CENTER)
+        draw.SimpleText(Ipr_Fps_Booster.Lang[Ipr_Lang_C].ipr_vgui_disable_t, "Ipr_Fps_Booster_Font", w / 2 + 6, 3, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_CENTER)
     end
     Ipr_Fps_Booster_Di.DoClick = function()
         Ipr_Max, Ipr_Min, Ipr_Gain, Ipr_StatusVgui = 0, math.huge, 0, false
@@ -442,7 +442,7 @@ local function Ipr_Fps_Booster_Vgui_Func()
         surface.PlaySound("buttons/combine_button5.wav")
     end
 
-    Ipr_Fps_Booster_Opt:SetPos(200, 37)
+    Ipr_Fps_Booster_Opt:SetPos(200, 38)
     Ipr_Fps_Booster_Opt:SetSize(95, 20)
     Ipr_Fps_Booster_Opt:SetText("")
     Ipr_Fps_Booster_Opt:SetImage( "icon16/cog.png" )
@@ -452,7 +452,7 @@ local function Ipr_Fps_Booster_Vgui_Func()
         else
             draw.RoundedBox( 6, 0, 0, w, h, Ipr_Fps_Booster_Color["bleu"])
         end
-        draw.SimpleText("Options ", "Ipr_Fps_Booster_Font", w / 2 + 4, 1, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_CENTER)
+        draw.SimpleText("Options ", "Ipr_Fps_Booster_Font", w / 2 + 7, 1, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_CENTER)
     end
     Ipr_Fps_Booster_Opt.DoClick = function()
         Ipr_Booster_Option_Func(Ipr_Fps_Booster_Vgui)
@@ -469,14 +469,14 @@ local function Ipr_Fps_Booster_Vgui_Func()
         else
             draw.RoundedBox( 6, 0, 0, w, h, Ipr_Fps_Booster_Color["bleu"])
         end
-        draw.SimpleText("Reset FPS max/min", "Ipr_Fps_Booster_Font", w / 2 + 5, 2, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_CENTER)
+        draw.SimpleText("Reset FPS max/min", "Ipr_Fps_Booster_Font", w / 2 + 7, 1, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_CENTER)
     end
     Ipr_Fps_Booster_Res.DoClick = function()
         Ipr_Max, Ipr_Min = 0, math.huge
         surface.PlaySound("buttons/button9.wav")
     end
 
-    Ipr_Fps_Booster_Dcb:SetPos(5, 37)
+    Ipr_Fps_Booster_Dcb:SetPos(5, 38)
     Ipr_Fps_Booster_Dcb:SetSize(95, 20)
     Ipr_Fps_Booster_Dcb:SetFont( "Ipr_Fps_Booster_Font" )
     Ipr_Fps_Booster_Dcb:SetValue( "Langue : " ..Ipr_FPS_Booster_Call_Lang())
