@@ -23,12 +23,12 @@ local function Ipr_FPS_Booster_CountryLang()
     return "EN"
 end
 
-local function Ipr_Fps_Booster_SaveConvar(ipr_gui, ipr_nb)
+local function Ipr_Fps_Booster_SaveConvar(ipr_gui, ipr_bool)
     if not IsValid(ipr_gui) then
         return
     end
 
-    local ipr_check = ((ipr_nb == 1 and ipr_gui:GetChecked()) or (ipr_nb == 2 and ipr_gui:GetValue()))
+    local ipr_check = ipr_bool and ipr_gui:GetChecked() or not ipr_bool and ipr_gui:GetValue()
     for _, v in pairs(Ipr_Tbl_Convar_L) do
         if (v.Ipr_UniqueNumber == ipr_gui.Ipr_UniqueNumber) then
             v.Ipr_ValueDyn = ipr_check
@@ -215,6 +215,8 @@ local function Ipr_Booster_Option_Func(panel)
     Ipr_Fps_Booster_Opt_Vgui:MakePopup()
     Ipr_Fps_Booster_Opt_Vgui:ShowCloseButton(false)
     Ipr_Fps_Booster_Opt_Vgui:SetDraggable(true)
+    Ipr_Fps_Booster_Opt_Vgui:AlphaTo(5, 0, 0)
+    Ipr_Fps_Booster_Opt_Vgui:AlphaTo(255, 1, 0)
     Ipr_Fps_Booster_Opt_Vgui.Think = function(self)
         if IsValid(panel) then
             local ipr_getpos_x, ipr_getpos_y = panel:GetPos()
@@ -261,7 +263,7 @@ local function Ipr_Booster_Option_Func(panel)
         Ipr_Fps_Booster_DChb:SetTooltip(Ipr_Fps_Booster.DefautCommand[i].Ipr_ToolTip)
         Ipr_Fps_Booster_DChb:SetTextColor(Ipr_Fps_Booster_Color["blanc"])
         Ipr_Fps_Booster_DChb.OnChange = function(self)
-            Ipr_Fps_Booster_SaveConvar(self, 1)
+            Ipr_Fps_Booster_SaveConvar(self, true)
         end
         Ipr_Fps_Booster_DChb:SizeToContents()
     end
@@ -277,7 +279,7 @@ local function Ipr_Booster_Option_Func(panel)
         draw.SimpleText(Ipr_Fps_Booster.Lang[Ipr_Lang_C].ipr_vgui_hudshow_t, "Ipr_Fps_Booster_Font", w / 2 - 11, -1, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_CENTER)
     end
     Ipr_Fps_Booster_DChb_ShowHud.OnChange = function(self)
-        Ipr_Fps_Booster_SaveConvar(self, 1)
+        Ipr_Fps_Booster_SaveConvar(self, true)
     end
 
     Ipr_Fps_Booster_PosW:SetPos( -160, 275 )
@@ -289,7 +291,7 @@ local function Ipr_Booster_Option_Func(panel)
     Ipr_Fps_Booster_PosW:SetDecimals(0)
     Ipr_Fps_Booster_OverrideDcb(Ipr_Fps_Booster_PosW, false)
     Ipr_Fps_Booster_PosW.OnValueChanged = function(self, val)
-        Ipr_Fps_Booster_SaveConvar(self, 2)
+        Ipr_Fps_Booster_SaveConvar(self, false)
     end
 
     Ipr_Fps_Booster_PosH:SetPos( -160, 315)
@@ -307,6 +309,9 @@ local function Ipr_Booster_Option_Func(panel)
     Ipr_Fps_Booster_Exp:SetImage("icon16/cross.png")
     function Ipr_Fps_Booster_Exp:Paint(w, h) end
     Ipr_Fps_Booster_Exp.DoClick = function()
+        local ipr_gx, ipr_gxy = panel:GetPos()
+        panel:SetPos(ipr_gx + 100, ipr_gxy)
+
         Ipr_Fps_Booster_Opt_Vgui:Remove()
     end
 
@@ -354,6 +359,8 @@ local function Ipr_Fps_Booster_Vgui_Func()
     Ipr_Fps_Booster_Vgui:ShowCloseButton(false)
     Ipr_Fps_Booster_Vgui:SetDraggable(true)
     Ipr_Fps_Booster_Vgui:Center()
+    Ipr_Fps_Booster_Vgui:AlphaTo(5, 0, 0)
+    Ipr_Fps_Booster_Vgui:AlphaTo(255, 1, 0)
     Ipr_Fps_Booster_Vgui.Paint = function( self, w, h )
         Ipr_Gui_Blur(self, 2, Color( 0, 0, 0, 170 ), 8)
         Ipr_Lang_C = Ipr_FPS_Booster_Call_Lang()
@@ -455,6 +462,9 @@ local function Ipr_Fps_Booster_Vgui_Func()
         draw.SimpleText("Options ", "Ipr_Fps_Booster_Font", w / 2 + 7, 1, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_CENTER)
     end
     Ipr_Fps_Booster_Opt.DoClick = function()
+        if IsValid(Ipr_Fps_Booster_Opt_Vgui) then
+            return
+        end
         Ipr_Booster_Option_Func(Ipr_Fps_Booster_Vgui)
         surface.PlaySound("buttons/button9.wav")
     end
@@ -477,11 +487,11 @@ local function Ipr_Fps_Booster_Vgui_Func()
     end
 
     Ipr_Fps_Booster_Dcb:SetPos(5, 38)
-    Ipr_Fps_Booster_Dcb:SetSize(95, 20)
+    Ipr_Fps_Booster_Dcb:SetSize(105, 20)
     Ipr_Fps_Booster_Dcb:SetFont( "Ipr_Fps_Booster_Font" )
-    Ipr_Fps_Booster_Dcb:SetValue( "Langue : " ..Ipr_FPS_Booster_Call_Lang())
+    Ipr_Fps_Booster_Dcb:SetValue(Ipr_Fps_Booster.Lang[Ipr_Lang_C].ipr_vgui_Lang.. " " ..Ipr_Lang_C)
     for lang in pairs(Ipr_Fps_Booster.Lang) do
-    Ipr_Fps_Booster_Dcb:AddChoice("Langue : " ..lang)
+    Ipr_Fps_Booster_Dcb:AddChoice(Ipr_Fps_Booster.Lang[Ipr_Lang_C].ipr_vgui_Lang.. " " ..lang)
     end
     Ipr_Fps_Booster_Dcb:SetTextColor( Ipr_Fps_Booster_Color["blanc"] )
     function Ipr_Fps_Booster_Dcb:Paint(w, h)
@@ -514,9 +524,20 @@ local function Ipr_Fps_Booster_Vgui_Func()
         Ipr_Fps_Booster_OverrideDcb(self, true)
     end
     Ipr_Fps_Booster_Dcb.OnSelect = function( self, index, value )
-        local ipr_lang_rpl = string.Replace(value, "Langue : ", "")
-        Ipr_Fps_Booster_SaveLang(ipr_lang_rpl)
+        local ipr_lang_cf = Ipr_Fps_Booster.Lang[Ipr_Lang_C].ipr_vgui_Lang.. " "
+        ipr_lang_cf = string.Replace(value, ipr_lang_cf, "")
+        if (ipr_lang_cf == Ipr_Lang_C) then
+            return
+        end
+        Ipr_Fps_Booster_SaveLang(ipr_lang_cf)
         surface.PlaySound("buttons/button9.wav")
+    
+        self:Clear()
+        local Ipr_Call = Ipr_FPS_Booster_Call_Lang()
+        self:SetValue(Ipr_Fps_Booster.Lang[Ipr_Call].ipr_vgui_Lang.. " " ..Ipr_FPS_Booster_Call_Lang())
+        for lang in pairs(Ipr_Fps_Booster.Lang) do
+            self:AddChoice(Ipr_Fps_Booster.Lang[Ipr_Call].ipr_vgui_Lang.. " " ..lang)
+        end
     end
 
     Ipr_Fps_Booster_Exp:SetPos(280, 3)

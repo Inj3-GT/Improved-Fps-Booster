@@ -139,6 +139,7 @@ if CLIENT then
             ipr_vgui_disableop_t = "Improved FPS Booster est maintenant inactif, pour ouvrir Improved FPS Booster /boost.",
             ipr_vgui_fps_cur = "Actuel :",
             ipr_vgui_fps_load_data = "Paramètres des options Chargée",
+            ipr_vgui_Lang = "Langue :",
         },
 
         ["EN"] = {
@@ -153,6 +154,7 @@ if CLIENT then
             ipr_vgui_disableop_t = "FPS Booster is now disabled, For open Improved FPS Booster /boost.",
             ipr_vgui_fps_cur = "Actual :",
             ipr_vgui_fps_load_data = "Options settings Loaded",
+            ipr_vgui_Lang = "Language :",
         },
     }
 end

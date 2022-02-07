@@ -66,3 +66,5 @@ hook.Add("Initialize","Ipr_Fps_Booster_HookRemove",function()
    hook.Remove("Think", "CheckSchedules")
    hook.Remove("PlayerTick", "TickWidgets")
 end)
+
+MsgC( Color( 0, 250, 0 ), "\nImproved FPS Booster System v3.0 by Inj3 loaded\n" )
