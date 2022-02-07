@@ -562,6 +562,10 @@ hook.Add("PostDrawHUD","Ipr_Fps_Booster_PostDraw", function()
 end)
 
 net.Receive("ipr_fpsbooster_vgui", function()
+    if IsValid(Ipr_Fps_Booster_Vgui) then
+        return
+    end
+    
     local Ipr_Get_NetRead = net.ReadBool()
     Ipr_Fps_Booster_SaveLoad()
 
