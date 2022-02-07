@@ -536,7 +536,7 @@ local function Ipr_Fps_Booster_Vgui_Func()
     
         self:Clear()
         local Ipr_Call = Ipr_FPS_Booster_Call_Lang()
-        self:SetValue(Ipr_Fps_Booster.Lang[Ipr_Call].ipr_vgui_Lang.. " " ..Ipr_FPS_Booster_Call_Lang())
+        self:SetValue(Ipr_Fps_Booster.Lang[Ipr_Call].ipr_vgui_Lang.. " " ..Ipr_Call)
         for lang in pairs(Ipr_Fps_Booster.Lang) do
             self:AddChoice(Ipr_Fps_Booster.Lang[Ipr_Call].ipr_vgui_Lang.. " " ..lang)
         end
