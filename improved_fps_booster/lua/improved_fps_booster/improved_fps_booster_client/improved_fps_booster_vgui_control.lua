@@ -312,7 +312,9 @@ local function Ipr_Booster_Option_Func(panel)
         local ipr_gx, ipr_gxy = panel:GetPos()
         panel:SetPos(ipr_gx + 100, ipr_gxy)
 
+        if IsValid(Ipr_Fps_Booster_Opt_Vgui) then
         Ipr_Fps_Booster_Opt_Vgui:Remove()
+        end
     end
 
     Ipr_Fps_Booster_SaveLoad:SetPos(61, 25)
