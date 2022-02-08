@@ -13,7 +13,7 @@ local Ipr_Fps_Booster_Color = {["gris"] = Color(236, 240, 241),["vert"] = Color(
 local Ipr_Tbl_Convar_L, Ipr_Tbl_Lang = Ipr_Tbl_Convar_L or {}, Ipr_Tbl_Lang or {}
 local Ipr_Sys_BlurMat, Ipr_StatusVgui, Ipr_LastMax = Material("pp/blurscreen"), false, 0
 local Ipr_Current, Ipr_Max, Ipr_Min, Ipr_Gain, Ipr_CurtLast = 0, 0, math.huge, 0
-local Ipr_Save_Location, Ipr_Loaded_Lua, Ipr_Lang_C = "improved_fps_booster_v3/sauvegarde/", false
+local Ipr_Save_Location, Ipr_Loaded_Lua, Ipr_Lang_C = "improved_fps_booster_v3_data/save/", false
 
 local function Ipr_FPS_Booster_CountryLang()
     if (Ipr_Fps_Booster.Country[system.GetCountry()]) then
@@ -88,7 +88,7 @@ local function Ipr_Fps_Booster_SaveLoad()
     end
 
     if not file.Exists(Ipr_Save_Location.. "_fps_booster_v.txt", "DATA") then
-        Ipr_Tbl_Convar_L = {{Ipr_UniqueNumber = 1, Ipr_ValueDyn = true},{Ipr_UniqueNumber = 2, Ipr_ValueDyn = false},{Ipr_UniqueNumber = 3, Ipr_ValueDyn = true},{Ipr_UniqueNumber = 4, Ipr_ValueDyn = true},{Ipr_UniqueNumber = 5, Ipr_ValueDyn = false},{Ipr_UniqueNumber = 6, Ipr_ValueDyn = true},{Ipr_UniqueNumber = 7, Ipr_ValueDyn = true},{Ipr_UniqueNumber = 8, Ipr_ValueDyn = true},{Ipr_UniqueNumber = 9, Ipr_ValueDyn = false},{Ipr_UniqueNumber = 10, Ipr_ValueDyn = 40},{Ipr_UniqueNumber = 11, Ipr_ValueDyn = 32}}
+        Ipr_Tbl_Convar_L = {{Ipr_UniqueNumber = 1, Ipr_ValueDyn = true},{Ipr_UniqueNumber = 2, Ipr_ValueDyn = false},{Ipr_UniqueNumber = 3, Ipr_ValueDyn = true},{Ipr_UniqueNumber = 4, Ipr_ValueDyn = true},{Ipr_UniqueNumber = 5, Ipr_ValueDyn = false},{Ipr_UniqueNumber = 6, Ipr_ValueDyn = false},{Ipr_UniqueNumber = 7, Ipr_ValueDyn = true},{Ipr_UniqueNumber = 8, Ipr_ValueDyn = true},{Ipr_UniqueNumber = 9, Ipr_ValueDyn = false},{Ipr_UniqueNumber = 10, Ipr_ValueDyn = 40},{Ipr_UniqueNumber = 11, Ipr_ValueDyn = 32}}
         file.Write(Ipr_Save_Location.. "_fps_booster_v.txt", util.TableToJSON(Ipr_Tbl_Convar_L))
     else
         Ipr_Fps_Booster_TblLoad(true)
