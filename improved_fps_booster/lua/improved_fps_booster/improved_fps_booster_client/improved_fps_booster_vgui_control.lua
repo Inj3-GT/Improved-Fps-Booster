@@ -51,7 +51,7 @@ local function Ipr_Fps_Booster_CallConvar(ipr_gui)
          end
     end
 
-    return false--, print("*C-error")
+    return false, print("*C-error")
 end
 
 local function Ipr_Fps_Booster_CallConvarSelected(ipr_nb)
@@ -61,7 +61,7 @@ local function Ipr_Fps_Booster_CallConvarSelected(ipr_nb)
               end
          end
 
-    return false--, print("*CS-error")
+    return false, print("*CS-error")
 end
 
 local function Ipr_FPS_Booster_Call_Lang()
