@@ -12,8 +12,15 @@ Ipr_Fps_Booster = Ipr_Fps_Booster or {}
 
 Ipr_Fps_Booster.DefautCommand = {
     [1] = {
-        Ipr_Texte = "Multicore Rendering",
-        Ipr_ToolTip = "Take advantage of a Multi Core CPU",
+        Ipr_Texte = {
+            ["FR"] = "Rendu Multicoeur",
+            ["EN"] = "Multicore Rendering"
+        },
+
+        Ipr_ToolTip = {
+            ["FR"] = "Tirer parti d'un processeur multicœur",
+            ["EN"] = "Take advantage of a Multi Core CPU"
+        },
         Ipr_CmdChild = {
             ["gmod_mcore_test"] = {
                 Ipr_Enabled = "1",
@@ -30,8 +37,14 @@ Ipr_Fps_Booster.DefautCommand = {
         },
     },
     [2] = {
-        Ipr_Texte = "Remove Skybox",
-        Ipr_ToolTip = "Delete the sky",
+        Ipr_Texte = {
+            ["FR"] = "Supprimer Skybox 3D",
+            ["EN"] = "Remove 3D Skybox"
+        },
+        Ipr_ToolTip = {
+            ["FR"] = "Retire le rendu du ciel",
+            ["EN"] = "Delete the sky"
+        },
         Ipr_CmdChild = {
             ["r_3dsky"] = {
                 Ipr_Enabled = "0",
@@ -40,8 +53,14 @@ Ipr_Fps_Booster.DefautCommand = {
         },
     },
     [3] = {
-        Ipr_Texte = "Remove Spray",
-        Ipr_ToolTip = "Remove the spray effect",
+        Ipr_Texte = {
+            ["FR"] = "Supprimer spray",
+            ["EN"] = "Remove Spray"
+        },
+        Ipr_ToolTip = {
+            ["FR"] = "Retire l'effet de pulvérisation",
+            ["EN"] = "Remove the spray effect"
+        },
         Ipr_CmdChild = {
             ["cl_playerspraydisable"] = {
                 Ipr_Enabled = "1",
@@ -50,8 +69,15 @@ Ipr_Fps_Booster.DefautCommand = {
         },
     },
     [4] = {
-        Ipr_Texte = "Remove Teeth",
-        Ipr_ToolTip = "Remove teeth on the models",
+        Ipr_Texte = {
+            ["FR"] = "Supprimer les dents",
+            ["EN"] = "Remove Teeth"
+        },
+
+        Ipr_ToolTip = {
+            ["FR"] = "Retire les dents visibles sur les models",
+            ["EN"] = "Remove teeth on the models"
+        },
         Ipr_CmdChild = {
             ["r_teeth"] = {
                 Ipr_Enabled = "0",
@@ -60,8 +86,14 @@ Ipr_Fps_Booster.DefautCommand = {
         },
     },
     [5] = {
-        Ipr_Texte = "Remove Shadow",
-        Ipr_ToolTip = "Removes shadows on entities, and removes light from your flashlight",
+        Ipr_Texte = {
+            ["FR"] = "Supprimer ombres/lampe de poche",
+            ["EN"] = "Remove Shadow/Flashlight"
+        },
+        Ipr_ToolTip = {
+            ["FR"] = "Retire les ombres sur les entités, et supprime la lumière de votre lampe de poche.",
+            ["EN"] = "Removes shadows on entities, and removes light from your flashlight"
+        },
         Ipr_CmdChild = {
             ["r_shadows"] = {
                 Ipr_Enabled = "0",
@@ -70,8 +102,14 @@ Ipr_Fps_Booster.DefautCommand = {
         },
     },
     [6] = {
-        Ipr_Texte = "Texture filtering",
-        Ipr_ToolTip = "Removes filtering on textures",
+        Ipr_Texte = {
+            ["FR"] = "Filtrage des textures",
+            ["EN"] = "Texture filtering"
+        },
+        Ipr_ToolTip = {
+            ["FR"] = "Retire le filtrage des textures",
+            ["EN"] = "Removes filtering on textures"
+        },
         Ipr_CmdChild = {
             ["mat_filtertextures"] = {
                 Ipr_Enabled = "0",
@@ -80,8 +118,14 @@ Ipr_Fps_Booster.DefautCommand = {
         },
     },
     [7] = {
-        Ipr_Texte = "Remove m9k effect",
-        Ipr_ToolTip = "Remove particle effect on M9K",
+        Ipr_Texte = {
+            ["FR"] = "Supprimer M9k effect",
+            ["EN"] = "Remove M9k effect"
+        },
+        Ipr_ToolTip = {
+            ["FR"] = "Retire les particules sur les armes m9k",
+            ["EN"] = "Remove particle effect on M9K"
+        },
         Ipr_CmdChild = {
             ["M9KGasEffect"] = {
                 Ipr_Enabled = "0",
@@ -90,8 +134,14 @@ Ipr_Fps_Booster.DefautCommand = {
         },
     },
     [8] = {
-        Ipr_Texte = "Other Command Disabled",
-        Ipr_ToolTip = "r_threaded_particles, r_threaded_renderables, r_queued_ropes, cl_threaded_client_leaf_system, r_threaded_client_shadow_manager",
+        Ipr_Texte = {
+            ["FR"] = "Modifie comportement moteur",
+            ["EN"] = "Modify the behavior (engine)"
+        },
+        Ipr_ToolTip = {
+            ["FR"] = "Modifie le comportement du moteur (particule, matrice osseuse, corde, pvs - threads séparés) = r_threaded_particles, r_threaded_renderables, r_queued_ropes, cl_threaded_client_leaf_system, r_threaded_client_shadow_manager",
+            ["EN"] = "Modifies engine behavior (particle, bone matrix, string, pvs - separate threads) = r_threaded_particles, r_threaded_renderables, r_queued_ropes, cl_threaded_client_leaf_system, r_threaded_client_shadow_manager"
+        },
         Ipr_CmdChild = {
             ["r_threaded_particles"] = {
                 Ipr_Enabled = "1",
@@ -118,6 +168,7 @@ Ipr_Fps_Booster.DefautCommand = {
 }
 
 if CLIENT then
+    Ipr_Fps_Booster.Version = "v3.1"
     Ipr_Fps_Booster.Country = {
         ["BE"] = true,
         ["FR"] = true,
@@ -132,7 +183,8 @@ if CLIENT then
             ipr_vgui_opti_t = "Optimisation :",
             ipr_vgui_posw_t = "FPS Position Largeur :",
             ipr_vgui_posh_t = "FPS Position Hauteur :",
-            ipr_vgui_hudshow_t = "Voir FPS sur votre HUD",
+            ipr_vgui_hudshow_t = "FPS visible sur HUD",
+            ipr_vgui_hudshow_tx = "Rendre le compteur de fps complet visible directement votre sur HUD",
             ipr_vgui_enable_t = "Activer",
             ipr_vgui_disable_t = "Désactiver",
             ipr_vgui_enable_prevent_t = "Si vous rencontrez des problèmes graphiques ou crashs, utilisez le button Options pour modifier vos paramètres. Pour ouvrir Improved FPS Booster /boost.",
@@ -140,6 +192,7 @@ if CLIENT then
             ipr_vgui_fps_cur = "Actuel :",
             ipr_vgui_fps_load_data = "Paramètres des options Chargée",
             ipr_vgui_Lang = "Langue :",
+            ipr_vgui_LoadS = "Charger Preset",
         },
 
         ["EN"] = {
@@ -147,7 +200,8 @@ if CLIENT then
             ipr_vgui_opti_t = "Optimization :",
             ipr_vgui_posw_t = "FPS Position Width :",
             ipr_vgui_posh_t = "FPS Position Height :",
-            ipr_vgui_hudshow_t = "Show FPS on your HUD",
+            ipr_vgui_hudshow_t = "Display FPS on hud",
+            ipr_vgui_hudshow_tx = "Show full fps counter visible directly on your HUD",
             ipr_vgui_enable_t = "Enable",
             ipr_vgui_disable_t = "Disable",
             ipr_vgui_enable_prevent_t = "If you encounter graphic problems or crashes, use the Options button to change your settings. For open Improved Fps Booster /boost.",
@@ -155,9 +209,11 @@ if CLIENT then
             ipr_vgui_fps_cur = "Actual :",
             ipr_vgui_fps_load_data = "Options settings Loaded",
             ipr_vgui_Lang = "Language :",
+            ipr_vgui_LoadS = "Load Preset",
         },
     }
 end
+
  
  
  
