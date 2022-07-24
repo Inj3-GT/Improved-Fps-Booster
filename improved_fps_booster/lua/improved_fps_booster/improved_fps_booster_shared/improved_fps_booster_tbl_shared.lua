@@ -87,7 +87,7 @@ Ipr_Fps_Booster.DefautCommand = {
     },
     [5] = {
         Ipr_Texte = {
-            ["FR"] = "Supprimer ombres/lampe de poche",
+            ["FR"] = "Supprimer ombres/flashlight",
             ["EN"] = "Remove Shadow/Flashlight"
         },
         Ipr_ToolTip = {
@@ -123,7 +123,7 @@ Ipr_Fps_Booster.DefautCommand = {
             ["EN"] = "Remove M9k effect"
         },
         Ipr_ToolTip = {
-            ["FR"] = "Retire les particules sur les armes m9k",
+            ["FR"] = "Retire les effets sur les armes m9k",
             ["EN"] = "Remove particle effect on M9K"
         },
         Ipr_CmdChild = {
@@ -135,7 +135,7 @@ Ipr_Fps_Booster.DefautCommand = {
     },
     [8] = {
         Ipr_Texte = {
-            ["FR"] = "Modifie comportement moteur",
+            ["FR"] = "Comportement moteur",
             ["EN"] = "Modify the behavior (engine)"
         },
         Ipr_ToolTip = {

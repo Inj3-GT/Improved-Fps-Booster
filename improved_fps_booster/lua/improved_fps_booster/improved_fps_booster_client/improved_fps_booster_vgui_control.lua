@@ -64,8 +64,20 @@ local function Ipr_Fps_Booster_CallConvarSelected(ipr_nb)
     return false, print("*CS-error")
 end
 
-local function Ipr_FPS_Booster_Call_Lang()
+local function Ipr_Fps_Booster_CheckLang()
     if (Ipr_Tbl_Lang and Ipr_Tbl_Lang[1]) then
+        for k in pairs(Ipr_Fps_Booster.Lang) do
+            if (k == Ipr_Tbl_Lang[1]) then
+                return true
+            end
+        end
+    end
+
+    return false
+end
+
+local function Ipr_FPS_Booster_Call_Lang()
+    if Ipr_Fps_Booster_CheckLang() then
         return Ipr_Tbl_Lang[1]
     end
 
