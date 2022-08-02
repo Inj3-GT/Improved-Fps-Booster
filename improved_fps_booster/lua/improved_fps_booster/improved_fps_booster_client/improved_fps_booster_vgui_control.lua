@@ -97,16 +97,16 @@ local function Ipr_Fps_Booster_TblLoad(ipr_bool)
     end
 end
 
-local function Ipr_Fps_Booster_CheckString(Ipr_Sys_String, Ipr_Sys_Cmd)
-    if string.sub( string.lower( Ipr_Sys_String ), 1, string.len(string.lower( Ipr_Sys_Cmd )) + 1 ) == string.lower( Ipr_Sys_Cmd ) then
+local function Ipr_Fps_Booster_CheckString(ipr_sys_string, ipr_sys_cmd)
+    if string.sub( string.lower( ipr_sys_string ), 1, string.len(string.lower( ipr_sys_cmd )) + 1 ) == string.lower( ipr_sys_cmd ) then
         return true
     end
 
     return false
 end
 
-local function Ipr_Fps_Booster_LoadSx(n)
-    if (n == 1) then
+local function Ipr_Fps_Booster_LoadSx(ipr_n)
+    if (ipr_n == 1) then
         local Ipr_CountryLang = Ipr_FPS_Booster_CountryLang()
         file.Write(Ipr_Save_Location.. "_fps_booster_lang.txt", util.TableToJSON({Ipr_CountryLang}))
         Ipr_Tbl_Lang[1] = Ipr_CountryLang
@@ -246,17 +246,17 @@ local function Ipr_Fps_Booster_RgbTransition(ipr_nbc)
     return Ipr_Fps_Booster_Color["blanc"]
 end
 
-local function Ipr_Gui_Blur(Ipr_Sys_Frame, Ipr_Sys_Float, Ipr_Sys_Col, Ipr_Sys_Bord)
-    local x, y = Ipr_Sys_Frame:LocalToScreen(0, 0)
+local function Ipr_Gui_Blur(ipr_sys_frame, ipr_sys_float, ipr_sys_col, ipr_sys_brd)
+    local x, y = ipr_sys_frame:LocalToScreen(0, 0)
     surface.SetDrawColor(255, 255, 255)
     surface.SetMaterial(Ipr_Sys_BlurMat)
     for i = 1, 3 do
-         Ipr_Sys_BlurMat:SetFloat("$blur", (i / 3) * Ipr_Sys_Float)
+         Ipr_Sys_BlurMat:SetFloat("$blur", (i / 3) * ipr_sys_float)
          Ipr_Sys_BlurMat:Recompute()
          render.UpdateScreenEffectTexture()
          surface.DrawTexturedRect(x * -1, y * -1, ScrW(), ScrH())
     end
-    draw.RoundedBoxEx( Ipr_Sys_Bord, 0, 0, Ipr_Sys_Frame:GetWide(), Ipr_Sys_Frame:GetTall(), Ipr_Sys_Col, true, true, true, true )
+    draw.RoundedBoxEx( ipr_sys_brd, 0, 0, ipr_sys_frame:GetWide(), ipr_sys_frame:GetTall(), ipr_sys_col, true, true, true, true )
 end
 
 local function Ipr_Booster_Option_Func(panel)
@@ -628,10 +628,10 @@ local function Ipr_Fps_Booster_Vgui_Func()
     end
 end
 
-local function ipr_fps_booster_opn(bool)
+local function ipr_fps_booster_opn(ipr_bool)
     Ipr_Fps_Booster_SaveLoad()
 
-    if (bool) then
+    if (ipr_bool) then
         Ipr_Fps_Booster_Vgui_Func()
     else
         Ipr_Fps_Booster_Enabled_Disabled(false)
