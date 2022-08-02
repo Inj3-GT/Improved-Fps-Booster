@@ -120,7 +120,7 @@ local function Ipr_Fps_Booster_Unc(ipr_crypt)
     return util.Base64Decode(ipr_crypt)
 end
     
-local function Ipr_Fps_Booster_SaveLoad()
+local function ipr_fps_booster_saveload()
     local ipr_find = file.Find("improved_fps_booster_v3_data/save/*.txt", "DATA")
     if (#ipr_find <= 0) then
         file.CreateDir(Ipr_Save_Location)
@@ -628,9 +628,7 @@ local function Ipr_Fps_Booster_Vgui_Func()
     end
 end
 
-local function ipr_fps_booster_opn(ipr_bool)
-    Ipr_Fps_Booster_SaveLoad()
-
+local function ipr_fps_booster_op(ipr_bool)
     if (ipr_bool) then
         Ipr_Fps_Booster_Vgui_Func()
     else
@@ -638,33 +636,8 @@ local function ipr_fps_booster_opn(ipr_bool)
     end
     Ipr_Loaded_Lua = true
 end
- 
-hook.Add("PostDrawHUD","Ipr_Fps_Booster_PostDraw", function()
-    if (Ipr_Loaded_Lua and Ipr_Fps_Booster_CallConvarSelected(9)) then
-        local Ipr_Cur, Ipr_Min, Ipr_Max_, Ipr_Gain = Ipr_Fps_Booster_CalculationFps()
-        draw.SimpleTextOutlined("FPS : " ..Ipr_Cur.. " Min : " ..Ipr_Min.. " Max : " ..Ipr_Max_.. " Gain : " ..(Ipr_StatusVgui and Ipr_Gain or "OFF"), "Ipr_Fps_Booster_Font", ScrW() * (Ipr_Fps_Booster_CallConvarSelected(10) / 100) - 40,  ScrH() * (Ipr_Fps_Booster_CallConvarSelected(11) / 100) - 10, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_LEFT, TEXT_ALIGN_LEFT, 0.8, Ipr_Fps_Booster_Color["bleu"])
-    end
-end)
 
-net.Receive("ipr_fpsbooster_vgui", function()
-    local Ipr_Get_NetRead = net.ReadBool()
-    ipr_fps_booster_opn(Ipr_Get_NetRead)
-end)
-
-hook.Add( "OnPlayerChat", "Ipr_Fps_Booster_Chat_Vgui", function( ply, strText, bTeam, bDead )
-    if (ply ~= LocalPlayer()) then
-        return
-    end
-
-    if Ipr_Fps_Booster_CheckString(strText, "/boost")  then
-        return true, ipr_fps_booster_opn(true)
-    end
-    if Ipr_Fps_Booster_CheckString(strText, "/reset") then
-        return true, ipr_fps_booster_opn(false)
-    end
-end)
-
-local function Ipr_Fps_Boost_FirstLoad()
+local function ipr_fps_booster_ft_load()
     for _, v in pairs(Ipr_Tbl_Convar_L) do
         if (Ipr_Fps_Booster.DefautCommand[v.Ipr_UniqueNumber]) then
             local ipr_val = v.Ipr_ValueDyn
@@ -682,13 +655,33 @@ local function Ipr_Fps_Boost_FirstLoad()
 
     return false
 end
+ 
+hook.Add("PostDrawHUD","Ipr_Fps_Booster_PostDraw", function()
+    if (Ipr_Loaded_Lua and Ipr_Fps_Booster_CallConvarSelected(9)) then
+        local Ipr_Cur, Ipr_Min, Ipr_Max_, Ipr_Gain = Ipr_Fps_Booster_CalculationFps()
+        draw.SimpleTextOutlined("FPS : " ..Ipr_Cur.. " Min : " ..Ipr_Min.. " Max : " ..Ipr_Max_.. " Gain : " ..(Ipr_StatusVgui and Ipr_Gain or "OFF"), "Ipr_Fps_Booster_Font", ScrW() * (Ipr_Fps_Booster_CallConvarSelected(10) / 100) - 40,  ScrH() * (Ipr_Fps_Booster_CallConvarSelected(11) / 100) - 10, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_LEFT, TEXT_ALIGN_LEFT, 0.8, Ipr_Fps_Booster_Color["bleu"])
+    end
+end)
+
+hook.Add( "OnPlayerChat", "Ipr_Fps_Booster_Chat_Vgui", function( ply, strText, bTeam, bDead )
+    if (ply ~= LocalPlayer()) then
+        return
+    end
+
+    if Ipr_Fps_Booster_CheckString(strText, "/boost")  then
+        return true, ipr_fps_booster_op(true)
+    end
+    if Ipr_Fps_Booster_CheckString(strText, "/reset") then
+        return true, ipr_fps_booster_op(false)
+    end
+end)
 
 hook.Add( "InitPostEntity", "Ipr_Fps_Booster_Spawn_Vgui", function()
-    Ipr_Fps_Booster_SaveLoad()
+    ipr_fps_booster_saveload()
 
-    if Ipr_Fps_Boost_FirstLoad() then
+    if ipr_fps_booster_ft_load() then
         timer.Simple(5, function()
-            ipr_fps_booster_opn(true)
+            ipr_fps_booster_op(true)
         end)
     else
         Ipr_Max, Ipr_Min, Ipr_StatusVgui = 0, math.huge, true

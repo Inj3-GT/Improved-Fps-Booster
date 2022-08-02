@@ -8,7 +8,6 @@
 ------------- https://github.com/Inj3-GT
 --\\--
 
-util.AddNetworkString("ipr_fpsbooster_vgui")
 ----------- Fast DL Font
 resource.AddFile( "resource/fonts/Rajdhani-Bold.ttf" )
 -----------
