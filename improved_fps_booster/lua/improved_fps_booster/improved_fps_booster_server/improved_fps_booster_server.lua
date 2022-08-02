@@ -11,7 +11,7 @@
 ----------- Fast DL Font
 resource.AddFile( "resource/fonts/Rajdhani-Bold.ttf" )
 -----------
-hook.Add("Initialize","Ipr_Fps_Booster_HookRemove",function()
+hook.Add("Initialize","ipr_fps_booster_rv_init",function()
     if timer.Exists("HostnameThink") then
         timer.Remove("HostnameThink")
     end
