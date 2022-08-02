@@ -8,10 +8,10 @@
 ------------- https://github.com/Inj3-GT
 --\\--
 
-if CLIENT then
-    Ipr_Fps_Booster = Ipr_Fps_Booster or {}
-    Ipr_Fps_Booster.Version = "v3.1"
+Ipr_Fps_Booster = Ipr_Fps_Booster or {}
+Ipr_Fps_Booster.Version = "v3.2"
 
+if CLIENT then
     Ipr_Fps_Booster.DefautCommand = {
         [1] = {
             Ipr_Texte = {
@@ -213,9 +213,5 @@ if CLIENT then
         },
     }
 else
-    MsgC( Color( 0, 250, 0 ), "\nImproved FPS Booster System v3.1 by Inj3 loaded\n" )
+    MsgC( Color( 0, 250, 0 ), "\nImproved FPS Booster System " ..Ipr_Fps_Booster.Version.. " by Inj3\n" )
 end
- 
- 
- 
-
