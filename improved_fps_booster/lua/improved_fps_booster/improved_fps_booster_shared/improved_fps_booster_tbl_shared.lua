@@ -8,167 +8,167 @@
 ------------- https://github.com/Inj3-GT
 --\\--
 
-Ipr_Fps_Booster = Ipr_Fps_Booster or {}
-
-Ipr_Fps_Booster.DefautCommand = {
-    [1] = {
-        Ipr_Texte = {
-            ["FR"] = "Rendu Multicoeur",
-            ["EN"] = "Multicore Rendering"
-        },
-
-        Ipr_ToolTip = {
-            ["FR"] = "Tirer parti d'un processeur multicœur",
-            ["EN"] = "Take advantage of a Multi Core CPU"
-        },
-        Ipr_CmdChild = {
-            ["gmod_mcore_test"] = {
-                Ipr_Enabled = "1",
-                Ipr_Disabled = "0"
-            },
-            ["mat_queue_mode"] = {
-                Ipr_Enabled = "-1",
-                Ipr_Disabled = "0"
-            },
-            ["cl_threaded_bone_setup"] = {
-                Ipr_Enabled = "1",
-                Ipr_Disabled = "0"
-            }
-        },
-    },
-    [2] = {
-        Ipr_Texte = {
-            ["FR"] = "Supprimer Skybox 3D",
-            ["EN"] = "Remove 3D Skybox"
-        },
-        Ipr_ToolTip = {
-            ["FR"] = "Retire le rendu du ciel",
-            ["EN"] = "Delete the sky"
-        },
-        Ipr_CmdChild = {
-            ["r_3dsky"] = {
-                Ipr_Enabled = "0",
-                Ipr_Disabled = "1"
-            }
-        },
-    },
-    [3] = {
-        Ipr_Texte = {
-            ["FR"] = "Supprimer spray",
-            ["EN"] = "Remove Spray"
-        },
-        Ipr_ToolTip = {
-            ["FR"] = "Retire l'effet de pulvérisation",
-            ["EN"] = "Remove the spray effect"
-        },
-        Ipr_CmdChild = {
-            ["cl_playerspraydisable"] = {
-                Ipr_Enabled = "1",
-                Ipr_Disabled = "0"
-            }
-        },
-    },
-    [4] = {
-        Ipr_Texte = {
-            ["FR"] = "Supprimer les dents",
-            ["EN"] = "Remove Teeth"
-        },
-
-        Ipr_ToolTip = {
-            ["FR"] = "Retire les dents visibles sur les models",
-            ["EN"] = "Remove teeth on the models"
-        },
-        Ipr_CmdChild = {
-            ["r_teeth"] = {
-                Ipr_Enabled = "0",
-                Ipr_Disabled = "1"
-            }
-        },
-    },
-    [5] = {
-        Ipr_Texte = {
-            ["FR"] = "Supprimer ombres/flashlight",
-            ["EN"] = "Remove Shadow/Flashlight"
-        },
-        Ipr_ToolTip = {
-            ["FR"] = "Retire les ombres sur les entités, et supprime la lumière de votre lampe de poche.",
-            ["EN"] = "Removes shadows on entities, and removes light from your flashlight"
-        },
-        Ipr_CmdChild = {
-            ["r_shadows"] = {
-                Ipr_Enabled = "0",
-                Ipr_Disabled = "1"
-            }
-        },
-    },
-    [6] = {
-        Ipr_Texte = {
-            ["FR"] = "Filtrage des textures",
-            ["EN"] = "Texture filtering"
-        },
-        Ipr_ToolTip = {
-            ["FR"] = "Retire le filtrage des textures",
-            ["EN"] = "Removes filtering on textures"
-        },
-        Ipr_CmdChild = {
-            ["mat_filtertextures"] = {
-                Ipr_Enabled = "0",
-                Ipr_Disabled = "1"
-            }
-        },
-    },
-    [7] = {
-        Ipr_Texte = {
-            ["FR"] = "Supprimer M9k effect",
-            ["EN"] = "Remove M9k effect"
-        },
-        Ipr_ToolTip = {
-            ["FR"] = "Retire les effets sur les armes m9k",
-            ["EN"] = "Remove particle effect on M9K"
-        },
-        Ipr_CmdChild = {
-            ["M9KGasEffect"] = {
-                Ipr_Enabled = "0",
-                Ipr_Disabled = "1"
-            }
-        },
-    },
-    [8] = {
-        Ipr_Texte = {
-            ["FR"] = "Comportement moteur",
-            ["EN"] = "Modify the behavior (engine)"
-        },
-        Ipr_ToolTip = {
-            ["FR"] = "Modifie le comportement du moteur (particule, matrice osseuse, corde, pvs - threads séparés) = r_threaded_particles, r_threaded_renderables, r_queued_ropes, cl_threaded_client_leaf_system, r_threaded_client_shadow_manager",
-            ["EN"] = "Modifies engine behavior (particle, bone matrix, string, pvs - separate threads) = r_threaded_particles, r_threaded_renderables, r_queued_ropes, cl_threaded_client_leaf_system, r_threaded_client_shadow_manager"
-        },
-        Ipr_CmdChild = {
-            ["r_threaded_particles"] = {
-                Ipr_Enabled = "1",
-                Ipr_Disabled = "0"
-            },
-            ["r_threaded_renderables"] = {
-                Ipr_Enabled = "-1",
-                Ipr_Disabled = "0"
-            },
-            ["r_queued_ropes"] = {
-                Ipr_Enabled = "1",
-                Ipr_Disabled = "0"
-            },
-            ["cl_threaded_client_leaf_system"] = {
-                Ipr_Enabled = "1",
-                Ipr_Disabled = "0"
-            },
-            ["r_threaded_client_shadow_manager"] = {
-                Ipr_Enabled = "1",
-                Ipr_Disabled = "0"
-            }
-        }
-    },
-}
-
 if CLIENT then
+    Ipr_Fps_Booster = Ipr_Fps_Booster or {}
     Ipr_Fps_Booster.Version = "v3.1"
+
+    Ipr_Fps_Booster.DefautCommand = {
+        [1] = {
+            Ipr_Texte = {
+                ["FR"] = "Rendu Multicoeur",
+                ["EN"] = "Multicore Rendering"
+            },
+
+            Ipr_ToolTip = {
+                ["FR"] = "Tirer parti d'un processeur multicœur",
+                ["EN"] = "Take advantage of a Multi Core CPU"
+            },
+            Ipr_CmdChild = {
+                ["gmod_mcore_test"] = {
+                    Ipr_Enabled = "1",
+                    Ipr_Disabled = "0"
+                },
+                ["mat_queue_mode"] = {
+                    Ipr_Enabled = "-1",
+                    Ipr_Disabled = "0"
+                },
+                ["cl_threaded_bone_setup"] = {
+                    Ipr_Enabled = "1",
+                    Ipr_Disabled = "0"
+                }
+            },
+        },
+        [2] = {
+            Ipr_Texte = {
+                ["FR"] = "Supprimer Skybox 3D",
+                ["EN"] = "Remove 3D Skybox"
+            },
+            Ipr_ToolTip = {
+                ["FR"] = "Retire le rendu du ciel",
+                ["EN"] = "Delete the sky"
+            },
+            Ipr_CmdChild = {
+                ["r_3dsky"] = {
+                    Ipr_Enabled = "0",
+                    Ipr_Disabled = "1"
+                }
+            },
+        },
+        [3] = {
+            Ipr_Texte = {
+                ["FR"] = "Supprimer spray",
+                ["EN"] = "Remove Spray"
+            },
+            Ipr_ToolTip = {
+                ["FR"] = "Retire l'effet de pulvérisation",
+                ["EN"] = "Remove the spray effect"
+            },
+            Ipr_CmdChild = {
+                ["cl_playerspraydisable"] = {
+                    Ipr_Enabled = "1",
+                    Ipr_Disabled = "0"
+                }
+            },
+        },
+        [4] = {
+            Ipr_Texte = {
+                ["FR"] = "Supprimer les dents",
+                ["EN"] = "Remove Teeth"
+            },
+
+            Ipr_ToolTip = {
+                ["FR"] = "Retire les dents visibles sur les models",
+                ["EN"] = "Remove teeth on the models"
+            },
+            Ipr_CmdChild = {
+                ["r_teeth"] = {
+                    Ipr_Enabled = "0",
+                    Ipr_Disabled = "1"
+                }
+            },
+        },
+        [5] = {
+            Ipr_Texte = {
+                ["FR"] = "Supprimer ombres/flashlight",
+                ["EN"] = "Remove Shadow/Flashlight"
+            },
+            Ipr_ToolTip = {
+                ["FR"] = "Retire les ombres sur les entités, et supprime la lumière de votre lampe de poche.",
+                ["EN"] = "Removes shadows on entities, and removes light from your flashlight"
+            },
+            Ipr_CmdChild = {
+                ["r_shadows"] = {
+                    Ipr_Enabled = "0",
+                    Ipr_Disabled = "1"
+                }
+            },
+        },
+        [6] = {
+            Ipr_Texte = {
+                ["FR"] = "Filtrage des textures",
+                ["EN"] = "Texture filtering"
+            },
+            Ipr_ToolTip = {
+                ["FR"] = "Retire le filtrage des textures",
+                ["EN"] = "Removes filtering on textures"
+            },
+            Ipr_CmdChild = {
+                ["mat_filtertextures"] = {
+                    Ipr_Enabled = "0",
+                    Ipr_Disabled = "1"
+                }
+            },
+        },
+        [7] = {
+            Ipr_Texte = {
+                ["FR"] = "Supprimer M9k effect",
+                ["EN"] = "Remove M9k effect"
+            },
+            Ipr_ToolTip = {
+                ["FR"] = "Retire les effets sur les armes m9k",
+                ["EN"] = "Remove particle effect on M9K"
+            },
+            Ipr_CmdChild = {
+                ["M9KGasEffect"] = {
+                    Ipr_Enabled = "0",
+                    Ipr_Disabled = "1"
+                }
+            },
+        },
+        [8] = {
+            Ipr_Texte = {
+                ["FR"] = "Comportement moteur",
+                ["EN"] = "Modify the behavior (engine)"
+            },
+            Ipr_ToolTip = {
+                ["FR"] = "Modifie le comportement du moteur (particule, matrice osseuse, corde, pvs - threads séparés) = r_threaded_particles, r_threaded_renderables, r_queued_ropes, cl_threaded_client_leaf_system, r_threaded_client_shadow_manager",
+                ["EN"] = "Modifies engine behavior (particle, bone matrix, string, pvs - separate threads) = r_threaded_particles, r_threaded_renderables, r_queued_ropes, cl_threaded_client_leaf_system, r_threaded_client_shadow_manager"
+            },
+            Ipr_CmdChild = {
+                ["r_threaded_particles"] = {
+                    Ipr_Enabled = "1",
+                    Ipr_Disabled = "0"
+                },
+                ["r_threaded_renderables"] = {
+                    Ipr_Enabled = "-1",
+                    Ipr_Disabled = "0"
+                },
+                ["r_queued_ropes"] = {
+                    Ipr_Enabled = "1",
+                    Ipr_Disabled = "0"
+                },
+                ["cl_threaded_client_leaf_system"] = {
+                    Ipr_Enabled = "1",
+                    Ipr_Disabled = "0"
+                },
+                ["r_threaded_client_shadow_manager"] = {
+                    Ipr_Enabled = "1",
+                    Ipr_Disabled = "0"
+                }
+            }
+        },
+    }
+
     Ipr_Fps_Booster.Country = {
         ["BE"] = true,
         ["FR"] = true,
@@ -212,8 +212,9 @@ if CLIENT then
             ipr_vgui_LoadS = "Load Preset",
         },
     }
+else
+    MsgC( Color( 0, 250, 0 ), "\nImproved FPS Booster System v3.1 by Inj3 loaded\n" )
 end
-
  
  
  

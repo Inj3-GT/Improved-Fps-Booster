@@ -97,8 +97,12 @@ local function Ipr_Fps_Booster_TblLoad(ipr_bool)
     end
 end
 
-local function Ipr_Fps_Booster_Unc(crypt)
-    return util.Base64Decode(crypt)
+local function Ipr_Fps_Booster_CheckString(Ipr_Sys_String, Ipr_Sys_Cmd)
+    if string.sub( string.lower( Ipr_Sys_String ), 1, string.len(string.lower( Ipr_Sys_Cmd )) + 1 ) == string.lower( Ipr_Sys_Cmd ) then
+        return true
+    end
+
+    return false
 end
 
 local function Ipr_Fps_Booster_LoadSx(n)
@@ -110,6 +114,10 @@ local function Ipr_Fps_Booster_LoadSx(n)
         Ipr_Tbl_Convar_L = {{Ipr_UniqueNumber = 1, Ipr_ValueDyn = true},{Ipr_UniqueNumber = 2, Ipr_ValueDyn = false},{Ipr_UniqueNumber = 3, Ipr_ValueDyn = true},{Ipr_UniqueNumber = 4, Ipr_ValueDyn = true},{Ipr_UniqueNumber = 5, Ipr_ValueDyn = false},{Ipr_UniqueNumber = 6, Ipr_ValueDyn = false},{Ipr_UniqueNumber = 7, Ipr_ValueDyn = true},{Ipr_UniqueNumber = 8, Ipr_ValueDyn = true},{Ipr_UniqueNumber = 9, Ipr_ValueDyn = false},{Ipr_UniqueNumber = 10, Ipr_ValueDyn = 40},{Ipr_UniqueNumber = 11, Ipr_ValueDyn = 32}}
         file.Write(Ipr_Save_Location.. "_fps_booster_v.txt", util.TableToJSON(Ipr_Tbl_Convar_L))
     end
+end
+
+local function Ipr_Fps_Booster_Unc(ipr_crypt)
+    return util.Base64Decode(ipr_crypt)
 end
     
 local function Ipr_Fps_Booster_SaveLoad()
@@ -187,7 +195,7 @@ local function Ipr_Fps_Booster_Enabled_Disabled(ipr_bool)
               if (Ipr_Fps_Booster.DefautCommand[v.Ipr_UniqueNumber]) then
                    local ipr_val = v.Ipr_ValueDyn
                    for o, g in pairs(Ipr_Fps_Booster.DefautCommand[v.Ipr_UniqueNumber].Ipr_CmdChild) do
-                        local ipr_control = ((ipr_val == true) and g.Ipr_Enabled) or g.Ipr_Disabled
+                        local ipr_control = (ipr_val and g.Ipr_Enabled) or g.Ipr_Disabled
                         LocalPlayer():ConCommand(o.. " " ..ipr_control)
                    end
               end
@@ -451,7 +459,7 @@ local function Ipr_Fps_Booster_Vgui_Func()
         draw.SimpleText("Min : ","Ipr_Fps_Booster_Font",w/2-10,h/2-25, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_CENTER)
         draw.SimpleText(Ipr_Min,"Ipr_Fps_Booster_Font",w/2+10,h/2-25, Ipr_Fps_Booster_RgbTransition(Ipr_Min), TEXT_ALIGN_LEFT)
         draw.SimpleText("Gain : ","Ipr_Fps_Booster_Font",w/2-10, h/2-10, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_CENTER)
-        draw.SimpleText((Ipr_StatusVgui and Ipr_Gain or "OFF"),"Ipr_Fps_Booster_Font",w/2+10, h/2-10, Ipr_StatusVgui and Ipr_Fps_Booster_Color["vert"] or Ipr_Fps_Booster_Color["rouge"], TEXT_ALIGN_LEFT)
+        draw.SimpleText((Ipr_StatusVgui and (Ipr_Max ~= Ipr_Gain) and Ipr_Gain or "OFF"),"Ipr_Fps_Booster_Font",w/2+10, h/2-10, Ipr_StatusVgui and (Ipr_Max ~= Ipr_Gain) and Ipr_Fps_Booster_Color["vert"] or Ipr_Fps_Booster_Color["rouge"], TEXT_ALIGN_LEFT)
     end
     Ipr_Fps_Booster_Vgui_HT:SetPos(-20, -6)
     Ipr_Fps_Booster_Vgui_HT:SetSize(370,300)
@@ -619,6 +627,17 @@ local function Ipr_Fps_Booster_Vgui_Func()
         Ipr_Fps_Booster_Vgui:Remove()
     end
 end
+
+local function ipr_fps_booster_opn(bool)
+    Ipr_Fps_Booster_SaveLoad()
+
+    if (bool) then
+        Ipr_Fps_Booster_Vgui_Func()
+    else
+        Ipr_Fps_Booster_Enabled_Disabled(false)
+    end
+    Ipr_Loaded_Lua = true
+end
  
 hook.Add("PostDrawHUD","Ipr_Fps_Booster_PostDraw", function()
     if (Ipr_Loaded_Lua and Ipr_Fps_Booster_CallConvarSelected(9)) then
@@ -629,12 +648,49 @@ end)
 
 net.Receive("ipr_fpsbooster_vgui", function()
     local Ipr_Get_NetRead = net.ReadBool()
+    ipr_fps_booster_opn(Ipr_Get_NetRead)
+end)
+
+hook.Add( "OnPlayerChat", "Ipr_Fps_Booster_Chat_Vgui", function( ply, strText, bTeam, bDead )
+    if (ply ~= LocalPlayer()) then
+        return
+    end
+
+    if Ipr_Fps_Booster_CheckString(strText, "/boost")  then
+        return true, ipr_fps_booster_opn(true)
+    end
+    if Ipr_Fps_Booster_CheckString(strText, "/reset") then
+        return true, ipr_fps_booster_opn(false)
+    end
+end)
+
+local function Ipr_Fps_Boost_FirstLoad()
+    for _, v in pairs(Ipr_Tbl_Convar_L) do
+        if (Ipr_Fps_Booster.DefautCommand[v.Ipr_UniqueNumber]) then
+            local ipr_val = v.Ipr_ValueDyn
+            for o, g in pairs(Ipr_Fps_Booster.DefautCommand[v.Ipr_UniqueNumber].Ipr_CmdChild) do
+                local ipr_control = (ipr_val and g.Ipr_Enabled) or g.Ipr_Disabled
+                if (o == "M9KGasEffect") then
+                  continue
+                end
+                if tonumber(ipr_control) ~= tonumber(LocalPlayer():GetInfoNum(o, 0)) then
+                    return true
+                end
+            end
+        end
+    end
+
+    return false
+end
+
+hook.Add( "InitPostEntity", "Ipr_Fps_Booster_Spawn_Vgui", function()
     Ipr_Fps_Booster_SaveLoad()
 
-    if (Ipr_Get_NetRead) then
-        Ipr_Fps_Booster_Vgui_Func()
+    if Ipr_Fps_Boost_FirstLoad() then
+        timer.Simple(5, function()
+            ipr_fps_booster_opn(true)
+        end)
     else
-        Ipr_Fps_Booster_Enabled_Disabled(false)
+        Ipr_Max, Ipr_Min, Ipr_StatusVgui = 0, math.huge, true
     end
-    Ipr_Loaded_Lua = true
 end)
