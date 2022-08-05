@@ -256,6 +256,7 @@ local function Ipr_Gui_Blur(ipr_sys_frame, ipr_sys_float, ipr_sys_col, ipr_sys_b
          render.UpdateScreenEffectTexture()
          surface.DrawTexturedRect(x * -1, y * -1, ScrW(), ScrH())
     end
+    
     draw.RoundedBoxEx( ipr_sys_brd, 0, 0, ipr_sys_frame:GetWide(), ipr_sys_frame:GetTall(), ipr_sys_col, true, true, true, true )
 end
 
@@ -274,7 +275,6 @@ local function Ipr_Booster_Option_Func(panel)
     local Ipr_Fps_Booster_DChb_ShowHud = vgui.Create( "DCheckBoxLabel", Ipr_Fps_Booster_Opt_Vgui)
     local Ipr_Fps_Booster_PosW = vgui.Create( "DNumSlider", Ipr_Fps_Booster_Opt_Vgui)
     local Ipr_Fps_Booster_PosH = vgui.Create( "DNumSlider", Ipr_Fps_Booster_Opt_Vgui)
-    Ipr_Lang_C = Ipr_FPS_Booster_Call_Lang()
 
     Ipr_Fps_Booster_Opt_Vgui:SetTitle( "" )
     Ipr_Fps_Booster_Opt_Vgui:SetSize(240, 360)
@@ -293,7 +293,6 @@ local function Ipr_Booster_Option_Func(panel)
     Ipr_Fps_Booster_Opt_Vgui.Paint = function( self, w, h )
         Ipr_Gui_Blur(self, 2, Color( 0, 0, 0, 170 ), 8)
         local Ior_Sys_Abs = math.abs(math.sin(CurTime() * 1.5) * 170)
-        Ipr_Lang_C = Ipr_FPS_Booster_Call_Lang()
 
         draw.RoundedBox( 6, 0, 0, w, 20, Ipr_Fps_Booster_Color["bleu"])
         draw.SimpleText("Options FPS Booster","Ipr_Fps_Booster_Font",w/2,1, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_CENTER)
