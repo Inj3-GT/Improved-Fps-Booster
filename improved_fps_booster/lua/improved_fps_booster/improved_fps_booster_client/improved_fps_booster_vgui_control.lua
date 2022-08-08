@@ -106,6 +106,28 @@ local function Ipr_Fps_Booster_LoadSx(ipr_nb)
         file.Write(Ipr_Save_Location.. "_fps_booster_v.txt", util.TableToJSON(Ipr_Fps_Booster.Save_Tbl))
     end
 end
+
+local function Ipr_Fps_Booster_CountBox()
+    local ipr_count = 0
+    for _, v in pairs(Ipr_Fps_Booster.Save_Tbl) do
+        if (Ipr_Fps_Booster.DefautCommand[v.Ipr_UniqueNumber]) then
+            local ipr_val = v.Ipr_ValueDyn
+            for o, g in pairs(Ipr_Fps_Booster.DefautCommand[v.Ipr_UniqueNumber].Ipr_CmdChild) do
+                local ipr_control = (ipr_val and g.Ipr_Enabled) or g.Ipr_Disabled
+                if (g.Ipr_Disabled ~= ipr_control) then
+                    ipr_count = ipr_count + 1
+                end
+            end
+        end
+    end
+
+    if (ipr_count <= 0) then
+        Ipr_Max, Ipr_Min, Ipr_Gain, Ipr_StatusVgui, Ipr_LastMax = 0, math.huge, 0, false, 0
+        return true
+    end
+
+    return false
+end
     
 local function ipr_fps_booster_saveload()
     local ipr_find = file.Find("improved_fps_booster_v3_data/save/*.txt", "DATA")
@@ -188,6 +210,7 @@ local function Ipr_Fps_Booster_Enabled_Disabled(ipr_bool)
               end
          end
     end
+    Ipr_Fps_Booster_CountBox()
 end
 
 local function Ipr_Fps_Booster_CalculationFps()
@@ -305,23 +328,6 @@ local function Ipr_Booster_Option_Func(panel)
         end
         Ipr_Fps_Booster_DChb.OnChange = function(self)
             Ipr_Fps_Booster_SaveConvar(self, true)
-    
-            local ipr_count = 0
-            for _, v in pairs(Ipr_Fps_Booster.Save_Tbl) do
-                if (Ipr_Fps_Booster.DefautCommand[v.Ipr_UniqueNumber]) then
-                    local ipr_val = v.Ipr_ValueDyn
-                    for o, g in pairs(Ipr_Fps_Booster.DefautCommand[v.Ipr_UniqueNumber].Ipr_CmdChild) do
-                        local ipr_control = (ipr_val and g.Ipr_Enabled) or g.Ipr_Disabled
-                        if (g.Ipr_Disabled ~= ipr_control) then
-                            ipr_count = ipr_count + 1
-                        end
-                    end
-                end
-            end
-    
-            if (ipr_count <= 0) then
-                Ipr_Max, Ipr_Min, Ipr_Gain, Ipr_StatusVgui, Ipr_LastMax = 0, math.huge, 0, false, 0
-            end
         end
         Ipr_Fps_Booster_OverrideDcb(Ipr_Fps_Booster_DChb, 3)
     end    
@@ -490,6 +496,10 @@ local function Ipr_Fps_Booster_Vgui_Func()
         draw.SimpleText(Ipr_Fps_Booster.Lang[Ipr_Lang_C].ipr_vgui_enable_t, "Ipr_Fps_Booster_Font", w / 2 + 3, 3, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_CENTER)
     end
     Ipr_Fps_Booster_En.DoClick = function()
+        if Ipr_Fps_Booster_CountBox() then
+        chat.AddText(Ipr_Fps_Booster_Color["rouge"], "[", "FPS Booster", "] : ", Ipr_Fps_Booster_Color["blanc"], "Please check boxes in optimization to activate the fps booster !")
+            return 
+        end
         if Ipr_StatusVgui then
             Ipr_Fps_Booster_Enabled_Disabled(false)
         end
