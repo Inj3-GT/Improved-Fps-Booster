@@ -205,7 +205,6 @@ local function Ipr_Fps_Booster_CalculationFps()
         if not Ipr_StatusVgui then
             Ipr_LastMax = Ipr_Max
         end
-
         if (Ipr_Max > Ipr_LastMax) then
             Ipr_Gain = Ipr_Max - Ipr_LastMax
         end
