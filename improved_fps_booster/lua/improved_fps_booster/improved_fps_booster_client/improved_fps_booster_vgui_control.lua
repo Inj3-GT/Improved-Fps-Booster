@@ -305,9 +305,26 @@ local function Ipr_Booster_Option_Func(panel)
         end
         Ipr_Fps_Booster_DChb.OnChange = function(self)
             Ipr_Fps_Booster_SaveConvar(self, true)
+    
+            local ipr_count = 0
+            for _, v in pairs(Ipr_Fps_Booster.Save_Tbl) do
+                if (Ipr_Fps_Booster.DefautCommand[v.Ipr_UniqueNumber]) then
+                    local ipr_val = v.Ipr_ValueDyn
+                    for o, g in pairs(Ipr_Fps_Booster.DefautCommand[v.Ipr_UniqueNumber].Ipr_CmdChild) do
+                        local ipr_control = (ipr_val and g.Ipr_Enabled) or g.Ipr_Disabled
+                        if (g.Ipr_Disabled ~= ipr_control) then
+                            ipr_count = ipr_count + 1
+                        end
+                    end
+                end
+            end
+    
+            if (ipr_count <= 0) then
+                Ipr_Max, Ipr_Min, Ipr_Gain, Ipr_StatusVgui, Ipr_LastMax = 0, math.huge, 0, false, 0
+            end
         end
         Ipr_Fps_Booster_OverrideDcb(Ipr_Fps_Booster_DChb, 3)
-    end
+    end    
 
     Ipr_Fps_Booster_DChb_ShowHud:SetPos(50, 236)
     Ipr_Fps_Booster_DChb_ShowHud:SetText("")
