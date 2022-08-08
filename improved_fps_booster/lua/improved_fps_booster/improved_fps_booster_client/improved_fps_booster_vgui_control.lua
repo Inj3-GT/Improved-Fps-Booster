@@ -8,7 +8,7 @@
 ------------- https://github.com/Inj3-GT
 --\\--
 
-local Ipr_Fps_Booster_Vgui, Ipr_Fps_Booster_Opt_Vgui = Ipr_Fps_Booster_Vgui or {}, Ipr_Fps_Booster_Opt_Vgui or {}
+local Ipr_Fps_Booster_Vgui, Ipr_Fps_Booster_Opt_Vgui = {}, {}
 local Ipr_Fps_Booster_Color = {["gris"] = Color(236, 240, 241),["vert"] = Color(39, 174, 96),["rouge"] = Color(192, 57, 43),["orange"] = Color(243, 156, 18),["blanc"] = Color(236, 240, 241), ["bleu"] = Color(52, 73, 94), ["bleuc"] = Color(30, 73, 109)}
 local Ipr_Sys_BlurMat, Ipr_StatusVgui, Ipr_LastMax = Material("pp/blurscreen"), false, 0
 local Ipr_Current, Ipr_Max, Ipr_Min, Ipr_Gain, Ipr_CurtLast = 0, 0, math.huge, 0
