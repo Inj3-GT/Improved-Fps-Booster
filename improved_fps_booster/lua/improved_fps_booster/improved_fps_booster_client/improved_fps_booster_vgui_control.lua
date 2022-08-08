@@ -75,6 +75,11 @@ local function Ipr_Fps_Booster_CheckLang()
     return false
 end
 
+local function Ipr_Fps_Booster_SaveLang(ipr_lang)
+    file.Write(Ipr_Save_Location.. "_fps_booster_lang.txt", util.TableToJSON({ipr_lang}))
+    Ipr_Fps_Booster.Save_Lg[1] = ipr_lang
+end
+
 local function Ipr_FPS_Booster_Call_Lang()
     if Ipr_Fps_Booster_CheckLang() then
         return Ipr_Fps_Booster.Save_Lg[1]
@@ -89,11 +94,6 @@ local function Ipr_Fps_Booster_TblLoad(ipr_bool)
     else
         Ipr_Fps_Booster.Save_Lg = util.JSONToTable(file.Read(Ipr_Save_Location.. "_fps_booster_lang.txt", "DATA") or {})
     end
-end
-
-local function Ipr_Fps_Booster_SaveLang(ipr_lang)
-    file.Write(Ipr_Save_Location.. "_fps_booster_lang.txt", util.TableToJSON({ipr_lang}))
-    Ipr_Fps_Booster.Save_Lg[1] = ipr_lang
 end
 
 local function Ipr_Fps_Booster_LoadSx(ipr_nb)
