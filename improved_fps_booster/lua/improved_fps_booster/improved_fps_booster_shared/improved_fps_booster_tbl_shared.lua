@@ -194,7 +194,7 @@ if CLIENT then
             ipr_vgui_enable_prevent_t = "Si vous rencontrez des problèmes graphiques ou crashs, utilisez le bouton options pour modifier vos paramètres. Pour ouvrir Improved FPS Booster /boost.",
             ipr_vgui_disableop_t = "Improved FPS Booster est maintenant inactif, pour ouvrir Improved FPS Booster /boost.",
             ipr_vgui_fps_cur = "Actuel :",
-            ipr_vgui_fps_load_data = "Paramètres des options Chargée",
+            ipr_vgui_fps_load_data = "Paramètre des options Chargées",
             ipr_vgui_Lang = "Langue :",
             ipr_vgui_LoadS = "Charger Preset",
         },
