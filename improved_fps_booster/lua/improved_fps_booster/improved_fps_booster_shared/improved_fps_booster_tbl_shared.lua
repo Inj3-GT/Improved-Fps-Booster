@@ -191,7 +191,7 @@ if CLIENT then
             ipr_vgui_hudshow_tx = "Rendre le compteur de fps complet visible directement votre sur HUD",
             ipr_vgui_enable_t = "Activer",
             ipr_vgui_disable_t = "Désactiver",
-            ipr_vgui_enable_prevent_t = "Si vous rencontrez des problèmes graphiques ou crashs, utilisez le bouton Options pour modifier vos paramètres. Pour ouvrir Improved FPS Booster /boost.",
+            ipr_vgui_enable_prevent_t = "Si vous rencontrez des problèmes graphiques ou crashs, utilisez le bouton options pour modifier vos paramètres. Pour ouvrir Improved FPS Booster /boost.",
             ipr_vgui_disableop_t = "Improved FPS Booster est maintenant inactif, pour ouvrir Improved FPS Booster /boost.",
             ipr_vgui_fps_cur = "Actuel :",
             ipr_vgui_fps_load_data = "Paramètres des options Chargée",
