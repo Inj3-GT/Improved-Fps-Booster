@@ -26,7 +26,7 @@ local function Ipr_Fps_Booster_SaveConvar(ipr_gui, ipr_bool)
     if not IsValid(ipr_gui) then
         return
     end
-
+    
     local ipr_check = ipr_bool and ipr_gui:GetChecked() or not ipr_bool and ipr_gui:GetValue()
     for _, v in ipairs(Ipr_Fps_Booster.Save_Tbl) do
         if (v.Ipr_UniqueNumber == ipr_gui.Ipr_UniqueNumber) then
@@ -34,8 +34,8 @@ local function Ipr_Fps_Booster_SaveConvar(ipr_gui, ipr_bool)
             break
         end
     end
-
     file.Write(Ipr_Save_Location.. "_fps_booster_v.txt", util.TableToJSON(Ipr_Fps_Booster.Save_Tbl))
+    
     if (ipr_bool) then
         surface.PlaySound("buttons/combine_button1.wav")
     end
