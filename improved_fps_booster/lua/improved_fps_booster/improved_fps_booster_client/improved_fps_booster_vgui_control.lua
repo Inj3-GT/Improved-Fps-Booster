@@ -115,7 +115,6 @@ local function Ipr_Fps_Booster_CountBox()
             end
         end
     end
-
     if (ipr_count <= 0) then
         return true
     end
