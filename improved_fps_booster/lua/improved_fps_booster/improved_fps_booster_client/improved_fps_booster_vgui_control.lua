@@ -42,12 +42,14 @@ local function Ipr_Fps_Booster_SaveConvar(ipr_gui, ipr_bool)
 end
 
 local function Ipr_Fps_Booster_CallConvar(ipr_gui)
-    if IsValid(ipr_gui) then
-         for _, v in pairs(Ipr_Fps_Booster.Save_Tbl) do
-              if (v.Ipr_UniqueNumber == ipr_gui.Ipr_UniqueNumber) then
-                   return v.Ipr_ValueDyn
-              end
-         end
+    if not IsValid(ipr_gui) then
+        return
+    end
+
+    for _, v in pairs(Ipr_Fps_Booster.Save_Tbl) do
+        if (v.Ipr_UniqueNumber == ipr_gui.Ipr_UniqueNumber) then
+            return v.Ipr_ValueDyn
+        end
     end
 
     return false, print("*C-error")
