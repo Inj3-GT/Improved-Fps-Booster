@@ -185,6 +185,14 @@ local function Ipr_Fps_Booster_OverrideDcb(ipr_gui, ipr_nb)
     end
 end
 
+local function Ipr_Fps_Booster_CheckConv(ipr_value)
+    if (tonumber(LocalPlayer():GetInfoNum(ipr_value, -99)) ~= -99) then
+        return true
+    end
+
+    return false
+end
+
 local function Ipr_Fps_Booster_Enabled_Disabled(ipr_bool)
     local ipr_ply = LocalPlayer()
 
@@ -194,8 +202,7 @@ local function Ipr_Fps_Booster_Enabled_Disabled(ipr_bool)
                 local ipr_val = v.Ipr_ValueDyn
                 for o, g in pairs(Ipr_Fps_Booster.DefautCommand[v.Ipr_UniqueNumber].Ipr_CmdChild) do
                     local ipr_control = (ipr_val and g.Ipr_Enabled) or g.Ipr_Disabled
-
-                    if (tonumber(ipr_ply:GetInfoNum(o, -99)) ~= -99) then
+                    if Ipr_Fps_Booster_CheckConv(o) then
                         ipr_ply:ConCommand(o.. " " ..ipr_control)
                     end
                 end
@@ -204,7 +211,9 @@ local function Ipr_Fps_Booster_Enabled_Disabled(ipr_bool)
     else
         for _, g in pairs(Ipr_Fps_Booster.DefautCommand) do
             for d,t in pairs(g.Ipr_CmdChild) do
-                ipr_ply:ConCommand(d.. " " ..t.Ipr_Disabled)
+                if Ipr_Fps_Booster_CheckConv(d) then
+                    ipr_ply:ConCommand(d.. " " ..t.Ipr_Disabled)
+                end
             end
         end
     end
