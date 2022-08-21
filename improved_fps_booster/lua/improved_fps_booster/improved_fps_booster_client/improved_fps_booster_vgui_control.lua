@@ -103,7 +103,6 @@ end
 
 local function Ipr_Fps_Booster_CountBox()
     local ipr_count = 0
-
     for _, v in ipairs(Ipr_Fps_Booster.Save_Tbl) do
         if (Ipr_Fps_Booster.DefautCommand[v.Ipr_UniqueNumber]) then
             local ipr_val = v.Ipr_ValueDyn
