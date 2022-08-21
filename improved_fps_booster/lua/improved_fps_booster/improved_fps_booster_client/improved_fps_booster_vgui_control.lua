@@ -222,7 +222,7 @@ local function Ipr_Fps_Booster_CalculationFps()
         if (Ipr_Current < Ipr_Min) then
             Ipr_Min = Ipr_Current
         end
-        if (Ipr_Current > (Ipr_Max ~= math.huge and Ipr_Max or 0)  ) then
+        if (Ipr_Current > (Ipr_Max ~= math.huge and Ipr_Max or 0)) then
             Ipr_Max = Ipr_Current
         end
         if not Ipr_StatusVgui then
