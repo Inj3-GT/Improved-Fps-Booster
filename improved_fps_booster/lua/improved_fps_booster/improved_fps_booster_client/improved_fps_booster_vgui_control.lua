@@ -56,11 +56,11 @@ local function Ipr_Fps_Booster_CallConvar(ipr_gui)
 end
 
 local function Ipr_Fps_Booster_CallConvarSelected(ipr_nb)
-         for _, v in pairs(Ipr_Fps_Booster.Save_Tbl) do
-              if (v.Ipr_UniqueNumber == ipr_nb) then
-                   return v.Ipr_ValueDyn
-              end
-         end
+    for _, v in pairs(Ipr_Fps_Booster.Save_Tbl) do
+        if (v.Ipr_UniqueNumber == ipr_nb) then
+            return v.Ipr_ValueDyn
+        end
+    end
 
     return false, print("*CS-error")
 end
