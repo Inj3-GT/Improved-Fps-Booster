@@ -147,7 +147,7 @@ end
 
 local function Ipr_Fps_Booster_OverrideDcb(ipr_gui, ipr_nb)
     if (ipr_nb == 1) then
-        for _, v in pairs(ipr_gui:GetChildren()) do
+        for _, v in ipairs(ipr_gui:GetChildren()) do
             if (v:GetName() ~= "DMenu") then
                 v.Paint = function(panel, w, h)
                     draw.RoundedBox(12, 9, 6, w - 10, h - 10, Ipr_Fps_Booster_Color["blanc"])
@@ -155,14 +155,14 @@ local function Ipr_Fps_Booster_OverrideDcb(ipr_gui, ipr_nb)
             end
         end
     elseif (ipr_nb == 2) then
-        for _, v in pairs(ipr_gui:GetChildren()) do
+        for _, v in ipairs(ipr_gui:GetChildren()) do
             if (v:GetName() ~= "DSlider") then
                 v:SetFont("Ipr_Fps_Booster_Font")
                 v:SetTextColor(Ipr_Fps_Booster_Color["blanc"])
             end
         end
     elseif (ipr_nb == 3) then
-        for k, v in pairs(ipr_gui:GetChildren()) do
+        for k, v in ipairs(ipr_gui:GetChildren()) do
             if (v:GetName() == "DCheckBox") then
                 v.Paint = function(self, w, h)
                     draw.RoundedBox( 6, 0, 0, w, h, self:GetChecked() and Ipr_Fps_Booster_Color["vert"] or Ipr_Fps_Booster_Color["rouge"] )
@@ -171,7 +171,7 @@ local function Ipr_Fps_Booster_OverrideDcb(ipr_gui, ipr_nb)
             end
         end
     elseif (ipr_nb == 4) then
-        for k, v in pairs(ipr_gui:GetChildren()) do
+        for k, v in ipairs(ipr_gui:GetChildren()) do
             if (v:GetName() == "DSlider") then
                 v.Knob.Paint = function(self, w, h)
                     draw.RoundedBox( 12, 0, 0, w, h, Ipr_Fps_Booster_Color["blanc"] )
