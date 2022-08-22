@@ -8,9 +8,12 @@
 ------------- https://github.com/Inj3-GT
 --\\--
 
------------ Fast DL Font
+-----------
 resource.AddFile( "resource/fonts/Rajdhani-Bold.ttf" )
 -----------
+resource.AddFile( "materials/icon/ipr_boost.png" )
+resource.AddFile( "materials/icon/ipr_boost_.png" )
+----------
 hook.Add("Initialize","ipr_fps_booster_rv_init",function()
     if timer.Exists("HostnameThink") then
         timer.Remove("HostnameThink")
