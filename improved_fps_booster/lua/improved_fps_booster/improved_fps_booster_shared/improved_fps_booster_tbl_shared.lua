@@ -22,7 +22,6 @@ if CLIENT then
                 ["FR"] = "Rendu Multicoeur",
                 ["EN"] = "Multicore Rendering"
             },
-
             Ipr_ToolTip = {
                 ["FR"] = "Tirer parti d'un processeur multicœur",
                 ["EN"] = "Take advantage of a Multi Core CPU"
