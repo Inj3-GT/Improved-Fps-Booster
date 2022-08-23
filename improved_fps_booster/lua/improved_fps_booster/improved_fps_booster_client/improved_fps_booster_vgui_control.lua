@@ -530,8 +530,7 @@ local function Ipr_Fps_Booster_Vgui_Func()
             surface.ipr_draw(207, 120, 220, 220, ipr_anim_rotate(self), -25)
         end
     end
-        
-  
+       
     Ipr_Fps_Booster_Vgui_HTurl:SetPos(97, 80)
     Ipr_Fps_Booster_Vgui_HTurl:SetSize(110, 90)
     Ipr_Fps_Booster_Vgui_HTurl:SetText("")
