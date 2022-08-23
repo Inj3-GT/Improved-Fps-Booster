@@ -16,6 +16,14 @@ if CLIENT then
     Ipr_Fps_Booster.Save_Tbl = Ipr_Fps_Booster.Save_Tbl or {}
     Ipr_Fps_Booster.Save_Lg = Ipr_Fps_Booster.Save_Lg or {}
     
+    Ipr_Fps_Booster.Country = {
+        ["BE"] = true,
+        ["FR"] = true,
+        ["DZ"] = true,
+        ["MA"] = true,
+        ["CA"] = true,
+    }
+    
     Ipr_Fps_Booster.DefautCommand = {
         [1] = {
             Ipr_Texte = {
@@ -78,7 +86,6 @@ if CLIENT then
                 ["FR"] = "Supprimer les dents",
                 ["EN"] = "Remove Teeth"
             },
-
             Ipr_ToolTip = {
                 ["FR"] = "Retire les dents visibles sur les models",
                 ["EN"] = "Remove teeth on the models"
@@ -170,14 +177,6 @@ if CLIENT then
                 }
             }
         },
-    }
-
-    Ipr_Fps_Booster.Country = {
-        ["BE"] = true,
-        ["FR"] = true,
-        ["DZ"] = true,
-        ["MA"] = true,
-        ["CA"] = true,
     }
 
     Ipr_Fps_Booster.Lang = {
