@@ -15,15 +15,7 @@ if CLIENT then
     Ipr_Fps_Booster.Loaded_Lua = Ipr_Fps_Booster.Loaded_Lua or false
     Ipr_Fps_Booster.Save_Tbl = Ipr_Fps_Booster.Save_Tbl or {}
     Ipr_Fps_Booster.Save_Lg = Ipr_Fps_Booster.Save_Lg or {}
-    
-    Ipr_Fps_Booster.Country = {
-        ["BE"] = true,
-        ["FR"] = true,
-        ["DZ"] = true,
-        ["MA"] = true,
-        ["CA"] = true,
-    }
-    
+
     Ipr_Fps_Booster.DefautCommand = {
         [1] = {
             Ipr_Texte = {
@@ -179,6 +171,14 @@ if CLIENT then
         },
     }
 
+    Ipr_Fps_Booster.DefaultLanguage = "EN"
+    Ipr_Fps_Booster.Country = {
+        ["BE"] = true,
+        ["FR"] = true,
+        ["DZ"] = true,
+        ["MA"] = true,
+        ["CA"] = true,
+    }
     Ipr_Fps_Booster.Lang = {
         ["FR"] = {
             ipr_vgui_enabled = "Voulez-vous activer Improved FPS Booster ?",
@@ -197,7 +197,6 @@ if CLIENT then
             ipr_vgui_LoadS = "Charger Preset",
             ipr_vgui_Cls = "Fermer après activer/désactiver",
         },
-
         ["EN"] = {
             ipr_vgui_enabled = "Do you want enable Improved FPS Booster ?",
             ipr_vgui_opti_t = "Optimization :",

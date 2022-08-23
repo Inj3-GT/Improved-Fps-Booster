@@ -79,7 +79,7 @@ local function Ipr_FPS_Booster_Call_Lang()
         return Ipr_Fps_Booster.Save_Lg[1]
     end
 
-    return "EN"
+    return Ipr_Fps_Booster.DefaultLanguage
 end
 
 local function Ipr_FPS_Booster_CountryLang()
@@ -87,15 +87,15 @@ local function Ipr_FPS_Booster_CountryLang()
         return "FR"
     end
 
-    return "EN"
+    return Ipr_Fps_Booster.DefaultLanguage
 end
 
-local function Ipr_Fps_Booster_LoadSx(ipr_nb)
-    if (ipr_nb == 1) then
+local function Ipr_Fps_Booster_LoadSx(ipr_n)
+    if (ipr_n == 1) then
         local Ipr_CountryLang = Ipr_FPS_Booster_CountryLang()
         file.Write(Ipr_Save_Location.. "_fps_booster_lang.txt", util.TableToJSON({Ipr_CountryLang}))
         Ipr_Fps_Booster.Save_Lg[1] = Ipr_CountryLang
-    else
+    elseif (ipr_n == 2) then
         Ipr_Fps_Booster.Save_Tbl = {{Ipr_UniqueNumber = 1, Ipr_ValueDyn = true},{Ipr_UniqueNumber = 2, Ipr_ValueDyn = false},{Ipr_UniqueNumber = 3, Ipr_ValueDyn = true},{Ipr_UniqueNumber = 4, Ipr_ValueDyn = true},{Ipr_UniqueNumber = 5, Ipr_ValueDyn = false},{Ipr_UniqueNumber = 6, Ipr_ValueDyn = false},{Ipr_UniqueNumber = 7, Ipr_ValueDyn = true},{Ipr_UniqueNumber = 8, Ipr_ValueDyn = true},{Ipr_UniqueNumber = 9, Ipr_ValueDyn = false},{Ipr_UniqueNumber = 10, Ipr_ValueDyn = true},{Ipr_UniqueNumber = 11, Ipr_ValueDyn = 32}, {Ipr_UniqueNumber = 12, Ipr_ValueDyn = 40}}
         file.Write(Ipr_Save_Location.. "_fps_booster_v.txt", util.TableToJSON(Ipr_Fps_Booster.Save_Tbl))
     end
@@ -192,6 +192,10 @@ local function Ipr_Fps_Booster_CheckConv(ipr_value)
     return false
 end
 
+local function Ipr_Fps_Booster_Unc(ipr_crypt)
+    return util.Base64Decode(ipr_crypt)
+end
+
 local function Ipr_Fps_Booster_Enabled_Disabled(ipr_bool)
     local ipr_ply = LocalPlayer()
 
@@ -245,15 +249,11 @@ local function Ipr_Fps_Booster_CalculationFps()
     return Ipr_Current, Ipr_Min, Ipr_Max, Ipr_Gain
 end
 
-local function Ipr_Fps_Booster_Unc(ipr_crypt)
-    return util.Base64Decode(ipr_crypt)
-end
-
-local function Ipr_Gui_Blur(ipr_sys_frame, ipr_sys_float, ipr_sys_col, ipr_sys_brd)
-    local x, y = ipr_sys_frame:LocalToScreen(0, 0)
+local function Ipr_Gui_Blur(ipr_sys_frame, ipr_sys_float, ipr_sys_col, ipr_sys_brd) 
     surface.SetDrawColor(255, 255, 255)
     surface.SetMaterial(Ipr_Sys_BlurMat)
 
+    local x, y = ipr_sys_frame:LocalToScreen(0, 0)
     for i = 1, 3 do
          Ipr_Sys_BlurMat:SetFloat("$blur", (i / 3) * ipr_sys_float)
          Ipr_Sys_BlurMat:Recompute()
