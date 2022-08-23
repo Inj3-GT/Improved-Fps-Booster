@@ -57,14 +57,6 @@ local function Ipr_Fps_Booster_CallConvarSelected(ipr_nb)
     return false, print("*CS-error")
 end
 
-local function Ipr_FPS_Booster_CountryLang()
-    if (Ipr_Fps_Booster.Country[system.GetCountry()]) then
-        return "FR"
-    end
-
-    return "EN"
-end
-
 local function Ipr_Fps_Booster_CheckLang()
     if (Ipr_Fps_Booster.Save_Lg and Ipr_Fps_Booster.Save_Lg[1]) then
         for l in pairs(Ipr_Fps_Booster.Lang) do
@@ -85,6 +77,14 @@ end
 local function Ipr_FPS_Booster_Call_Lang()
     if Ipr_Fps_Booster_CheckLang() then
         return Ipr_Fps_Booster.Save_Lg[1]
+    end
+
+    return "EN"
+end
+
+local function Ipr_FPS_Booster_CountryLang()
+    if (Ipr_Fps_Booster.Country[system.GetCountry()]) then
+        return "FR"
     end
 
     return "EN"
