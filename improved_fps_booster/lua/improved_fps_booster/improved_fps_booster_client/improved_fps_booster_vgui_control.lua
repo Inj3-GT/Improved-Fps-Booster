@@ -246,7 +246,7 @@ local function Ipr_Fps_Booster_CalculationFps()
 end
 
 local function Ipr_Fps_Booster_Unc(ipr_crypt)
-    return util.Base64Decode(ipr_crypt) --- :D
+    return util.Base64Decode(ipr_crypt)
 end
 
 local function Ipr_Gui_Blur(ipr_sys_frame, ipr_sys_float, ipr_sys_col, ipr_sys_brd)
