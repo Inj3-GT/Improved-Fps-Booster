@@ -9,7 +9,7 @@
 --\\--
 
 Ipr_Fps_Booster = Ipr_Fps_Booster or {}
-Ipr_Fps_Booster.Version = "v3.3"
+Ipr_Fps_Booster.Version = "v3.4"
 
 if CLIENT then
     Ipr_Fps_Booster.Loaded_Lua = Ipr_Fps_Booster.Loaded_Lua or false
@@ -197,6 +197,7 @@ if CLIENT then
             ipr_vgui_fps_load_data = "Paramètre des options Chargées",
             ipr_vgui_Lang = "Langue :",
             ipr_vgui_LoadS = "Charger Preset",
+            ipr_vgui_Cls = "Fermer après activer/désactiver",
         },
 
         ["EN"] = {
@@ -214,6 +215,7 @@ if CLIENT then
             ipr_vgui_fps_load_data = "Options settings Loaded",
             ipr_vgui_Lang = "Language :",
             ipr_vgui_LoadS = "Load Preset",
+            ipr_vgui_Cls = "Closed after enable/disable",
         },
     }
 else
