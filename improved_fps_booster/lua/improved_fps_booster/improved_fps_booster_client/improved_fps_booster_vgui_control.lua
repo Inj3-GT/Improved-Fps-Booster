@@ -14,14 +14,6 @@ local Ipr_Sys_BlurMat, ipr_icon, ipr_icon_, Ipr_StatusVgui, Ipr_LastMax = Materi
 local Ipr_Current, Ipr_Max, Ipr_Min, Ipr_Gain, Ipr_CurtLast = 0, 0, math.huge, 0
 local Ipr_Save_Location, Ipr_Lang_C = "improved_fps_booster_v3/save/"
 
-local function Ipr_FPS_Booster_CountryLang()
-    if (Ipr_Fps_Booster.Country[system.GetCountry()]) then
-        return "FR"
-    end
-
-    return "EN"
-end
-
 local function Ipr_Fps_Booster_SaveConvar(ipr_gui, ipr_bool)
     if not IsValid(ipr_gui) then
         return
@@ -63,6 +55,14 @@ local function Ipr_Fps_Booster_CallConvarSelected(ipr_nb)
     end
 
     return false, print("*CS-error")
+end
+
+local function Ipr_FPS_Booster_CountryLang()
+    if (Ipr_Fps_Booster.Country[system.GetCountry()]) then
+        return "FR"
+    end
+
+    return "EN"
 end
 
 local function Ipr_Fps_Booster_CheckLang()
