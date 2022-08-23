@@ -702,14 +702,6 @@ local function Ipr_Fps_Booster_Vgui_Func()
         Ipr_Fps_Booster_Vgui:Remove()
     end
 end
-
-local function ipr_fps_booster_op(ipr_bool)
-    if (ipr_bool) then
-        Ipr_Fps_Booster_Vgui_Func()
-    else
-        Ipr_Fps_Booster_Enabled_Disabled(false)
-    end
-end
  
 hook.Add("PostDrawHUD","Ipr_Fps_Booster_PostDraw", function()
     if (Ipr_Fps_Booster.Loaded_Lua and Ipr_Fps_Booster_CallConvarSelected(9)) then
@@ -753,13 +745,13 @@ do
         end
 
         if Ipr_Fps_Booster_CheckString(strText, "/boost")  then
-            return true, ipr_fps_booster_op(true)
+            return true, Ipr_Fps_Booster_Vgui_Func()
         end
         if Ipr_Fps_Booster_CheckString(strText, "/reset") then
             if not ipr_fps_booster_ft_load() then
                 Ipr_Max, Ipr_Min, Ipr_Gain, Ipr_StatusVgui, Ipr_LastMax = 0, math.huge, 0, false, 0
                 surface.PlaySound("buttons/combine_button5.wav")
-                return true, ipr_fps_booster_op(false)
+                return true, Ipr_Fps_Booster_Enabled_Disabled(false)
             else
                 chat.AddText(Ipr_Fps_Booster_Color["rouge"], "[", "Improved FPS Booster", "] : ", Ipr_Fps_Booster_Color["blanc"], "Already disabled !")
                 return true
@@ -772,7 +764,7 @@ do
 
         if ipr_fps_booster_ft_load() then
             timer.Simple(5, function()
-                ipr_fps_booster_op(true)
+                Ipr_Fps_Booster_Vgui_Func()
             end)
         else
             Ipr_Max, Ipr_Min, Ipr_StatusVgui = 0, math.huge, true
