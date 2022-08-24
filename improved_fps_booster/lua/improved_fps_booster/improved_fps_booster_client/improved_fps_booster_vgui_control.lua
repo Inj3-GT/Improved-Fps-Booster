@@ -323,7 +323,8 @@ local function Ipr_Booster_Option_Func(panel)
         draw.RoundedBox(3, 0, 0, w, h, Ipr_Fps_Booster_Color["bleu"])
     end
 
-    for i = 1, #Ipr_Fps_Booster.DefautCommand do
+    local ipr_tbl_add = #Ipr_Fps_Booster.DefautCommand
+    for i = 1, ipr_tbl_add do
         local Ipr_Fps_Booster_DChb = vgui.Create( "DCheckBoxLabel", Ipr_Fps_Booster_Dscroll)
         Ipr_Fps_Booster_DChb:SetPos( 10, i * (1+ 22) -22)
         Ipr_Fps_Booster_DChb:SetText("")
@@ -339,8 +340,6 @@ local function Ipr_Booster_Option_Func(panel)
         end
         Ipr_Fps_Booster_OverrideDcb(Ipr_Fps_Booster_DChb, 3)
     end
-
-    local ipr_tbl_add = #Ipr_Fps_Booster.DefautCommand
     local function ipr_tbl_add_func()
         ipr_tbl_add = ipr_tbl_add + 1
         return ipr_tbl_add
