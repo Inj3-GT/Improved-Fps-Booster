@@ -12,6 +12,8 @@ Ipr_Fps_Booster = Ipr_Fps_Booster or {}
 Ipr_Fps_Booster.Version = "v3.4"
 
 if CLIENT then
+    Ipr_Fps_Booster.DefaultLanguage = "EN"
+    
     Ipr_Fps_Booster.Loaded_Lua = Ipr_Fps_Booster.Loaded_Lua or false
     Ipr_Fps_Booster.Save_Tbl = Ipr_Fps_Booster.Save_Tbl or {}
     Ipr_Fps_Booster.Save_Lg = Ipr_Fps_Booster.Save_Lg or {}
@@ -171,7 +173,6 @@ if CLIENT then
         },
     }
 
-    Ipr_Fps_Booster.DefaultLanguage = "EN"
     Ipr_Fps_Booster.Country = {
         ["BE"] = true,
         ["FR"] = true,
