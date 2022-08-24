@@ -12,7 +12,7 @@ local Ipr_Fps_Booster_Vgui, Ipr_Fps_Booster_Opt_Vgui = {}, {}
 local Ipr_Fps_Booster_Color = {["gris"] = Color(236, 240, 241),["vert"] = Color(39, 174, 96),["rouge"] = Color(192, 57, 43),["orange"] = Color(243, 156, 18),["blanc"] = Color(236, 240, 241), ["bleu"] = Color(52, 73, 94), ["bleuc"] = Color(30, 73, 109)}
 local Ipr_Sys_BlurMat, ipr_icon, ipr_icon_, Ipr_StatusVgui, Ipr_LastMax = Material("pp/blurscreen"), Material("icon/ipr_boost_computer.png", "noclamp smooth"), Material("icon/ipr_boost_wrench.png", "noclamp smooth"), false, 0
 local Ipr_Current, Ipr_Max, Ipr_Min, Ipr_Gain, Ipr_CurtLast = 0, 0, math.huge, 0
-local Ipr_Save_Location, Ipr_Lang_C = "improved_fps_booster_v3/save/"
+local Ipr_Save_Location, Ipr_Lang_C = "ipr_fps_booster_data/save/"
 
 local function Ipr_Fps_Booster_SaveConvar(ipr_gui, ipr_bool)
     if not IsValid(ipr_gui) then
