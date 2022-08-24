@@ -619,7 +619,7 @@ local function Ipr_Fps_Booster_Vgui_Func()
         surface.PlaySound("buttons/button9.wav")
     end
 
-    Ipr_Fps_Booster_Res:SetPos(75, 195)
+    Ipr_Fps_Booster_Res:SetPos(75, 200)
     Ipr_Fps_Booster_Res:SetSize(151, 20)
     Ipr_Fps_Booster_Res:SetText("")
     Ipr_Fps_Booster_Res:SetImage( "icon16/arrow_refresh.png" )
