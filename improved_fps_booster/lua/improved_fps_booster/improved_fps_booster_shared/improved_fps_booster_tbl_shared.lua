@@ -13,13 +13,13 @@ Ipr_Fps_Booster.Version = "v3.4"
 
 if CLIENT then
     Ipr_Fps_Booster.DefaultLanguage = "EN"
-    
+
     Ipr_Fps_Booster.Loaded_Lua = Ipr_Fps_Booster.Loaded_Lua or false
     Ipr_Fps_Booster.Save_Tbl = Ipr_Fps_Booster.Save_Tbl or {}
     Ipr_Fps_Booster.Save_Lg = Ipr_Fps_Booster.Save_Lg or {}
 
     Ipr_Fps_Booster.DefautCommand = {
-        [1] = {
+        {
             Ipr_Texte = {
                 ["FR"] = "Rendu Multicoeur",
                 ["EN"] = "Multicore Rendering"
@@ -41,9 +41,9 @@ if CLIENT then
                     Ipr_Enabled = "1",
                     Ipr_Disabled = "0"
                 }
-            },
+            }
         },
-        [2] = {
+        {
             Ipr_Texte = {
                 ["FR"] = "Supprimer Skybox 3D",
                 ["EN"] = "Remove 3D Skybox"
@@ -57,11 +57,11 @@ if CLIENT then
                     Ipr_Enabled = "0",
                     Ipr_Disabled = "1"
                 }
-            },
+            }
         },
-        [3] = {
+        {
             Ipr_Texte = {
-                ["FR"] = "Supprimer spray",
+                ["FR"] = "Supprimer Spray",
                 ["EN"] = "Remove Spray"
             },
             Ipr_ToolTip = {
@@ -69,19 +69,23 @@ if CLIENT then
                 ["EN"] = "Remove the spray effect"
             },
             Ipr_CmdChild = {
+                ["r_spray_lifetime"] = {
+                    Ipr_Enabled = "0",
+                    Ipr_Disabled = "1"
+                },
                 ["cl_playerspraydisable"] = {
                     Ipr_Enabled = "1",
                     Ipr_Disabled = "0"
                 }
-            },
+            }
         },
-        [4] = {
+        {
             Ipr_Texte = {
-                ["FR"] = "Supprimer les dents",
-                ["EN"] = "Remove Teeth"
+                ["FR"] = "Supprimer la dentition",
+                ["EN"] = "Remove the teeth"
             },
             Ipr_ToolTip = {
-                ["FR"] = "Retire les dents visibles sur les models",
+                ["FR"] = "Retire la dentition visibles sur les models",
                 ["EN"] = "Remove teeth on the models"
             },
             Ipr_CmdChild = {
@@ -89,9 +93,9 @@ if CLIENT then
                     Ipr_Enabled = "0",
                     Ipr_Disabled = "1"
                 }
-            },
+            }
         },
-        [5] = {
+        {
             Ipr_Texte = {
                 ["FR"] = "Supprimer ombres/flashlight",
                 ["EN"] = "Remove Shadow/Flashlight"
@@ -105,12 +109,12 @@ if CLIENT then
                     Ipr_Enabled = "0",
                     Ipr_Disabled = "1"
                 }
-            },
+            }
         },
-        [6] = {
+        {
             Ipr_Texte = {
-                ["FR"] = "Filtrage des textures",
-                ["EN"] = "Texture filtering"
+                ["FR"] = "Retirer filtrage des textures",
+                ["EN"] = "Remove Texture filtering"
             },
             Ipr_ToolTip = {
                 ["FR"] = "Retire le filtrage des textures",
@@ -121,12 +125,12 @@ if CLIENT then
                     Ipr_Enabled = "0",
                     Ipr_Disabled = "1"
                 }
-            },
+            }
         },
-        [7] = {
+        {
             Ipr_Texte = {
-                ["FR"] = "Supprimer M9k effect",
-                ["EN"] = "Remove M9k effect"
+                ["FR"] = "Supprimer effets m9k",
+                ["EN"] = "Remove m9k effect"
             },
             Ipr_ToolTip = {
                 ["FR"] = "Retire les effets sur les armes m9k",
@@ -137,9 +141,9 @@ if CLIENT then
                     Ipr_Enabled = "0",
                     Ipr_Disabled = "1"
                 }
-            },
+            }
         },
-        [8] = {
+        {
             Ipr_Texte = {
                 ["FR"] = "Comportement moteur",
                 ["EN"] = "Modify the behavior (engine)"
@@ -171,6 +175,94 @@ if CLIENT then
                 }
             }
         },
+        {
+            Ipr_Texte = {
+                ["FR"] = "Accéleration Materiel",
+                ["EN"] = "Hardware acceleration"
+            },
+            Ipr_ToolTip = {
+                ["FR"] = "Algorithme de calcul de perspective plus rapide.",
+                ["EN"] = "Faster perspective calculation algorithm."
+            },
+            Ipr_CmdChild = {
+                ["r_fastzreject"] = {
+                    Ipr_Enabled = "-1",
+                    Ipr_Disabled = "0"
+                }
+            }
+        },
+        {
+            Ipr_Texte = {
+                ["FR"] = "Supprimer effets de sang",
+                ["EN"] = "Remove effects of blood"
+            },
+            Ipr_ToolTip = {
+                ["FR"] = "Supprimer les effets sanguins (éclaboussure)",
+                ["EN"] = "Disables the effects of blood (splash)"
+            },
+            Ipr_CmdChild = {
+                ["violence_ablood"] = {
+                    Ipr_Enabled = "0",
+                    Ipr_Disabled = "1"
+                },
+                ["violence_agibs"] = {
+                    Ipr_Enabled = "0",
+                    Ipr_Disabled = "1"
+                },
+                ["violence_hblood"] = {
+                    Ipr_Enabled = "0",
+                    Ipr_Disabled = "1"
+                },
+                ["violence_hgibs"] = {
+                    Ipr_Enabled = "0",
+                    Ipr_Disabled = "1"
+                }
+            }
+        },
+        {
+            Ipr_Texte = {
+                ["FR"] = "Supprimer petits objets",
+                ["EN"] = "Disable small objects"
+            },
+            Ipr_ToolTip = {
+                ["FR"] = "Désactive les petits objets (bouteilles, petites boîtes de conserve, briques)",
+                ["EN"] = "Disables small objects (bottles, small cans, bricks)"
+            },
+            Ipr_CmdChild = {
+                ["cl_phys_props_enable"] = {
+                    Ipr_Enabled = "0",
+                    Ipr_Disabled = "1"
+                },
+                ["cl_phys_props_max"] = {
+                    Ipr_Enabled = "0",
+                    Ipr_Disabled = "128"
+                },
+                ["props_break_max_pieces"] = {
+                    Ipr_Enabled = "0",
+                    Ipr_Disabled = "-1"
+                }
+            }
+        },
+        {
+            Ipr_Texte = {
+                ["FR"] = "Supprimer le Bloom",
+                ["EN"] = "Disabled Bloom"
+            },
+            Ipr_ToolTip = {
+                ["FR"] = "Disables bloom (graphical effect)",
+                ["EN"] = "Désactive le bloom (effet graphique)"
+            },
+            Ipr_CmdChild = {
+                ["mat_bloom_scalefactor_scalar"] = {
+                    Ipr_Enabled = "0",
+                    Ipr_Disabled = "1"
+                },
+                ["mat_bloomscale"] = {
+                    Ipr_Enabled = "0",
+                    Ipr_Disabled = "1"
+                }
+            }
+        },
     }
 
     Ipr_Fps_Booster.Country = {
@@ -180,6 +272,7 @@ if CLIENT then
         ["MA"] = true,
         ["CA"] = true,
     }
+
     Ipr_Fps_Booster.Lang = {
         ["FR"] = {
             ipr_vgui_enabled = "Voulez-vous activer Improved FPS Booster ?",
