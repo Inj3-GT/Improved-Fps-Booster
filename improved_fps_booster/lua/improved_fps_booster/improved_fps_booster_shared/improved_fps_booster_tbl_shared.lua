@@ -9,7 +9,7 @@
 --\\--
 
 Ipr_Fps_Booster = Ipr_Fps_Booster or {}
-Ipr_Fps_Booster.Version = "v3.4"
+Ipr_Fps_Booster.Version = "v3.5"
 
 if CLIENT then
     Ipr_Fps_Booster.DefaultLanguage = "EN"
