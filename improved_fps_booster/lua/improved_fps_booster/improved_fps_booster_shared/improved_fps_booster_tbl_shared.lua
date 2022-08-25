@@ -249,8 +249,8 @@ if CLIENT then
                 ["EN"] = "Disabled Bloom"
             },
             Ipr_ToolTip = {
-                ["FR"] = "Disables bloom (graphical effect)",
-                ["EN"] = "Désactive le bloom (effet graphique)"
+                ["FR"] = "Désactive le bloom (effet graphique)",
+                ["EN"] = "Disables bloom (graphical effect)"
             },
             Ipr_CmdChild = {
                 ["mat_bloom_scalefactor_scalar"] = {
