@@ -149,8 +149,8 @@ if CLIENT then
                 ["EN"] = "Modify the behavior (engine)"
             },
             Ipr_ToolTip = {
-                ["FR"] = "Modifie le comportement du moteur (particule, matrice osseuse, corde, pvs - threads séparés) = r_threaded_particles, r_threaded_renderables, r_queued_ropes, cl_threaded_client_leaf_system, r_threaded_client_shadow_manager",
-                ["EN"] = "Modifies engine behavior (particle, bone matrix, string, pvs - separate threads) = r_threaded_particles, r_threaded_renderables, r_queued_ropes, cl_threaded_client_leaf_system, r_threaded_client_shadow_manager"
+                ["FR"] = "Modifie le comportement du moteur (particule, matrice osseuse, corde, pvs - threads séparés)",
+                ["EN"] = "Modifies engine behavior (particle, bone matrix, string, pvs - separate threads)"
             },
             Ipr_CmdChild = {
                 ["r_threaded_particles"] = {
