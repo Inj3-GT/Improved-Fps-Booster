@@ -45,8 +45,8 @@ if CLIENT then
         },
         {
             Ipr_Texte = {
-                ["FR"] = "Supprimer Skybox 3D",
-                ["EN"] = "Remove 3D Skybox"
+                ["FR"] = "Désactiver Skybox 3D",
+                ["EN"] = "Disable 3D Skybox"
             },
             Ipr_ToolTip = {
                 ["FR"] = "Retire le rendu du ciel",
@@ -61,8 +61,8 @@ if CLIENT then
         },
         {
             Ipr_Texte = {
-                ["FR"] = "Supprimer Spray",
-                ["EN"] = "Remove Spray"
+                ["FR"] = "Désactiver Spray",
+                ["EN"] = "Disable Spray"
             },
             Ipr_ToolTip = {
                 ["FR"] = "Retire l'effet de pulvérisation",
@@ -81,8 +81,8 @@ if CLIENT then
         },
         {
             Ipr_Texte = {
-                ["FR"] = "Supprimer la dentition",
-                ["EN"] = "Remove the teeth"
+                ["FR"] = "Désactiver la dentition",
+                ["EN"] = "Disable the teeth"
             },
             Ipr_ToolTip = {
                 ["FR"] = "Retire la dentition visibles sur les models",
@@ -97,8 +97,8 @@ if CLIENT then
         },
         {
             Ipr_Texte = {
-                ["FR"] = "Supprimer ombres/flashlight",
-                ["EN"] = "Remove Shadow/Flashlight"
+                ["FR"] = "Désactiver ombres/flashlight",
+                ["EN"] = "Disable Shadow/Flashlight"
             },
             Ipr_ToolTip = {
                 ["FR"] = "Retire les ombres sur les entités, et supprime la lumière de votre lampe de poche.",
@@ -114,7 +114,7 @@ if CLIENT then
         {
             Ipr_Texte = {
                 ["FR"] = "Retirer filtrage des textures",
-                ["EN"] = "Remove Texture filtering"
+                ["EN"] = "Disable Texture filtering"
             },
             Ipr_ToolTip = {
                 ["FR"] = "Retire le filtrage des textures",
@@ -129,8 +129,8 @@ if CLIENT then
         },
         {
             Ipr_Texte = {
-                ["FR"] = "Supprimer effets m9k",
-                ["EN"] = "Remove m9k effect"
+                ["FR"] = "Désactiver effets m9k",
+                ["EN"] = "Disable m9k effect"
             },
             Ipr_ToolTip = {
                 ["FR"] = "Retire les effets sur les armes m9k",
@@ -193,11 +193,11 @@ if CLIENT then
         },
         {
             Ipr_Texte = {
-                ["FR"] = "Supprimer effets de sang",
-                ["EN"] = "Remove effects of blood"
+                ["FR"] = "Désactiver effets de sang",
+                ["EN"] = "Disable effects of blood"
             },
             Ipr_ToolTip = {
-                ["FR"] = "Supprimer les effets sanguins (éclaboussure)",
+                ["FR"] = "Désactiver les effets sanguins (éclaboussure)",
                 ["EN"] = "Disables the effects of blood (splash)"
             },
             Ipr_CmdChild = {
@@ -221,7 +221,7 @@ if CLIENT then
         },
         {
             Ipr_Texte = {
-                ["FR"] = "Supprimer petits objets",
+                ["FR"] = "Désactiver petits objets",
                 ["EN"] = "Disable small objects"
             },
             Ipr_ToolTip = {
@@ -245,8 +245,8 @@ if CLIENT then
         },
         {
             Ipr_Texte = {
-                ["FR"] = "Supprimer le Bloom",
-                ["EN"] = "Disabled Bloom"
+                ["FR"] = "Désactiver le Bloom",
+                ["EN"] = "Disable Bloom"
             },
             Ipr_ToolTip = {
                 ["FR"] = "Désactive le bloom (effet graphique)",
