@@ -17,6 +17,51 @@ if CLIENT then
     Ipr_Fps_Booster.Loaded_Lua = Ipr_Fps_Booster.Loaded_Lua or false
     Ipr_Fps_Booster.Save_Tbl = Ipr_Fps_Booster.Save_Tbl or {}
     Ipr_Fps_Booster.Save_Lg = Ipr_Fps_Booster.Save_Lg or {}
+    
+    Ipr_Fps_Booster.Country = {
+        ["BE"] = true,
+        ["FR"] = true,
+        ["DZ"] = true,
+        ["MA"] = true,
+        ["CA"] = true,
+    }
+
+    Ipr_Fps_Booster.Lang = {
+        ["FR"] = {
+            ipr_vgui_enabled = "Voulez-vous activer Improved FPS Booster ?",
+            ipr_vgui_opti_t = "Optimisation :",
+            ipr_vgui_posw_t = "FPS Position Largeur :",
+            ipr_vgui_posh_t = "FPS Position Hauteur :",
+            ipr_vgui_hudshow_t = "FPS visible sur HUD",
+            ipr_vgui_hudshow_tx = "Rendre le compteur de fps complet visible directement votre sur HUD",
+            ipr_vgui_enable_t = "Activer",
+            ipr_vgui_disable_t = "Désactiver",
+            ipr_vgui_enable_prevent_t = "Si vous rencontrez des problèmes graphiques ou crashs, utilisez le bouton options pour modifier vos paramètres. Pour ouvrir Improved FPS Booster /boost.",
+            ipr_vgui_disableop_t = "Improved FPS Booster est maintenant inactif, pour ouvrir Improved FPS Booster /boost.",
+            ipr_vgui_fps_cur = "Actuel :",
+            ipr_vgui_fps_load_data = "Paramètre des options Chargées",
+            ipr_vgui_Lang = "Langue :",
+            ipr_vgui_LoadS = "Charger Preset",
+            ipr_vgui_Cls = "Fermer après activer/désactiver",
+        },
+        ["EN"] = {
+            ipr_vgui_enabled = "Do you want enable Improved FPS Booster ?",
+            ipr_vgui_opti_t = "Optimization :",
+            ipr_vgui_posw_t = "FPS Position Width :",
+            ipr_vgui_posh_t = "FPS Position Height :",
+            ipr_vgui_hudshow_t = "Display FPS on hud",
+            ipr_vgui_hudshow_tx = "Show full fps counter visible directly on your HUD",
+            ipr_vgui_enable_t = "Enable",
+            ipr_vgui_disable_t = "Disable",
+            ipr_vgui_enable_prevent_t = "If you encounter graphic problems or crashes, use the Options button to change your settings. For open Improved Fps Booster /boost.",
+            ipr_vgui_disableop_t = "FPS Booster is now disabled, For open Improved FPS Booster /boost.",
+            ipr_vgui_fps_cur = "Actual :",
+            ipr_vgui_fps_load_data = "Options settings Loaded",
+            ipr_vgui_Lang = "Language :",
+            ipr_vgui_LoadS = "Load Preset",
+            ipr_vgui_Cls = "Closed after enable/disable",
+        },
+    }
 
     Ipr_Fps_Booster.DefautCommand = {
         {
@@ -262,51 +307,6 @@ if CLIENT then
                     Ipr_Disabled = "1"
                 }
             }
-        },
-    }
-
-    Ipr_Fps_Booster.Country = {
-        ["BE"] = true,
-        ["FR"] = true,
-        ["DZ"] = true,
-        ["MA"] = true,
-        ["CA"] = true,
-    }
-
-    Ipr_Fps_Booster.Lang = {
-        ["FR"] = {
-            ipr_vgui_enabled = "Voulez-vous activer Improved FPS Booster ?",
-            ipr_vgui_opti_t = "Optimisation :",
-            ipr_vgui_posw_t = "FPS Position Largeur :",
-            ipr_vgui_posh_t = "FPS Position Hauteur :",
-            ipr_vgui_hudshow_t = "FPS visible sur HUD",
-            ipr_vgui_hudshow_tx = "Rendre le compteur de fps complet visible directement votre sur HUD",
-            ipr_vgui_enable_t = "Activer",
-            ipr_vgui_disable_t = "Désactiver",
-            ipr_vgui_enable_prevent_t = "Si vous rencontrez des problèmes graphiques ou crashs, utilisez le bouton options pour modifier vos paramètres. Pour ouvrir Improved FPS Booster /boost.",
-            ipr_vgui_disableop_t = "Improved FPS Booster est maintenant inactif, pour ouvrir Improved FPS Booster /boost.",
-            ipr_vgui_fps_cur = "Actuel :",
-            ipr_vgui_fps_load_data = "Paramètre des options Chargées",
-            ipr_vgui_Lang = "Langue :",
-            ipr_vgui_LoadS = "Charger Preset",
-            ipr_vgui_Cls = "Fermer après activer/désactiver",
-        },
-        ["EN"] = {
-            ipr_vgui_enabled = "Do you want enable Improved FPS Booster ?",
-            ipr_vgui_opti_t = "Optimization :",
-            ipr_vgui_posw_t = "FPS Position Width :",
-            ipr_vgui_posh_t = "FPS Position Height :",
-            ipr_vgui_hudshow_t = "Display FPS on hud",
-            ipr_vgui_hudshow_tx = "Show full fps counter visible directly on your HUD",
-            ipr_vgui_enable_t = "Enable",
-            ipr_vgui_disable_t = "Disable",
-            ipr_vgui_enable_prevent_t = "If you encounter graphic problems or crashes, use the Options button to change your settings. For open Improved Fps Booster /boost.",
-            ipr_vgui_disableop_t = "FPS Booster is now disabled, For open Improved FPS Booster /boost.",
-            ipr_vgui_fps_cur = "Actual :",
-            ipr_vgui_fps_load_data = "Options settings Loaded",
-            ipr_vgui_Lang = "Language :",
-            ipr_vgui_LoadS = "Load Preset",
-            ipr_vgui_Cls = "Closed after enable/disable",
         },
     }
 else
