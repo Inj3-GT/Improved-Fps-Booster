@@ -7,10 +7,10 @@
 ------------- GNU General Public License v3.0
 ------------- https://github.com/Inj3-GT
 --\\--
-local Ipr_Cl = file.Find("improved_fps_booster/improved_fps_booster_client/*", "LUA")
 Ipr_Fps_Booster = Ipr_Fps_Booster or {}
 Ipr_Fps_Booster.Version = "v3.6"
 
+local Ipr_Cl = file.Find("improved_fps_booster/improved_fps_booster_client/*", "LUA")
 if (CLIENT) then
     Ipr_Fps_Booster.DefaultLanguage = "EN"
     Ipr_Fps_Booster.SaveLocation = "ipr_fps_booster_v3_data/save/"
