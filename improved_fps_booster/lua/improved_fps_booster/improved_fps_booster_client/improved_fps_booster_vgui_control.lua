@@ -752,7 +752,6 @@ do
             end)
         else
             Ipr_Mx, Ipr_Min, Ipr_StatusVgui = 0, math.huge, true
-
             chat.AddText(Ipr_Fps_Booster_Color["vert"], "[", "Improved FPS Booster automatically started", "]")
         end
 
