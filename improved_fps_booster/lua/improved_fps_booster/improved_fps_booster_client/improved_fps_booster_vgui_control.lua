@@ -159,7 +159,7 @@ local function IprFpsBooster_Enable(b)
     end
 
     if IprFpsBooster_CBox() then
-        Ipr_Mx, Ipr_Min, Ipr_Gn, Ipr_StatusVgui, Ipr_LastMx = 0, math.huge, 0, false, 0
+        Ipr_Mx, Ipr_Mn, Ipr_Gn, Ipr_StatusVgui, Ipr_LastMx = 0, math.huge, 0, false, 0
     end
 end
 
@@ -499,14 +499,14 @@ local function Ipr_Fps_Booster_Vgui_Func()
     end
     Ipr_Fps_Booster_En.DoClick = function()
         if IprFpsBooster_CBox() then
-        Ipr_Mx, Ipr_Min, Ipr_Gn, Ipr_StatusVgui, Ipr_LastMx = 0, math.huge, 0, false, 0
+        Ipr_Mx, Ipr_Mn, Ipr_Gn, Ipr_StatusVgui, Ipr_LastMx = 0, math.huge, 0, false, 0
         chat.AddText(Ipr_Fps_Booster_Color["rouge"], "[", "FPS Booster", "] : ", Ipr_Fps_Booster_Color["blanc"], "Please check boxes in optimization to activate the fps booster !")
             return 
         end
         if Ipr_StatusVgui then
             IprFpsBooster_Enable(false)
         end
-        Ipr_Mx, Ipr_Min, Ipr_Gn, Ipr_StatusVgui = 0, math.huge, 0, true
+        Ipr_Mx, Ipr_Mn, Ipr_Gn, Ipr_StatusVgui = 0, math.huge, 0, true
         IprFpsBooster_Enable(true)
 
         chat.AddText(Ipr_Fps_Booster_Color["rouge"], "[", "FPS Booster", "] : ", Ipr_Fps_Booster_Color["blanc"], Ipr_Fps_Booster.Lang[Ipr_Lang_C].ipr_vgui_enable_prevent_t)
@@ -533,7 +533,7 @@ local function Ipr_Fps_Booster_Vgui_Func()
         draw.SimpleText(Ipr_Fps_Booster.Lang[Ipr_Lang_C].ipr_vgui_disable_t, "Ipr_Fps_Booster_Font", w / 2 + 6, 3, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_CENTER)
     end
     Ipr_Fps_Booster_Di.DoClick = function()
-        Ipr_Mx, Ipr_Min, Ipr_Gn, Ipr_StatusVgui, Ipr_LastMx = 0, math.huge, 0, false, 0
+        Ipr_Mx, Ipr_Mn, Ipr_Gn, Ipr_StatusVgui, Ipr_LastMx = 0, math.huge, 0, false, 0
         IprFpsBooster_Enable(false)
 
         chat.AddText(Ipr_Fps_Booster_Color["rouge"], "[", "FPS Booster", "] : ", Ipr_Fps_Booster_Color["blanc"], Ipr_Fps_Booster.Lang[Ipr_Lang_C].ipr_vgui_disableop_t)
@@ -579,7 +579,7 @@ local function Ipr_Fps_Booster_Vgui_Func()
         draw.SimpleText("Reset FPS max/min", "Ipr_Fps_Booster_Font", w / 2 + 7, 1, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_CENTER)
     end
     Ipr_Fps_Booster_Res.DoClick = function()
-        Ipr_Mx, Ipr_Min, Ipr_Gn = 0, math.huge, 0
+        Ipr_Mx, Ipr_Mn, Ipr_Gn = 0, math.huge, 0
         surface.PlaySound("buttons/button9.wav")
     end
 
@@ -653,9 +653,9 @@ end
  
 hook.Add("PostDrawHUD","Ipr_Fps_Booster_PostDraw", function()
     if (Ipr_Fps_Booster.Loaded_Lua and IprFpsBooster_CallConvS(13)) then
-        local Ipr_Cur, Ipr_Min, Ipr_Max_, Ipr_Gn = IprFpsBooster_CalcFps()
+        local Ipr_Cur, Ipr_Mn, Ipr_Max_, Ipr_Gn = IprFpsBooster_CalcFps()
         
-        draw.SimpleTextOutlined("FPS : " ..Ipr_Cur.. " Min : " ..Ipr_Min.. " Max : " ..Ipr_Max_.. " Gain : " ..(Ipr_StatusVgui and (Ipr_Mx ~= Ipr_Gn) and Ipr_Gn or "OFF"), "Ipr_Fps_Booster_Font", ScrW() * (IprFpsBooster_CallConvS(15) / 100) - 40,  ScrH() * (IprFpsBooster_CallConvS(16) / 100) - 10, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_LEFT, TEXT_ALIGN_LEFT, 0.8, Ipr_Fps_Booster_Color["bleu"])
+        draw.SimpleTextOutlined("FPS : " ..Ipr_Cur.. " Min : " ..Ipr_Mn.. " Max : " ..Ipr_Max_.. " Gain : " ..(Ipr_StatusVgui and (Ipr_Mx ~= Ipr_Gn) and Ipr_Gn or "OFF"), "Ipr_Fps_Booster_Font", ScrW() * (IprFpsBooster_CallConvS(15) / 100) - 40,  ScrH() * (IprFpsBooster_CallConvS(16) / 100) - 10, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_LEFT, TEXT_ALIGN_LEFT, 0.8, Ipr_Fps_Booster_Color["bleu"])
     end
 end)
 
@@ -688,7 +688,7 @@ hook.Add( "OnPlayerChat", "Ipr_Fps_Booster_Chat_Vgui", function( ply, strText, b
     end
     if (strText == "/reset") then
         if not IprFpsBooster_FtLoad() then
-            Ipr_Mx, Ipr_Min, Ipr_Gn, Ipr_StatusVgui, Ipr_LastMx = 0, math.huge, 0, false, 0
+            Ipr_Mx, Ipr_Mn, Ipr_Gn, Ipr_StatusVgui, Ipr_LastMx = 0, math.huge, 0, false, 0
             surface.PlaySound("buttons/combine_button5.wav")
             return true, IprFpsBooster_Enable(false)
         else
@@ -751,7 +751,7 @@ hook.Add( "InitPostEntity", "Ipr_Fps_Booster_Spawn_Vgui", function()
             Ipr_Fps_Booster_Vgui_Func()
         end)
     else
-        Ipr_Mx, Ipr_Min, Ipr_StatusVgui = 0, math.huge, true
+        Ipr_Mx, Ipr_Mn, Ipr_StatusVgui = 0, math.huge, true
         chat.AddText(Ipr_Fps_Booster_Color["vert"], "[", "Improved FPS Booster automatically started", "]")
     end
 
