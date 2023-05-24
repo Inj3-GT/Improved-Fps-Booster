@@ -503,20 +503,21 @@ local function Ipr_Fps_Booster_Vgui_Func()
         chat.AddText(Ipr_Fps_Booster_Color["rouge"], "[", "FPS Booster", "] : ", Ipr_Fps_Booster_Color["blanc"], "Please check boxes in optimization to activate the fps booster !")
             return 
         end
-        if Ipr_StatusVgui then
+        if (Ipr_StatusVgui) then
             IprFpsBooster_Enable(false)
         end
+        
         Ipr_Mx, Ipr_Mn, Ipr_Gn, Ipr_StatusVgui = 0, math.huge, 0, true
         IprFpsBooster_Enable(true)
-
         chat.AddText(Ipr_Fps_Booster_Color["rouge"], "[", "FPS Booster", "] : ", Ipr_Fps_Booster_Color["blanc"], Ipr_Fps_Booster.Lang[Ipr_Lang_C].ipr_vgui_enable_prevent_t)
+        
         if IprFpsBooster_CallConvS(14) then
           Ipr_Fps_Booster_Vgui:Remove()
+            
             if IsValid(Ipr_Fps_Booster_Opt_Vgui) then
               Ipr_Fps_Booster_Opt_Vgui:Remove()
             end
         end
-
         surface.PlaySound("buttons/combine_button7.wav")
     end
 
