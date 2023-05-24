@@ -7,7 +7,6 @@
 ------------- GNU General Public License v3.0
 ------------- https://github.com/Inj3-GT
 --\\--
-
 local Ipr_Cl = file.Find("improved_fps_booster/improved_fps_booster_client/*", "LUA")
 Ipr_Fps_Booster = Ipr_Fps_Booster or {}
 Ipr_Fps_Booster.Version = "v3.6"
