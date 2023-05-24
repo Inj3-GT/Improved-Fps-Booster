@@ -663,6 +663,7 @@ local function IprFpsBooster_FtLoad()
     for _, v in ipairs(Ipr_Fps_Booster.Save_Tbl) do
         if (Ipr_Fps_Booster.DefautCommand[v.ipr_unumb]) then
             local ipr_val = v.ipr_vld
+            
             for o, g in pairs(Ipr_Fps_Booster.DefautCommand[v.ipr_unumb].Ipr_CmdChild) do
                 local ipr_control = (ipr_val and g.Ipr_Enabled) or g.Ipr_Disabled
                 if (o == "M9KGasEffect") then
