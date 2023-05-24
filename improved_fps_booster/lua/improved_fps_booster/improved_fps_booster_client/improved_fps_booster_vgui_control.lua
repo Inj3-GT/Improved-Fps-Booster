@@ -111,6 +111,7 @@ local function IprFpsBooster_CBox()
             local ipr_val = v.ipr_vld
             for _, g in pairs(Ipr_Fps_Booster.DefautCommand[v.ipr_unumb].Ipr_CmdChild) do
                 local ipr_control = (ipr_val and g.Ipr_Enabled) or g.Ipr_Disabled
+                
                 if (g.Ipr_Disabled ~= ipr_control) then
                     ipr_count = ipr_count + 1
                 end
