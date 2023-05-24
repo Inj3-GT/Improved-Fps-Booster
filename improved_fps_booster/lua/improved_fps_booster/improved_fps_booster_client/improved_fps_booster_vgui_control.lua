@@ -659,102 +659,100 @@ hook.Add("PostDrawHUD","Ipr_Fps_Booster_PostDraw", function()
     end
 end)
 
-do
-    local function IprFpsBooster_FtLoad()
-        for _, v in ipairs(Ipr_Fps_Booster.Save_Tbl) do
-            if (Ipr_Fps_Booster.DefautCommand[v.ipr_unumb]) then
-                local ipr_val = v.ipr_vld
-                for o, g in pairs(Ipr_Fps_Booster.DefautCommand[v.ipr_unumb].Ipr_CmdChild) do
-                    local ipr_control = (ipr_val and g.Ipr_Enabled) or g.Ipr_Disabled
-                    if (o == "M9KGasEffect") then
-                      continue
-                    end
-                    if tonumber(ipr_control) ~= tonumber(LocalPlayer():GetInfoNum(o, 0)) then
-                        return true
-                    end
+local function IprFpsBooster_FtLoad()
+    for _, v in ipairs(Ipr_Fps_Booster.Save_Tbl) do
+        if (Ipr_Fps_Booster.DefautCommand[v.ipr_unumb]) then
+            local ipr_val = v.ipr_vld
+            for o, g in pairs(Ipr_Fps_Booster.DefautCommand[v.ipr_unumb].Ipr_CmdChild) do
+                local ipr_control = (ipr_val and g.Ipr_Enabled) or g.Ipr_Disabled
+                if (o == "M9KGasEffect") then
+                    continue
+                end
+                if tonumber(ipr_control) ~= tonumber(LocalPlayer():GetInfoNum(o, 0)) then
+                    return true
                 end
             end
         end
-
-        return false
     end
 
-    hook.Add( "OnPlayerChat", "Ipr_Fps_Booster_Chat_Vgui", function( ply, strText, bTeam, bDead )
-        if (ply ~= LocalPlayer()) then
-            return
-        end
-        if (strText  == "/boost")  then
-            return true, Ipr_Fps_Booster_Vgui_Func()
-        end
-        if (strText == "/reset") then
-            if not IprFpsBooster_FtLoad() then
-                Ipr_Mx, Ipr_Min, Ipr_Gn, Ipr_StatusVgui, Ipr_LastMx = 0, math.huge, 0, false, 0
-                surface.PlaySound("buttons/combine_button5.wav")
-                return true, IprFpsBooster_Enable(false)
-            else
-                chat.AddText(Ipr_Fps_Booster_Color["rouge"], "[", "Improved FPS Booster", "] : ", Ipr_Fps_Booster_Color["blanc"], "Already disabled !")
-                return true
-            end
-        end
-    end)
-
-    local function Ipr_Fps_Booster_LoadSx(n)
-        if (n == 1) then
-            local Ipr_CountryLang = Ipr_Fps_Booster.DefaultLanguage
-            if (Ipr_Fps_Booster.Country[system.GetCountry()]) then
-                Ipr_CountryLang = "FR"
-            end
-            Ipr_Fps_Booster.Save_Lg[1] = Ipr_CountryLang
-
-            file.Write(Ipr_Fps_Booster.SaveLocation.. "_lang.json", util.TableToJSON({Ipr_CountryLang}))
-        elseif (n == 2) then
-            Ipr_Fps_Booster.Save_Tbl = {{ipr_unumb = 1, ipr_vld = true},{ipr_unumb = 2, ipr_vld = false},{ipr_unumb = 3, ipr_vld = false},{ipr_unumb = 4, ipr_vld = false},{ipr_unumb = 5, ipr_vld = false},{ipr_unumb = 6, ipr_vld = false},{ipr_unumb = 7, ipr_vld = true},{ipr_unumb = 8, ipr_vld = false},{ipr_unumb = 9, ipr_vld = false},{ipr_unumb = 10, ipr_vld = false},{ipr_unumb = 11, ipr_vld = false}, {ipr_unumb = 12, ipr_vld = false}, {ipr_unumb = 13, ipr_vld = false}, {ipr_unumb = 14, ipr_vld = true}, {ipr_unumb = 15, ipr_vld = 32}, {ipr_unumb = 16, ipr_vld = 40}}
-            
-            file.Write(Ipr_Fps_Booster.SaveLocation.. "_save.json", util.TableToJSON(Ipr_Fps_Booster.Save_Tbl))
-        end
-    end
-
-    local function IprFpsBooster_SaveLoad()
-        local ipr_find = file.Find(Ipr_Fps_Booster.SaveLocation.. "*.json", "DATA")
-        if (#ipr_find <= 0) then
-            file.CreateDir(Ipr_Fps_Booster.SaveLocation)
-    
-            for i = 1, 2 do
-                Ipr_Fps_Booster_LoadSx(i)
-            end
-            return
-        end
-    
-        if not (ipr_find[1] == "_lang.json") then
-            Ipr_Fps_Booster_LoadSx(1)
-        else
-            Ipr_Fps_Booster.Save_Lg = util.JSONToTable(file.Read(Ipr_Fps_Booster.SaveLocation.. "_lang.json", "DATA") or {})
-        end
-    
-        if not (ipr_find[2] == "_save.json") then
-            Ipr_Fps_Booster_LoadSx(2)
-        else
-            local ipr_lg = util.JSONToTable(file.Read(Ipr_Fps_Booster.SaveLocation.. "_save.json", "DATA") or {})
-            if (#ipr_lg <= 0) then --- OOOh shit :P
-                Ipr_Fps_Booster_LoadSx(2)
-            end
-
-            Ipr_Fps_Booster.Save_Tbl = ipr_lg
-        end
-    end
-
-    hook.Add( "InitPostEntity", "Ipr_Fps_Booster_Spawn_Vgui", function()
-        IprFpsBooster_SaveLoad()
-
-        if IprFpsBooster_FtLoad() then
-            timer.Simple(5, function()
-                Ipr_Fps_Booster_Vgui_Func()
-            end)
-        else
-            Ipr_Mx, Ipr_Min, Ipr_StatusVgui = 0, math.huge, true
-            chat.AddText(Ipr_Fps_Booster_Color["vert"], "[", "Improved FPS Booster automatically started", "]")
-        end
-
-        Ipr_Fps_Booster.Loaded_Lua = true
-    end)
+    return false
 end
+
+hook.Add( "OnPlayerChat", "Ipr_Fps_Booster_Chat_Vgui", function( ply, strText, bTeam, bDead )
+    if (ply ~= LocalPlayer()) then
+        return
+    end
+    if (strText  == "/boost")  then
+        return true, Ipr_Fps_Booster_Vgui_Func()
+    end
+    if (strText == "/reset") then
+        if not IprFpsBooster_FtLoad() then
+            Ipr_Mx, Ipr_Min, Ipr_Gn, Ipr_StatusVgui, Ipr_LastMx = 0, math.huge, 0, false, 0
+            surface.PlaySound("buttons/combine_button5.wav")
+            return true, IprFpsBooster_Enable(false)
+        else
+            chat.AddText(Ipr_Fps_Booster_Color["rouge"], "[", "Improved FPS Booster", "] : ", Ipr_Fps_Booster_Color["blanc"], "Already disabled !")
+            return true
+        end
+    end
+end)
+
+local function Ipr_Fps_Booster_LoadSx(n)
+    if (n == 1) then
+        local Ipr_CountryLang = Ipr_Fps_Booster.DefaultLanguage
+        if (Ipr_Fps_Booster.Country[system.GetCountry()]) then
+            Ipr_CountryLang = "FR"
+        end
+        Ipr_Fps_Booster.Save_Lg[1] = Ipr_CountryLang
+
+        file.Write(Ipr_Fps_Booster.SaveLocation.. "_lang.json", util.TableToJSON({Ipr_CountryLang}))
+    elseif (n == 2) then
+        Ipr_Fps_Booster.Save_Tbl = {{ipr_unumb = 1, ipr_vld = true},{ipr_unumb = 2, ipr_vld = false},{ipr_unumb = 3, ipr_vld = false},{ipr_unumb = 4, ipr_vld = false},{ipr_unumb = 5, ipr_vld = false},{ipr_unumb = 6, ipr_vld = false},{ipr_unumb = 7, ipr_vld = true},{ipr_unumb = 8, ipr_vld = false},{ipr_unumb = 9, ipr_vld = false},{ipr_unumb = 10, ipr_vld = false},{ipr_unumb = 11, ipr_vld = false}, {ipr_unumb = 12, ipr_vld = false}, {ipr_unumb = 13, ipr_vld = false}, {ipr_unumb = 14, ipr_vld = true}, {ipr_unumb = 15, ipr_vld = 32}, {ipr_unumb = 16, ipr_vld = 40}}
+
+        file.Write(Ipr_Fps_Booster.SaveLocation.. "_save.json", util.TableToJSON(Ipr_Fps_Booster.Save_Tbl))
+    end
+end
+
+local function IprFpsBooster_SaveLoad()
+    local ipr_find = file.Find(Ipr_Fps_Booster.SaveLocation.. "*.json", "DATA")
+    if (#ipr_find <= 0) then
+        file.CreateDir(Ipr_Fps_Booster.SaveLocation)
+
+        for i = 1, 2 do
+            Ipr_Fps_Booster_LoadSx(i)
+        end
+        return
+    end
+
+    if not (ipr_find[1] == "_lang.json") then
+        Ipr_Fps_Booster_LoadSx(1)
+    else
+        Ipr_Fps_Booster.Save_Lg = util.JSONToTable(file.Read(Ipr_Fps_Booster.SaveLocation.. "_lang.json", "DATA") or {})
+    end
+
+    if not (ipr_find[2] == "_save.json") then
+        Ipr_Fps_Booster_LoadSx(2)
+    else
+        local ipr_lg = util.JSONToTable(file.Read(Ipr_Fps_Booster.SaveLocation.. "_save.json", "DATA") or {})
+        if (#ipr_lg <= 0) then --- OOOh shit :P
+            Ipr_Fps_Booster_LoadSx(2)
+        end
+
+        Ipr_Fps_Booster.Save_Tbl = ipr_lg
+    end
+end
+
+hook.Add( "InitPostEntity", "Ipr_Fps_Booster_Spawn_Vgui", function()
+    IprFpsBooster_SaveLoad()
+
+    if IprFpsBooster_FtLoad() then
+        timer.Simple(5, function()
+            Ipr_Fps_Booster_Vgui_Func()
+        end)
+    else
+        Ipr_Mx, Ipr_Min, Ipr_StatusVgui = 0, math.huge, true
+        chat.AddText(Ipr_Fps_Booster_Color["vert"], "[", "Improved FPS Booster automatically started", "]")
+    end
+
+    Ipr_Fps_Booster.Loaded_Lua = true
+end)
