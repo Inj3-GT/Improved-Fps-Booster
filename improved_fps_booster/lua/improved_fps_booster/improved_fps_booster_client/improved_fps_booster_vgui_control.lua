@@ -195,7 +195,6 @@ local function Ipr_Gui_Blur(f, fl, c, br)
     surface.SetMaterial(Ipr_Sys_BlurMat)
 
     local x, y = f:LocalToScreen(0, 0)
-    local Ipr_Sys_BlurMat = Material("pp/blurscreen")
     for i = 1, 3 do
          Ipr_Sys_BlurMat:SetFloat("$blur", (i / 3) * fl)
          Ipr_Sys_BlurMat:Recompute()
