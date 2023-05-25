@@ -672,11 +672,12 @@ local function IprFpsBooster_ChatVgui(ply, strText, bTeam, bDead)
     if (ply ~= LocalPlayer()) then
         return
     end
+    local Ipr_Str = string.lower(strText)
 
-    if (strText  == "/boost")  then
+    if (Ipr_Str  == "/boost")  then
         return true, Ipr_Fps_Booster_Vgui_Func()
     end
-    if (strText == "/reset") then
+    if (Ipr_Str == "/reset") then
         if not IprFpsBooster_LoadChb() then
             Ipr_Mx, Ipr_Mn, Ipr_Gn, Ipr_StatusVgui, Ipr_LastMx = 0, math.huge, 0, false, 0
             surface.PlaySound("buttons/combine_button5.wav")
