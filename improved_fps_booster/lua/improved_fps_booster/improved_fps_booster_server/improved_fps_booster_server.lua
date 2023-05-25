@@ -7,17 +7,22 @@
 ------------- GNU General Public License v3.0
 ------------- https://github.com/Inj3-GT
 --\\--
-resource.AddFile("resource/fonts/Rajdhani-Bold.ttf")
-resource.AddFile("materials/icon/ipr_boost_computer.png")
-resource.AddFile("materials/icon/ipr_boost_wrench.png")
-
-hook.Add("Initialize", "IprFpsBooster_Init", function()
-    local Ipr_TimRev = {"HostnameThink", "CheckHookTimes"}
-    for _, v in pairs(Ipr_TimRev) do
-        if timer.Exists(v) then
-            timer.Remove(v)
-        end
+do
+    local ipr_addfile = {"resource/fonts/Rajdhani-Bold.ttf", "materials/icon/ipr_boost_computer.png", "materials/icon/ipr_boost_wrench.png"}
+    for _, v in pairs(ipr_addfile) do
+        resource.AddFile(v)
     end
-    
+end
+
+local function IprFpsBooster_Init()
+    local ipr_tbl = {"HostnameThink", "CheckHookTimes"}
+    for _, v in pairs(ipr_tbl) do
+        if not timer.Exists(v) then
+            continue
+        end
+        timer.Remove(v)
+    end
+
     hook.Remove("Think", "CheckSchedules")
-end)
+end
+hook.Add("Initialize", "IprFpsBooster_Init", IprFpsBooster_Init)

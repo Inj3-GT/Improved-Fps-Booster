@@ -7,65 +7,62 @@
 ------------- GNU General Public License v3.0
 ------------- https://github.com/Inj3-GT
 --\\--
-local ipr_debug = true
 
-local function IprFpsBooster_SaveConv(g, b)
-    if not IsValid(g) then
-        return
-    end
-    local ipr_check = b and g:GetChecked() or not b and g:GetValue()
+local function IprFpsBooster_ConvControl(t, g, b, n)
+    local ipr_debug = true
 
-    for _, v in ipairs(Ipr_Fps_Booster.Save_Tbl) do
-        if (v.ipr_unumb == g.ipr_unumb) then
-            v.ipr_vld = ipr_check
-            break
+    if (t == 1) then
+        if not IsValid(g) then
+            return
         end
-    end
-    file.Write(Ipr_Fps_Booster.SaveLocation.. "_save.json", util.TableToJSON(Ipr_Fps_Booster.Save_Tbl))
+        local ipr_check = b and g:GetChecked() or not b and g:GetValue()
 
-    if (b) then
-        surface.PlaySound("buttons/combine_button1.wav")
-    end
-end
-
-local function IprFpsBooster_CallConv(g)
-    if not IsValid(g) then
-        return
-    end
-
-    for _, v in ipairs(Ipr_Fps_Booster.Save_Tbl) do
-        if (v.ipr_unumb == g.ipr_unumb) then
-              return v.ipr_vld
-        end
-    end
-
-    return false, ipr_debug and print("*C-error")
-end
-
-local function IprFpsBooster_CallConvS(n)
-    for _, v in ipairs(Ipr_Fps_Booster.Save_Tbl) do
-        if (v.ipr_unumb == n) then
-            return v.ipr_vld
-        end
-    end
-
-    return false, ipr_debug and print("*CS-error")
-end
-
-local function IprFpsBooster_CLang()
-    if (Ipr_Fps_Booster.Save_Lg and Ipr_Fps_Booster.Save_Lg[1]) then
-        for l in pairs(Ipr_Fps_Booster.Lang) do
-            if (l == Ipr_Fps_Booster.Save_Lg[1]) then
-                 return Ipr_Fps_Booster.Save_Lg[1]
+        for _, v in ipairs(Ipr_Fps_Booster.Save_Tbl) do
+            if (v.ipr_unumb == g.ipr_unumb) then
+                v.ipr_vld = ipr_check
+                break
             end
         end
-    end
+        file.Write(Ipr_Fps_Booster.SaveLocation.. "_save.json", util.TableToJSON(Ipr_Fps_Booster.Save_Tbl))
 
-    return Ipr_Fps_Booster.DefaultLanguage
+        if (b) then
+            surface.PlaySound("buttons/combine_button1.wav")
+        end
+    elseif (t == 2) then
+        if not IsValid(g) then
+            return
+        end
+
+        for _, v in ipairs(Ipr_Fps_Booster.Save_Tbl) do
+            if (v.ipr_unumb == g.ipr_unumb) then
+                return v.ipr_vld
+            end
+        end
+
+        return false, ipr_debug and print("*C-error")
+    elseif (t == 3) then
+        for _, v in ipairs(Ipr_Fps_Booster.Save_Tbl) do
+            if (v.ipr_unumb == n) then
+                return v.ipr_vld
+            end
+        end
+
+        return false, ipr_debug and print("*CS-error")
+    else
+        if (Ipr_Fps_Booster.Save_Lg and Ipr_Fps_Booster.Save_Lg[1]) then
+            for l in pairs(Ipr_Fps_Booster.Lang) do
+                if (l == Ipr_Fps_Booster.Save_Lg[1]) then
+                    return Ipr_Fps_Booster.Save_Lg[1]
+                end
+            end
+        end
+
+        return Ipr_Fps_Booster.DefaultLanguage
+    end
 end
 
 local Ipr_Fps_Booster_Color = {["gris"] = Color(236, 240, 241),["vert"] = Color(39, 174, 96),["rouge"] = Color(192, 57, 43),["orange"] = Color(243, 156, 18),["blanc"] = Color(236, 240, 241), ["bleu"] = Color(52, 73, 94), ["bleuc"] = Color(30, 73, 109)}
-local function Ipr_Fps_Booster_OverrideDcb(g, n)
+local function IprFpsBooster_OverDcb(g, n)
     if (n == 1) then
         for _, v in ipairs(g:GetChildren()) do
             if (v:GetName() ~= "DMenu") then
@@ -104,21 +101,30 @@ local function Ipr_Fps_Booster_OverrideDcb(g, n)
     end
 end
 
-local function IprFpsBooster_CBox()
+local function IprFpsBooster_LoadChb(b)
     local ipr_count = 0
     for _, v in ipairs(Ipr_Fps_Booster.Save_Tbl) do
         if (Ipr_Fps_Booster.DefautCommand[v.ipr_unumb]) then
             local ipr_val = v.ipr_vld
-            for _, g in pairs(Ipr_Fps_Booster.DefautCommand[v.ipr_unumb].Ipr_CmdChild) do
+            for o, g in pairs(Ipr_Fps_Booster.DefautCommand[v.ipr_unumb].Ipr_CmdChild) do
                 local ipr_control = (ipr_val and g.Ipr_Enabled) or g.Ipr_Disabled
                 
+            if (b) then
                 if (g.Ipr_Disabled ~= ipr_control) then
                     ipr_count = ipr_count + 1
                 end
+            else
+                if (o == "M9KGasEffect") then
+                    continue
+                end
+                if tonumber(ipr_control) ~= tonumber(LocalPlayer():GetInfoNum(o, 0)) then
+                    return true
+                end
+            end
             end
         end
     end
-    if (ipr_count <= 0) then
+    if (b) and (ipr_count <= 0) then
         return true
     end
 
@@ -159,7 +165,7 @@ local function IprFpsBooster_Enable(b)
         end
     end
 
-    if IprFpsBooster_CBox() then
+    if IprFpsBooster_LoadChb(true) then
         Ipr_Mx, Ipr_Mn, Ipr_Gn, Ipr_StatusVgui, Ipr_LastMx = 0, math.huge, 0, false, 0
     end
 end
@@ -169,7 +175,8 @@ local function IprFpsBooster_CalcFps()
     local Ipr_ = CurTime()
 
     if (Ipr_ > (Ipr_CLast or 0)) then
-        Ipr_Cr = math.Round(1/RealFrameTime(), 0)  
+        Ipr_Cr = math.Round(1/RealFrameTime(), 0)
+
         if (Ipr_Cr < Ipr_Mn) then
             Ipr_Mn = Ipr_Cr
         end
@@ -190,7 +197,7 @@ local function IprFpsBooster_CalcFps()
 end
 
 local Ipr_Sys_BlurMat = Material("pp/blurscreen")
-local function Ipr_Gui_Blur(f, fl, c, br) 
+local function IprFpsBooster_GuiBlur(f, fl, c, br) 
     surface.SetDrawColor(255, 255, 255)
     surface.SetMaterial(Ipr_Sys_BlurMat)
 
@@ -201,6 +208,7 @@ local function Ipr_Gui_Blur(f, fl, c, br)
          render.UpdateScreenEffectTexture()
          surface.DrawTexturedRect(x * -1, y * -1, ScrW(), ScrH())
     end
+    
     draw.RoundedBoxEx(br, 0, 0, f:GetWide(), f:GetTall(), c, true, true, true, true)
 end
 
@@ -238,7 +246,7 @@ local function Ipr_Booster_Option_Func(p)
         end
     end
     Ipr_Fps_Booster_Opt_Vgui.Paint = function( self, w, h )
-        Ipr_Gui_Blur(self, 2, Color( 0, 0, 0, 170 ), 8)
+        IprFpsBooster_GuiBlur(self, 2, Color( 0, 0, 0, 170 ), 8)
         local Ior_Sys_Abs = math.abs(math.sin(CurTime() * 1.5) * 170)
 
         draw.RoundedBoxEx(6, 0, 0, w, 20, Ipr_Fps_Booster_Color["bleu"], true, true, false, false)
@@ -272,16 +280,16 @@ local function Ipr_Booster_Option_Func(p)
         Ipr_Fps_Booster_DChb:SetPos( 10, i * (1+ 22) -22)
         Ipr_Fps_Booster_DChb:SetText("")
         Ipr_Fps_Booster_DChb.ipr_unumb = i
-        Ipr_Fps_Booster_DChb:SetValue(IprFpsBooster_CallConv(Ipr_Fps_Booster_DChb))
+        Ipr_Fps_Booster_DChb:SetValue(IprFpsBooster_ConvControl(2, Ipr_Fps_Booster_DChb))
         Ipr_Fps_Booster_DChb:SetTooltip(Ipr_Fps_Booster.DefautCommand[i].Ipr_ToolTip[Ipr_Lang_C])
         Ipr_Fps_Booster_DChb:SetWide(200)
         function Ipr_Fps_Booster_DChb:Paint(w, h)
             draw.SimpleText(Ipr_Fps_Booster.DefautCommand[i].Ipr_Texte[Ipr_Lang_C], "Ipr_Fps_Booster_Font", 22, 0, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_LEFT)
         end
         Ipr_Fps_Booster_DChb.OnChange = function(self)
-            IprFpsBooster_SaveConv(self, true)
+            IprFpsBooster_ConvControl(1, self, true)
         end
-        Ipr_Fps_Booster_OverrideDcb(Ipr_Fps_Booster_DChb, 3)
+        IprFpsBooster_OverDcb(Ipr_Fps_Booster_DChb, 3)
     end
     local function ipr_tbl_add_func()
         ipr_tbl_add = ipr_tbl_add + 1
@@ -291,54 +299,54 @@ local function Ipr_Booster_Option_Func(p)
     Ipr_Fps_Booster_DChb_ShowHud:SetPos(20, 245)
     Ipr_Fps_Booster_DChb_ShowHud:SetText("")
     Ipr_Fps_Booster_DChb_ShowHud.ipr_unumb = ipr_tbl_add_func()
-    Ipr_Fps_Booster_DChb_ShowHud:SetValue(IprFpsBooster_CallConv(Ipr_Fps_Booster_DChb_ShowHud))
+    Ipr_Fps_Booster_DChb_ShowHud:SetValue(IprFpsBooster_ConvControl(2, Ipr_Fps_Booster_DChb_ShowHud))
     Ipr_Fps_Booster_DChb_ShowHud:SetTooltip(Ipr_Fps_Booster.Lang[Ipr_Lang_C].ipr_vgui_hudshow_tx)
     Ipr_Fps_Booster_DChb_ShowHud:SetWide(200)
     function Ipr_Fps_Booster_DChb_ShowHud:Paint(w, h)
         draw.SimpleText(Ipr_Fps_Booster.Lang[Ipr_Lang_C].ipr_vgui_hudshow_t, "Ipr_Fps_Booster_Font", 22, 0, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_LEFT)
     end
     Ipr_Fps_Booster_DChb_ShowHud.OnChange = function(self)
-        IprFpsBooster_SaveConv(self, true)
+        IprFpsBooster_ConvControl(1, self, true)
     end
-    Ipr_Fps_Booster_OverrideDcb(Ipr_Fps_Booster_DChb_ShowHud, 3)
+    IprFpsBooster_OverDcb(Ipr_Fps_Booster_DChb_ShowHud, 3)
 
     Ipr_Fps_Booster_Cls_a:SetPos(20, 270)
     Ipr_Fps_Booster_Cls_a:SetText("")
     Ipr_Fps_Booster_Cls_a.ipr_unumb = ipr_tbl_add_func()
-    Ipr_Fps_Booster_Cls_a:SetValue(IprFpsBooster_CallConv(Ipr_Fps_Booster_Cls_a))
+    Ipr_Fps_Booster_Cls_a:SetValue(IprFpsBooster_ConvControl(2, Ipr_Fps_Booster_Cls_a))
     Ipr_Fps_Booster_Cls_a:SetTooltip(Ipr_Fps_Booster.Lang[Ipr_Lang_C].ipr_vgui_Cls)
     Ipr_Fps_Booster_Cls_a:SetWide(210)
     function Ipr_Fps_Booster_Cls_a:Paint(w, h)
         draw.SimpleText(Ipr_Fps_Booster.Lang[Ipr_Lang_C].ipr_vgui_Cls, "Ipr_Fps_Booster_Font", 22, 0, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_LEFT)
     end
     Ipr_Fps_Booster_Cls_a.OnChange = function(self)
-        IprFpsBooster_SaveConv(self, true)
+        IprFpsBooster_ConvControl(1, self, true)
     end
-    Ipr_Fps_Booster_OverrideDcb(Ipr_Fps_Booster_Cls_a, 3)
+    IprFpsBooster_OverDcb(Ipr_Fps_Booster_Cls_a, 3)
 
     Ipr_Fps_Booster_PosW:SetPos(-160, 310)
     Ipr_Fps_Booster_PosW:SetSize(415, 25)
     Ipr_Fps_Booster_PosW:SetText( "" )
     Ipr_Fps_Booster_PosW:SetMinMax(0, 100)
     Ipr_Fps_Booster_PosW.ipr_unumb = ipr_tbl_add_func()
-    Ipr_Fps_Booster_PosW:SetValue(IprFpsBooster_CallConv(Ipr_Fps_Booster_PosW))
+    Ipr_Fps_Booster_PosW:SetValue(IprFpsBooster_ConvControl(2, Ipr_Fps_Booster_PosW))
     Ipr_Fps_Booster_PosW:SetDecimals(0)
-    Ipr_Fps_Booster_OverrideDcb(Ipr_Fps_Booster_PosW, 2)
+    IprFpsBooster_OverDcb(Ipr_Fps_Booster_PosW, 2)
     Ipr_Fps_Booster_PosW.OnValueChanged = function(self, val)
-        IprFpsBooster_SaveConv(self, false)
+        IprFpsBooster_ConvControl(1, self, false)
     end
-    Ipr_Fps_Booster_OverrideDcb(Ipr_Fps_Booster_PosW, 4)
+    IprFpsBooster_OverDcb(Ipr_Fps_Booster_PosW, 4)
 
     Ipr_Fps_Booster_PosH:SetPos(-160, 355)
     Ipr_Fps_Booster_PosH:SetSize(415, 25)
     Ipr_Fps_Booster_PosH:SetText("")
     Ipr_Fps_Booster_PosH:SetMinMax(0, 100)
     Ipr_Fps_Booster_PosH.ipr_unumb = ipr_tbl_add_func()
-    Ipr_Fps_Booster_PosH:SetValue(IprFpsBooster_CallConv(Ipr_Fps_Booster_PosH))
+    Ipr_Fps_Booster_PosH:SetValue(IprFpsBooster_ConvControl(2, Ipr_Fps_Booster_PosH))
     Ipr_Fps_Booster_PosH:SetDecimals(0)
-    Ipr_Fps_Booster_OverrideDcb(Ipr_Fps_Booster_PosH, 2)
+    IprFpsBooster_OverDcb(Ipr_Fps_Booster_PosH, 2)
     Ipr_Fps_Booster_PosH.OnValueChanged = Ipr_Fps_Booster_PosW.OnValueChanged
-    Ipr_Fps_Booster_OverrideDcb(Ipr_Fps_Booster_PosH, 4)
+    IprFpsBooster_OverDcb(Ipr_Fps_Booster_PosH, 4)
 
     Ipr_Fps_Booster_Exp:SetPos(221, 2)
     Ipr_Fps_Booster_Exp:SetSize(17, 17)
@@ -370,6 +378,7 @@ local function Ipr_Booster_Option_Func(p)
     Ipr_Fps_Booster_SaveLoad.DoClick = function()
         IprFpsBooster_Enable(false)
         Ipr_Mx, Ipr_Mn, Ipr_Gn, Ipr_StatusVgui = 0, math.huge, 0, true
+
         chat.AddText(Ipr_Fps_Booster_Color["rouge"], "[", "FPS Booster", "] : ", Ipr_Fps_Booster_Color["blanc"], Ipr_Fps_Booster.Lang[Ipr_Lang_C].ipr_vgui_fps_load_data)
         surface.PlaySound("buttons/button9.wav")
         IprFpsBooster_Enable(true)
@@ -394,10 +403,10 @@ local function Ipr_Fps_Booster_Vgui_Func()
     local Ipr_Fps_Booster_Opt = vgui.Create("DButton", Ipr_Fps_Booster_Vgui)
     local Ipr_Fps_Booster_Res = vgui.Create("DButton", Ipr_Fps_Booster_Vgui)
     local Ipr_Fps_Booster_Dcb = vgui.Create("DComboBox", Ipr_Fps_Booster_Vgui)
-    Ipr_Lang_C = IprFpsBooster_CLang()
+    Ipr_Lang_C = IprFpsBooster_ConvControl()
 
     Ipr_Fps_Booster_Vgui:SetTitle( "" )
-    Ipr_Fps_Booster_Vgui:SetSize(300, 280)
+    Ipr_Fps_Booster_Vgui:SetSize(300, 275)
     Ipr_Fps_Booster_Vgui:MakePopup()
     Ipr_Fps_Booster_Vgui:ShowCloseButton(false)
     Ipr_Fps_Booster_Vgui:SetDraggable(true)
@@ -405,8 +414,8 @@ local function Ipr_Fps_Booster_Vgui_Func()
     Ipr_Fps_Booster_Vgui:AlphaTo(5, 0, 0)
     Ipr_Fps_Booster_Vgui:AlphaTo(255, 1, 0)
     Ipr_Fps_Booster_Vgui.Paint = function( self, w, h )
-        Ipr_Gui_Blur(self, 2, Color( 0, 0, 0, 170 ), 8)
-        Ipr_Lang_C = IprFpsBooster_CLang()
+        IprFpsBooster_GuiBlur(self, 2, Color( 0, 0, 0, 170 ), 8)
+        Ipr_Lang_C = IprFpsBooster_ConvControl()
 
         draw.RoundedBoxEx(6, 0, 0, w, 33, Ipr_Fps_Booster_Color["bleu"], true, true, false, false)
         draw.SimpleText(Ipr_Fps_Booster.Lang[Ipr_Lang_C].ipr_vgui_enabled,"Ipr_Fps_Booster_Font",w/2,1, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_CENTER)
@@ -457,15 +466,15 @@ local function Ipr_Fps_Booster_Vgui_Func()
         local ipr_icon, ipr_icon_ = Material("icon/ipr_boost_computer.png", "noclamp smooth"), Material("icon/ipr_boost_wrench.png", "noclamp smooth")
         Ipr_Fps_Booster_Vgui_Dp.Paint = function (self, w, h)
             local Ipr_Cur, Ipr_Mn, Ipr_Max_, Ipr_Gn = IprFpsBooster_CalcFps()
-            draw.SimpleText("FPS Status","Ipr_Fps_Booster_Font",w/2,h/2-67, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_CENTER)
-            draw.SimpleText(Ipr_Fps_Booster.Lang[Ipr_Lang_C].ipr_vgui_fps_cur,"Ipr_Fps_Booster_Font",w/2-10,h/2-50, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_CENTER)
-            draw.SimpleText(Ipr_Cur, "Ipr_Fps_Booster_Font",w/2+15,h/2-50, ipr_fps_booster_rgbtransition(Ipr_Cur), TEXT_ALIGN_LEFT)
-            draw.SimpleText("Max : ","Ipr_Fps_Booster_Font",w/2-10,h/2-35, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_CENTER)
-            draw.SimpleText(Ipr_Max_,"Ipr_Fps_Booster_Font",w/2+10,h/2-35, ipr_fps_booster_rgbtransition(Ipr_Max_), TEXT_ALIGN_LEFT)
-            draw.SimpleText("Min : ","Ipr_Fps_Booster_Font",w/2-10,h/2-20, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_CENTER)
-            draw.SimpleText(Ipr_Mn,"Ipr_Fps_Booster_Font",w/2+10,h/2-20, ipr_fps_booster_rgbtransition(Ipr_Mn), TEXT_ALIGN_LEFT)
-            draw.SimpleText("Gain : ","Ipr_Fps_Booster_Font",w/2-10, h/2-5, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_CENTER)
-            draw.SimpleText((Ipr_StatusVgui and (Ipr_Mx ~= Ipr_Gn) and Ipr_Gn or "OFF"),"Ipr_Fps_Booster_Font",w/2+10, h/2-5, Ipr_StatusVgui and (Ipr_Mx ~= Ipr_Gn) and Ipr_Fps_Booster_Color["vert"] or Ipr_Fps_Booster_Color["rouge"], TEXT_ALIGN_LEFT)
+            draw.SimpleText("FPS Status","Ipr_Fps_Booster_Font",w/2,h/2-66, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_CENTER)
+            draw.SimpleText(Ipr_Fps_Booster.Lang[Ipr_Lang_C].ipr_vgui_fps_cur,"Ipr_Fps_Booster_Font",w/2-10,h/2-48, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_CENTER)
+            draw.SimpleText(Ipr_Cur, "Ipr_Fps_Booster_Font",w/2+15,h/2-48, ipr_fps_booster_rgbtransition(Ipr_Cur), TEXT_ALIGN_LEFT)
+            draw.SimpleText("Max : ","Ipr_Fps_Booster_Font",w/2-10,h/2-33, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_CENTER)
+            draw.SimpleText(Ipr_Max_,"Ipr_Fps_Booster_Font",w/2+10,h/2-33, ipr_fps_booster_rgbtransition(Ipr_Max_), TEXT_ALIGN_LEFT)
+            draw.SimpleText("Min : ","Ipr_Fps_Booster_Font",w/2-10,h/2-18, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_CENTER)
+            draw.SimpleText(Ipr_Mn,"Ipr_Fps_Booster_Font",w/2+10,h/2-18, ipr_fps_booster_rgbtransition(Ipr_Mn), TEXT_ALIGN_LEFT)
+            draw.SimpleText("Gain : ","Ipr_Fps_Booster_Font",w/2-10, h/2-3, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_CENTER)
+            draw.SimpleText((Ipr_StatusVgui and (Ipr_Mx ~= Ipr_Gn) and Ipr_Gn or "OFF"),"Ipr_Fps_Booster_Font",w/2+10, h/2-3, Ipr_StatusVgui and (Ipr_Mx ~= Ipr_Gn) and Ipr_Fps_Booster_Color["vert"] or Ipr_Fps_Booster_Color["rouge"], TEXT_ALIGN_LEFT)
     
             surface.SetMaterial(ipr_icon)
             surface.SetDrawColor(255, 255, 255, 255)
@@ -485,7 +494,7 @@ local function Ipr_Fps_Booster_Vgui_Func()
         gui.OpenURL("https://steamcommunity.com/sharedfiles/filedetails/?id=1762151370")
     end
 
-    Ipr_Fps_Booster_En:SetPos(6, 250)
+    Ipr_Fps_Booster_En:SetPos(6, 245)
     Ipr_Fps_Booster_En:SetSize(110, 24)
     Ipr_Fps_Booster_En:SetImage( "icon16/tick.png" )
     Ipr_Fps_Booster_En:SetText("")
@@ -498,7 +507,7 @@ local function Ipr_Fps_Booster_Vgui_Func()
         draw.SimpleText(Ipr_Fps_Booster.Lang[Ipr_Lang_C].ipr_vgui_enable_t, "Ipr_Fps_Booster_Font", w / 2 + 3, 3, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_CENTER)
     end
     Ipr_Fps_Booster_En.DoClick = function()
-        if IprFpsBooster_CBox() then
+        if IprFpsBooster_LoadChb(true) then
         Ipr_Mx, Ipr_Mn, Ipr_Gn, Ipr_StatusVgui, Ipr_LastMx = 0, math.huge, 0, false, 0
         chat.AddText(Ipr_Fps_Booster_Color["rouge"], "[", "FPS Booster", "] : ", Ipr_Fps_Booster_Color["blanc"], "Please check boxes in optimization to activate the fps booster !")
             return 
@@ -511,7 +520,7 @@ local function Ipr_Fps_Booster_Vgui_Func()
         IprFpsBooster_Enable(true)
         chat.AddText(Ipr_Fps_Booster_Color["rouge"], "[", "FPS Booster", "] : ", Ipr_Fps_Booster_Color["blanc"], Ipr_Fps_Booster.Lang[Ipr_Lang_C].ipr_vgui_enable_prevent_t)
         
-        if IprFpsBooster_CallConvS(14) then
+        if IprFpsBooster_ConvControl(3, nil, nil, 14) then
           Ipr_Fps_Booster_Vgui:Remove()
             
             if IsValid(Ipr_Fps_Booster_Opt_Vgui) then
@@ -521,7 +530,7 @@ local function Ipr_Fps_Booster_Vgui_Func()
         surface.PlaySound("buttons/combine_button7.wav")
     end
 
-    Ipr_Fps_Booster_Di:SetPos(184, 250)
+    Ipr_Fps_Booster_Di:SetPos(184, 245)
     Ipr_Fps_Booster_Di:SetSize(110, 24)
     Ipr_Fps_Booster_Di:SetImage( "icon16/cross.png" )
     Ipr_Fps_Booster_Di:SetText("")
@@ -538,7 +547,7 @@ local function Ipr_Fps_Booster_Vgui_Func()
         IprFpsBooster_Enable(false)
 
         chat.AddText(Ipr_Fps_Booster_Color["rouge"], "[", "FPS Booster", "] : ", Ipr_Fps_Booster_Color["blanc"], Ipr_Fps_Booster.Lang[Ipr_Lang_C].ipr_vgui_disableop_t)
-        if IprFpsBooster_CallConvS(14) then
+        if IprFpsBooster_ConvControl(3, nil, nil, 14) then
           Ipr_Fps_Booster_Vgui:Remove()
             if IsValid(Ipr_Fps_Booster_Opt_Vgui) then
               Ipr_Fps_Booster_Opt_Vgui:Remove()
@@ -567,7 +576,7 @@ local function Ipr_Fps_Booster_Vgui_Func()
         surface.PlaySound("buttons/button9.wav")
     end
 
-    Ipr_Fps_Booster_Res:SetPos(75, 200)
+    Ipr_Fps_Booster_Res:SetPos(77, 195)
     Ipr_Fps_Booster_Res:SetSize(151, 20)
     Ipr_Fps_Booster_Res:SetText("")
     Ipr_Fps_Booster_Res:SetImage( "icon16/arrow_refresh.png" )
@@ -599,7 +608,7 @@ local function Ipr_Fps_Booster_Vgui_Func()
             draw.RoundedBox( 6, 0, 0, w, h, Ipr_Fps_Booster_Color["bleu"])
         end
     end
-    Ipr_Fps_Booster_OverrideDcb(Ipr_Fps_Booster_Dcb, 1)
+    IprFpsBooster_OverDcb(Ipr_Fps_Booster_Dcb, 1)
     Ipr_Fps_Booster_Dcb.OnMenuOpened = function(self)
         for _, v in pairs(self:GetChildren()) do
             v.Paint = function(p, w, h)
@@ -619,7 +628,7 @@ local function Ipr_Fps_Booster_Vgui_Func()
             end
         end
 
-        Ipr_Fps_Booster_OverrideDcb(self, 1)
+        IprFpsBooster_OverDcb(self, 1)
     end
     Ipr_Fps_Booster_Dcb.OnSelect = function( self, index, value )
         local ipr_lang_cf = Ipr_Fps_Booster.Lang[Ipr_Lang_C].ipr_vgui_Lang.. " "
@@ -633,7 +642,7 @@ local function Ipr_Fps_Booster_Vgui_Func()
         surface.PlaySound("buttons/button9.wav")
     
         self:Clear()
-        local Ipr_Call = IprFpsBooster_CLang()
+        local Ipr_Call = IprFpsBooster_ConvControl()
         self:SetValue(Ipr_Fps_Booster.Lang[Ipr_Call].ipr_vgui_Lang.. " " ..Ipr_Call)
         for lang in pairs(Ipr_Fps_Booster.Lang) do
             self:AddChoice(Ipr_Fps_Booster.Lang[Ipr_Call].ipr_vgui_Lang.. " " ..lang)
@@ -651,44 +660,28 @@ local function Ipr_Fps_Booster_Vgui_Func()
         Ipr_Fps_Booster_Vgui:Remove()
     end
 end
- 
-hook.Add("PostDrawHUD","Ipr_Fps_Booster_PostDraw", function()
-    if (Ipr_Fps_Booster.Loaded_Lua and IprFpsBooster_CallConvS(13)) then
-        local Ipr_Cur, Ipr_Mn, Ipr_Max_, Ipr_Gn = IprFpsBooster_CalcFps()
-        
-        draw.SimpleTextOutlined("FPS : " ..Ipr_Cur.. " Min : " ..Ipr_Mn.. " Max : " ..Ipr_Max_.. " Gain : " ..(Ipr_StatusVgui and (Ipr_Mx ~= Ipr_Gn) and Ipr_Gn or "OFF"), "Ipr_Fps_Booster_Font", ScrW() * (IprFpsBooster_CallConvS(15) / 100) - 40,  ScrH() * (IprFpsBooster_CallConvS(16) / 100) - 10, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_LEFT, TEXT_ALIGN_LEFT, 0.8, Ipr_Fps_Booster_Color["bleu"])
-    end
-end)
 
-local function IprFpsBooster_FtLoad()
-    for _, v in ipairs(Ipr_Fps_Booster.Save_Tbl) do
-        if (Ipr_Fps_Booster.DefautCommand[v.ipr_unumb]) then
-            local ipr_val = v.ipr_vld
-            
-            for o, g in pairs(Ipr_Fps_Booster.DefautCommand[v.ipr_unumb].Ipr_CmdChild) do
-                local ipr_control = (ipr_val and g.Ipr_Enabled) or g.Ipr_Disabled
-                if (o == "M9KGasEffect") then
-                    continue
-                end
-                if tonumber(ipr_control) ~= tonumber(LocalPlayer():GetInfoNum(o, 0)) then
-                    return true
-                end
-            end
-        end
+local function IprFpsBooster_PostDraw()
+    if not Ipr_Fps_Booster.Loaded_Lua or not IprFpsBooster_ConvControl(3, nil, nil, 13) then
+        return
     end
+    local Ipr_Cur, Ipr_Mn, Ipr_Max_, Ipr_Gn = IprFpsBooster_CalcFps()
+    local Ipr_Map = game.GetMap()
 
-    return false
+    draw.SimpleTextOutlined("FPS : " ..Ipr_Cur.. " Min : " ..Ipr_Mn.. " Max : " ..Ipr_Max_.. " " ..(Ipr_StatusVgui and (Ipr_Mx ~= Ipr_Gn) and "Gain :" ..Ipr_Gn or ""), "Ipr_Fps_Booster_Font", ScrW() * (IprFpsBooster_ConvControl(3, nil, nil, 15) / 100) - 40,  ScrH() * (IprFpsBooster_ConvControl(3, nil, nil, 16) / 100) - 10, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_LEFT, TEXT_ALIGN_LEFT, 0.8, Ipr_Fps_Booster_Color["bleu"])
+    draw.SimpleTextOutlined("Map : " ..Ipr_Map, "Ipr_Fps_Booster_Font", ScrW() * (IprFpsBooster_ConvControl(3, nil, nil, 15) / 100) - 40,  ScrH() * (IprFpsBooster_ConvControl(3, nil, nil, 16) / 100) + 10, Ipr_Fps_Booster_Color["blanc"], TEXT_ALIGN_LEFT, TEXT_ALIGN_LEFT, 0.8, Ipr_Fps_Booster_Color["bleu"])
 end
 
-hook.Add( "OnPlayerChat", "Ipr_Fps_Booster_Chat_Vgui", function( ply, strText, bTeam, bDead )
+local function IprFpsBooster_ChatVgui(ply, strText, bTeam, bDead)
     if (ply ~= LocalPlayer()) then
         return
     end
+
     if (strText  == "/boost")  then
         return true, Ipr_Fps_Booster_Vgui_Func()
     end
     if (strText == "/reset") then
-        if not IprFpsBooster_FtLoad() then
+        if not IprFpsBooster_LoadChb() then
             Ipr_Mx, Ipr_Mn, Ipr_Gn, Ipr_StatusVgui, Ipr_LastMx = 0, math.huge, 0, false, 0
             surface.PlaySound("buttons/combine_button5.wav")
             return true, IprFpsBooster_Enable(false)
@@ -697,57 +690,51 @@ hook.Add( "OnPlayerChat", "Ipr_Fps_Booster_Chat_Vgui", function( ply, strText, b
             return true
         end
     end
-end)
+end
 
-local function Ipr_Fps_Booster_LoadSx(n)
+local function IprFpsBooster_LoadSxt(n)
     if (n == 1) then
         local Ipr_CountryLang = Ipr_Fps_Booster.DefaultLanguage
         if (Ipr_Fps_Booster.Country[system.GetCountry()]) then
             Ipr_CountryLang = "FR"
         end
-        Ipr_Fps_Booster.Save_Lg[1] = Ipr_CountryLang
-
+        
         file.Write(Ipr_Fps_Booster.SaveLocation.. "_lang.json", util.TableToJSON({Ipr_CountryLang}))
-    elseif (n == 2) then
-        Ipr_Fps_Booster.Save_Tbl = {{ipr_unumb = 1, ipr_vld = true},{ipr_unumb = 2, ipr_vld = false},{ipr_unumb = 3, ipr_vld = false},{ipr_unumb = 4, ipr_vld = false},{ipr_unumb = 5, ipr_vld = false},{ipr_unumb = 6, ipr_vld = false},{ipr_unumb = 7, ipr_vld = true},{ipr_unumb = 8, ipr_vld = false},{ipr_unumb = 9, ipr_vld = false},{ipr_unumb = 10, ipr_vld = false},{ipr_unumb = 11, ipr_vld = false}, {ipr_unumb = 12, ipr_vld = false}, {ipr_unumb = 13, ipr_vld = false}, {ipr_unumb = 14, ipr_vld = true}, {ipr_unumb = 15, ipr_vld = 32}, {ipr_unumb = 16, ipr_vld = 40}}
-
-        file.Write(Ipr_Fps_Booster.SaveLocation.. "_save.json", util.TableToJSON(Ipr_Fps_Booster.Save_Tbl))
+        Ipr_Fps_Booster.Save_Lg[1] = Ipr_CountryLang
+        return
     end
+
+    Ipr_Fps_Booster.Save_Tbl = {{ipr_unumb = 1, ipr_vld = true},{ipr_unumb = 2, ipr_vld = false},{ipr_unumb = 3, ipr_vld = false},{ipr_unumb = 4, ipr_vld = false},{ipr_unumb = 5, ipr_vld = false},{ipr_unumb = 6, ipr_vld = false},{ipr_unumb = 7, ipr_vld = true},{ipr_unumb = 8, ipr_vld = false},{ipr_unumb = 9, ipr_vld = false},{ipr_unumb = 10, ipr_vld = false},{ipr_unumb = 11, ipr_vld = false}, {ipr_unumb = 12, ipr_vld = false}, {ipr_unumb = 13, ipr_vld = false}, {ipr_unumb = 14, ipr_vld = true}, {ipr_unumb = 15, ipr_vld = 32}, {ipr_unumb = 16, ipr_vld = 40}}
+    file.Write(Ipr_Fps_Booster.SaveLocation.. "_save.json", util.TableToJSON(Ipr_Fps_Booster.Save_Tbl))
 end
 
-local function IprFpsBooster_SaveLoad()
+local function IprFpsBooster_InitEnt()
     local ipr_find = file.Find(Ipr_Fps_Booster.SaveLocation.. "*.json", "DATA")
+
     if (#ipr_find <= 0) then
         file.CreateDir(Ipr_Fps_Booster.SaveLocation)
 
         for i = 1, 2 do
-            Ipr_Fps_Booster_LoadSx(i)
+            IprFpsBooster_LoadSxt(i)
         end
-        return
-    end
-
-    if not (ipr_find[1] == "_lang.json") then
-        Ipr_Fps_Booster_LoadSx(1)
     else
-        Ipr_Fps_Booster.Save_Lg = util.JSONToTable(file.Read(Ipr_Fps_Booster.SaveLocation.. "_lang.json", "DATA") or {})
-    end
-
-    if not (ipr_find[2] == "_save.json") then
-        Ipr_Fps_Booster_LoadSx(2)
-    else
-        local ipr_lg = util.JSONToTable(file.Read(Ipr_Fps_Booster.SaveLocation.. "_save.json", "DATA") or {})
-        if (#ipr_lg <= 0) then --- OOOh shit :P
-            Ipr_Fps_Booster_LoadSx(2)
+        if not (ipr_find[1] == "_lang.json") then
+            IprFpsBooster_LoadSxt(1)
+        else
+            Ipr_Fps_Booster.Save_Lg = util.JSONToTable(file.Read(Ipr_Fps_Booster.SaveLocation.. "_lang.json", "DATA") or {})
         end
+        if not (ipr_find[2] == "_save.json") then
+            IprFpsBooster_LoadSxt(2)
+        else
+            local ipr_lg = util.JSONToTable(file.Read(Ipr_Fps_Booster.SaveLocation.. "_save.json", "DATA") or {})
+            if (#ipr_lg <= 0) then --- OOOh shit :P
+                IprFpsBooster_LoadSxt(2)
+            end
 
-        Ipr_Fps_Booster.Save_Tbl = ipr_lg
+            Ipr_Fps_Booster.Save_Tbl = ipr_lg
+        end
     end
-end
-
-hook.Add( "InitPostEntity", "Ipr_Fps_Booster_Spawn_Vgui", function()
-    IprFpsBooster_SaveLoad()
-
-    if IprFpsBooster_FtLoad() then
+    if IprFpsBooster_LoadChb() then
         timer.Simple(5, function()
             Ipr_Fps_Booster_Vgui_Func()
         end)
@@ -757,4 +744,8 @@ hook.Add( "InitPostEntity", "Ipr_Fps_Booster_Spawn_Vgui", function()
     end
 
     Ipr_Fps_Booster.Loaded_Lua = true
-end)
+end
+
+hook.Add( "OnPlayerChat", "IprFpsBooster_ChatVgui", IprFpsBooster_ChatVgui)
+hook.Add("PostDrawHUD","IprFpsBooster_PostDraw", IprFpsBooster_PostDraw)
+hook.Add( "InitPostEntity", "IprFpsBooster_InitEnt", IprFpsBooster_InitEnt)

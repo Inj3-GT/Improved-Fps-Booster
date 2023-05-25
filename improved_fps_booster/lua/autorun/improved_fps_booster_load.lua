@@ -8,12 +8,12 @@
 ------------- https://github.com/Inj3-GT
 --\\--
 Ipr_Fps_Booster = Ipr_Fps_Booster or {}
-Ipr_Fps_Booster.Version = "v3.6"
+Ipr_Fps_Booster.Version = "v3.7"
 
 local Ipr_Cl = file.Find("improved_fps_booster/improved_fps_booster_client/*", "LUA")
 if (CLIENT) then
     Ipr_Fps_Booster.DefaultLanguage = "EN"
-    Ipr_Fps_Booster.SaveLocation = "ipr_fps_booster_v3_data/save/"
+    Ipr_Fps_Booster.SaveLocation = "improved_fps_booster/save/"
 
     Ipr_Fps_Booster.Loaded_Lua = Ipr_Fps_Booster.Loaded_Lua or false
     Ipr_Fps_Booster.Save_Tbl = Ipr_Fps_Booster.Save_Tbl or {}
@@ -77,10 +77,6 @@ if (CLIENT) then
             Ipr_CmdChild = {
                 ["gmod_mcore_test"] = {
                     Ipr_Enabled = "1",
-                    Ipr_Disabled = "0"
-                },
-                ["mat_queue_mode"] = {
-                    Ipr_Enabled = "-1",
                     Ipr_Disabled = "0"
                 },
                 ["cl_threaded_bone_setup"] = {
