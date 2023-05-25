@@ -743,7 +743,6 @@ local function IprFpsBooster_InitEnt()
 
     Ipr_Fps_Booster.Loaded_Lua = true
 end
-
 hook.Add( "OnPlayerChat", "IprFpsBooster_ChatVgui", IprFpsBooster_ChatVgui)
 hook.Add("PostDrawHUD","IprFpsBooster_PostDraw", IprFpsBooster_PostDraw)
 hook.Add( "InitPostEntity", "IprFpsBooster_InitEnt", IprFpsBooster_InitEnt)
