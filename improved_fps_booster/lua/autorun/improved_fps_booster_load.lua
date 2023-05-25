@@ -26,7 +26,6 @@ if (CLIENT) then
         ["MA"] = true,
         ["CA"] = true,
     }
-
     Ipr_Fps_Booster.Lang = {
         ["FR"] = {
             ipr_vgui_enabled = "Voulez-vous activer Improved FPS Booster ?",
