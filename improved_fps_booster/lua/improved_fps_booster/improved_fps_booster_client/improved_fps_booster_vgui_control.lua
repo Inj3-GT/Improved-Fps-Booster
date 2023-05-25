@@ -7,7 +7,6 @@
 ------------- GNU General Public License v3.0
 ------------- https://github.com/Inj3-GT
 --\\--
-
 local function IprFpsBooster_ConvControl(t, g, b, n)
     local ipr_debug = true
 
