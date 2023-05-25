@@ -38,7 +38,7 @@ local function IprFpsBooster_ConvControl(t, g, b, n)
             end
         end
 
-        return false, ipr_debug and print("*C-error")
+        return false, (ipr_debug) and print("*C-error")
     elseif (t == 3) then
         for _, v in ipairs(Ipr_Fps_Booster.Save_Tbl) do
             if (v.ipr_unumb == n) then
@@ -46,7 +46,7 @@ local function IprFpsBooster_ConvControl(t, g, b, n)
             end
         end
 
-        return false, ipr_debug and print("*CS-error")
+        return false, (ipr_debug) and print("*CS-error")
     else
         if (Ipr_Fps_Booster.Save_Lg and Ipr_Fps_Booster.Save_Lg[1]) then
             for l in pairs(Ipr_Fps_Booster.Lang) do
