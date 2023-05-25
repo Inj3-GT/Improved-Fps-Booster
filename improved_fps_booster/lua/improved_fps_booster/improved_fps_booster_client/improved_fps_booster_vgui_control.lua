@@ -174,7 +174,6 @@ local function IprFpsBooster_CalcFps()
 
     if (Ipr_ > (Ipr_CLast or 0)) then
         Ipr_Cr = math.Round(1/RealFrameTime(), 0)
-
         if (Ipr_Cr < Ipr_Mn) then
             Ipr_Mn = Ipr_Cr
         end
@@ -187,7 +186,6 @@ local function IprFpsBooster_CalcFps()
         if (Ipr_Mx > Ipr_LastMx) then
             Ipr_Gn = Ipr_Mx - Ipr_LastMx
         end
-
         Ipr_CLast = Ipr_ + 0.3
     end
 
