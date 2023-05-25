@@ -31,7 +31,6 @@ local function IprFpsBooster_ConvControl(t, g, b, n)
         if not IsValid(g) then
             return
         end
-
         for _, v in ipairs(Ipr_Fps_Booster.Save_Tbl) do
             if (v.ipr_unumb == g.ipr_unumb) then
                 return v.ipr_vld
