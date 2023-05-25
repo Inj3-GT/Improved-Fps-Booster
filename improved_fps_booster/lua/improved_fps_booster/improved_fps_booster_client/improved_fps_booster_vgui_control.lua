@@ -669,16 +669,20 @@ local function IprFpsBooster_ChatVgui(ply, strText, bTeam, bDead)
     if (ply ~= LocalPlayer()) then
         return
     end
-    local Ipr_Str = string.lower(strText)
+    strText = string.lower(strText)
 
-    if (Ipr_Str  == "/boost")  then
-        return true, Ipr_Fps_Booster_Vgui_Func()
+    if (strText  == "/boost")  then
+        Ipr_Fps_Booster_Vgui_Func()
+        
+        return true
     end
-    if (Ipr_Str == "/reset") then
+    if (strText == "/reset") then
         if not IprFpsBooster_LoadChb() then
-            Ipr_Mx, Ipr_Mn, Ipr_Gn, Ipr_StatusVgui, Ipr_LastMx = 0, math.huge, 0, false, 0
+            Ipr_Mx, Ipr_Mn, Ipr_Gn, Ipr_StatusVgui, Ipr_LastMx = 0, math.huge, 0, false, 0  
+            
+            IprFpsBooster_Enable(false)
             surface.PlaySound("buttons/combine_button5.wav")
-            return true, IprFpsBooster_Enable(false)
+            return true
         else
             chat.AddText(Ipr_Color["rouge"], "[", "Improved FPS Booster", "] : ", Ipr_Color["blanc"], "Already disabled !")
             return true
