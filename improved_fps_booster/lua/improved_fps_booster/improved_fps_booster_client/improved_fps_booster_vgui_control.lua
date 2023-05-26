@@ -654,12 +654,12 @@ local function Ipr_Fps_Booster_Vgui_Func()
     end
 end
 
+local Ipr_Map = game.GetMap()
 local function IprFpsBooster_PostDraw()
     if not Ipr_Fps_Booster.Loaded_Lua or not IprFpsBooster_ConvControl(3, nil, nil, 13) then
         return
     end
     local Ipr_Cur, Ipr_Mn, Ipr_Max_, Ipr_Gn = IprFpsBooster_CalcFps()
-    local Ipr_Map = game.GetMap()
 
     draw.SimpleTextOutlined("FPS : " ..Ipr_Cur.. " Min : " ..Ipr_Mn.. " Max : " ..Ipr_Max_.. " " ..(Ipr_StatusVgui and (Ipr_Mx ~= Ipr_Gn) and "Gain :" ..Ipr_Gn or ""), "Ipr_Fps_Booster_Font", ScrW() * (IprFpsBooster_ConvControl(3, nil, nil, 15) / 100) - 40,  ScrH() * (IprFpsBooster_ConvControl(3, nil, nil, 16) / 100) - 10, Ipr_Color["blanc"], TEXT_ALIGN_LEFT, TEXT_ALIGN_LEFT, 0.8, Ipr_Color["bleu"])
     draw.SimpleTextOutlined("Map : " ..Ipr_Map, "Ipr_Fps_Booster_Font", ScrW() * (IprFpsBooster_ConvControl(3, nil, nil, 15) / 100) - 40,  ScrH() * (IprFpsBooster_ConvControl(3, nil, nil, 16) / 100) + 10, Ipr_Color["blanc"], TEXT_ALIGN_LEFT, TEXT_ALIGN_LEFT, 0.8, Ipr_Color["bleu"])
