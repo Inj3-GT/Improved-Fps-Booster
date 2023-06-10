@@ -4,9 +4,9 @@
 ----------- // https://steamcommunity.com/id/Inj3/
 ----------- GNU General Public License v3.0
 ----------- https://github.com/Inj3-GT
-local function IprFpsBooster_ConvControl(t, g, b, n)
-    local ipr_debug = true
+local ipr_debug = true
 
+local function IprFpsBooster_ConvControl(t, g, b, n)
     if (t == 1) then
         if not IsValid(g) then
             return
