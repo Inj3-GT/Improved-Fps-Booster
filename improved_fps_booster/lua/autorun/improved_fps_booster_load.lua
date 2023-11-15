@@ -316,12 +316,17 @@ if (CLIENT) then
         include("improved_fps_booster/improved_fps_booster_client/"..f)
     end
 else
-    local Ipr_Sv = file.Find("improved_fps_booster/improved_fps_booster_server/*", "LUA")
+    local Ipr_Sv = file.Find("improved_fps_booster/improved_fps_booster_server/*", "LUA") 
     for _, f in pairs(Ipr_Sv) do
         include("improved_fps_booster/improved_fps_booster_server/"..f)
     end
     for _, f in pairs(Ipr_Cl) do
         AddCSLuaFile("improved_fps_booster/improved_fps_booster_client/"..f)
+    end
+
+    local ipr_addfile = {"resource/fonts/Rajdhani-Bold.ttf", "materials/icon/ipr_boost_computer.png", "materials/icon/ipr_boost_wrench.png"}
+    for _, v in pairs(ipr_addfile) do
+        resource.AddFile(v)
     end
 
     MsgC(Color(0, 250, 0), "\nImproved FPS Booster System " ..Ipr_Fps_Booster.Version.. " by Inj3\n")
