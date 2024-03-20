@@ -6,7 +6,6 @@
 ----------- https://github.com/Inj3-GT
 local ipr = {}
 local ipr_cvar_box = {}
-
 ipr.debug = true
 ipr.save = "ipr_fps_booster/"
 ipr.cvar_lang = {}
@@ -289,7 +288,6 @@ local function Ipr_Booster_Option_Func(p)
         if not IsValid(self) or not IsValid(p) then
             return 
         end
-
         local ipr_getpos_x, ipr_getpos_y = p:GetPos()
         self:SetPos(ipr_getpos_x + 310, ipr_getpos_y + -60)
     end
@@ -517,7 +515,6 @@ local function Ipr_Fps_Booster_Vgui_Func()
     do
         local ipr_h = 0
         local ipr_v = 0
-
         local function ipr_anim_rotate(self)
             local ipr_cur = CurTime()
             if ipr_cur > (self.time or 0) then
@@ -553,7 +550,6 @@ local function Ipr_Fps_Booster_Vgui_Func()
 
         local ipr_icon_computer = Material("icon/ipr_boost_computer.png", "noclamp smooth")
         local ipr_icon_wrench = Material("icon/ipr_boost_wrench.png", "noclamp smooth")
-
         ipr_sheet.Paint = function(self, w, h)
             local ipr_c, ipr_m, ipr_mx, ipr_gn = IprFpsBooster_CalcFps()
             local ipr_status_gui = IprFpsBooster_Status(true)
