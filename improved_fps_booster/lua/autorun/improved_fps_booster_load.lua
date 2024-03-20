@@ -11,7 +11,7 @@ Ipr_Fps_Booster.Version = "v3.8"
 local ipr_find_cl = file.Find("improved_fps_booster/improved_fps_booster_client/*", "LUA")
 if (CLIENT) then
     Ipr_Fps_Booster.DefaultLanguage = "EN"
-
+    
     Ipr_Fps_Booster.Country = {
         ["BE"] = true,
         ["FR"] = true,
@@ -19,6 +19,7 @@ if (CLIENT) then
         ["MA"] = true,
         ["CA"] = true,
     }
+    
     Ipr_Fps_Booster.Lang = {
         ["FR"] = {
             ipr_vgui_enabled = "Voulez-vous activer Improved FPS Booster ?",
