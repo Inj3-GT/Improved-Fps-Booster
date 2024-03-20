@@ -6,16 +6,11 @@
 ------------- GNU General Public License v3.0
 ------------- https://github.com/Inj3-GT
 Ipr_Fps_Booster = Ipr_Fps_Booster or {}
-Ipr_Fps_Booster.Version = "v3.7"
+Ipr_Fps_Booster.Version = "v3.8"
 
-local Ipr_Cl = file.Find("improved_fps_booster/improved_fps_booster_client/*", "LUA")
+local ipr_find_cl = file.Find("improved_fps_booster/improved_fps_booster_client/*", "LUA")
 if (CLIENT) then
     Ipr_Fps_Booster.DefaultLanguage = "EN"
-    Ipr_Fps_Booster.SaveLocation = "improved_fps_booster/save/"
-
-    Ipr_Fps_Booster.Loaded_Lua = Ipr_Fps_Booster.Loaded_Lua or false
-    Ipr_Fps_Booster.Save_Tbl = Ipr_Fps_Booster.Save_Tbl or {}
-    Ipr_Fps_Booster.Save_Lg = Ipr_Fps_Booster.Save_Lg or {}
 
     Ipr_Fps_Booster.Country = {
         ["BE"] = true,
@@ -30,7 +25,7 @@ if (CLIENT) then
             ipr_vgui_opti_t = "Optimisation :",
             ipr_vgui_posw_t = "FPS Position Largeur :",
             ipr_vgui_posh_t = "FPS Position Hauteur :",
-            ipr_vgui_hudshow_t = "FPS visible sur HUD",
+            ipr_vgui_hudshow_t = "Compteur FPS visible",
             ipr_vgui_hudshow_tx = "Rendre le compteur de fps complet visible directement votre sur HUD",
             ipr_vgui_enable_t = "Activer",
             ipr_vgui_disable_t = "Désactiver",
@@ -39,7 +34,8 @@ if (CLIENT) then
             ipr_vgui_fps_cur = "Actuel :",
             ipr_vgui_fps_load_data = "Paramètre des options Chargées",
             ipr_vgui_Lang = "Langue :",
-            ipr_vgui_LoadS = "Charger Preset",
+            ipr_vgui_LoadS = "Load Config",
+            ipr_vgui_Default = "Default",
             ipr_vgui_Cls = "Fermer après activer/désactiver",
         },
         ["EN"] = {
@@ -56,7 +52,8 @@ if (CLIENT) then
             ipr_vgui_fps_cur = "Actual :",
             ipr_vgui_fps_load_data = "Options settings Loaded",
             ipr_vgui_Lang = "Language :",
-            ipr_vgui_LoadS = "Load Preset",
+            ipr_vgui_LoadS = "Load Config",
+            ipr_vgui_Default = "Default",
             ipr_vgui_Cls = "Closed after enable/disable",
         },
     }
@@ -76,16 +73,16 @@ if (CLIENT) then
                     Ipr_Enabled = "1",
                     Ipr_Disabled = "0"
                 },
-                ["cl_threaded_bone_setup"] = {
+                ["r_queued_ropes"] = {
                     Ipr_Enabled = "1",
-                    Ipr_Disabled = "0"
+                    Ipr_Disabled = "1"
                 }
             }
         },
         {
             Ipr_Texte = {
-                ["FR"] = "Désactiver Skybox 3D",
-                ["EN"] = "Disable 3D Skybox"
+                ["FR"] = "Désactiver skybox 3D",
+                ["EN"] = "Disable 3D skybox"
             },
             Ipr_ToolTip = {
                 ["FR"] = "Retire le rendu du ciel",
@@ -100,8 +97,8 @@ if (CLIENT) then
         },
         {
             Ipr_Texte = {
-                ["FR"] = "Désactiver Spray",
-                ["EN"] = "Disable Spray"
+                ["FR"] = "Désactiver spray",
+                ["EN"] = "Disable spray"
             },
             Ipr_ToolTip = {
                 ["FR"] = "Retire l'effet de pulvérisation",
@@ -136,17 +133,29 @@ if (CLIENT) then
         },
         {
             Ipr_Texte = {
-                ["FR"] = "Désactiver ombres/flashlight",
-                ["EN"] = "Disable Shadow/Flashlight"
+                ["FR"] = "Désactiver ombres",
+                ["EN"] = "Disable Shadow"
             },
             Ipr_ToolTip = {
-                ["FR"] = "Retire les ombres sur les entités, et supprime la lumière de votre lampe de poche.",
-                ["EN"] = "Removes shadows on entities, and removes light from your flashlight"
+                ["FR"] = "Réduit la qualité des ombres",
+                ["EN"] = "Reduces shadow quality"
             },
             Ipr_CmdChild = {
-                ["r_shadows"] = {
+                ["mat_shadowstate"] = {
                     Ipr_Enabled = "0",
                     Ipr_Disabled = "1"
+                },
+                ["r_shadowmaxrendered"] = {
+                    Ipr_Enabled = "0",
+                    Ipr_Disabled = "32"
+                },
+                ["r_shadowrendertotexture"] = {
+                    Ipr_Enabled = "0",
+                    Ipr_Disabled = "1"
+                },
+                ["nb_shadow_dist"] = {
+                    Ipr_Enabled = "0",
+                    Ipr_Disabled = "400"
                 }
             }
         },
@@ -200,10 +209,6 @@ if (CLIENT) then
                     Ipr_Enabled = "-1",
                     Ipr_Disabled = "0"
                 },
-                ["r_queued_ropes"] = {
-                    Ipr_Enabled = "1",
-                    Ipr_Disabled = "0"
-                },
                 ["cl_threaded_client_leaf_system"] = {
                     Ipr_Enabled = "1",
                     Ipr_Disabled = "0"
@@ -216,7 +221,7 @@ if (CLIENT) then
         },
         {
             Ipr_Texte = {
-                ["FR"] = "Accéleration Materiel",
+                ["FR"] = "Accéleration materiel",
                 ["EN"] = "Hardware acceleration"
             },
             Ipr_ToolTip = {
@@ -284,7 +289,7 @@ if (CLIENT) then
         },
         {
             Ipr_Texte = {
-                ["FR"] = "Désactiver le Bloom",
+                ["FR"] = "Désactiver le bloom",
                 ["EN"] = "Disable Bloom"
             },
             Ipr_ToolTip = {
@@ -302,6 +307,42 @@ if (CLIENT) then
                 }
             }
         },
+        {
+            Ipr_Texte = {
+                ["FR"] = "Désactiver effets eau",
+                ["EN"] = "Disable water splash"
+            },
+            Ipr_ToolTip = {
+                ["FR"] = "Désactiver l'effet d'éclaboussures d'eau",
+                ["EN"] = "Disable water splash effect"
+            },
+            Ipr_CmdChild = {
+                ["cl_show_splashes"] = {
+                    Ipr_Enabled = "0",
+                    Ipr_Disabled = "1"
+                }
+            }
+        },
+        {
+            Ipr_Texte = {
+                ["FR"] = "Désactiver effets arme",
+                ["EN"] = "Disable weapon effects"
+            },
+            Ipr_ToolTip = {
+                ["FR"] = "Désactiver effets arme",
+                ["EN"] = "Disable effects on weapons"
+            },
+            Ipr_CmdChild = {
+                ["cl_ejectbrass"] = {
+                    Ipr_Enabled = "0",
+                    Ipr_Disabled = "1"
+                },
+                ["muzzleflash_light"] = {
+                    Ipr_Enabled = "0",
+                    Ipr_Disabled = "1"
+                }
+            }
+        },
     }
     ----------- Font
     surface.CreateFont("Ipr_Fps_Booster_Font",{
@@ -311,23 +352,22 @@ if (CLIENT) then
         antialias = true
     })
     -----------
-
-    for _, f in pairs(Ipr_Cl) do
+    for _, f in pairs(ipr_find_cl) do
         include("improved_fps_booster/improved_fps_booster_client/"..f)
     end
 else
-    local Ipr_Sv = file.Find("improved_fps_booster/improved_fps_booster_server/*", "LUA") 
-    for _, f in pairs(Ipr_Sv) do
-        include("improved_fps_booster/improved_fps_booster_server/"..f)
-    end
-    for _, f in pairs(Ipr_Cl) do
-        AddCSLuaFile("improved_fps_booster/improved_fps_booster_client/"..f)
-    end
-
     local ipr_addfile = {"resource/fonts/Rajdhani-Bold.ttf", "materials/icon/ipr_boost_computer.png", "materials/icon/ipr_boost_wrench.png"}
     for _, v in pairs(ipr_addfile) do
         resource.AddFile(v)
     end
 
+    local ipr_find_sv = file.Find("improved_fps_booster/improved_fps_booster_server/*", "LUA")
+    for _, f in pairs(ipr_find_sv) do
+        include("improved_fps_booster/improved_fps_booster_server/"..f)
+    end
+    for _, f in pairs(ipr_find_cl) do
+        AddCSLuaFile("improved_fps_booster/improved_fps_booster_client/"..f)
+    end
+    
     MsgC(Color(0, 250, 0), "\nImproved FPS Booster System " ..Ipr_Fps_Booster.Version.. " by Inj3\n")
 end
