@@ -7,7 +7,7 @@
 ------------- https://github.com/Inj3-GT
 local ipr_find_cl = file.Find("improved_fps_booster/improved_fps_booster_client/*", "LUA")
 Ipr_Fps_Booster = Ipr_Fps_Booster or {}
-Ipr_Fps_Booster.Version = "v3.8"
+Ipr_Fps_Booster.Version = "v3.9"
 
 if (CLIENT) then
     Ipr_Fps_Booster.DefaultLanguage = "EN"
@@ -35,7 +35,8 @@ if (CLIENT) then
             ipr_vgui_Lang = "Langue :",
             ipr_vgui_LoadS = "Load Config",
             ipr_vgui_Default = "Default",
-            ipr_vgui_Cls = "Fermer après activer/désactiver",
+            ipr_vgui_Cls = "Fermer (activer/désactiver)",
+            ipr_vgui_fopen = "Forcer ouverture (session)",
         },
         ["EN"] = {
             ipr_vgui_enabled = "Do you want enable Improved FPS Booster ?",
@@ -53,7 +54,8 @@ if (CLIENT) then
             ipr_vgui_Lang = "Language :",
             ipr_vgui_LoadS = "Load Config",
             ipr_vgui_Default = "Default",
-            ipr_vgui_Cls = "Closed after enable/disable",
+            ipr_vgui_Cls = "Closed (enable/disable)",
+            ipr_vgui_fopen = "Forced open (session)",
         },
     }
     Ipr_Fps_Booster.DefautCommand = {
