@@ -247,7 +247,7 @@ local function IprFpsBooster_Override(g, n)
         for _, v in ipairs(ipr_child) do
             if (v:GetName() == "DSlider") then
                 v.Knob.Paint = function(self, w, h)
-                    draw.RoundedBox(3, 0, 0, w-10, h, ipr.color["vert"])
+                    draw.RoundedBox(3, 5, 0, w-10, h, ipr.color["vert"])
                 end
                 v.Paint = function(self, w, h)
                     draw.RoundedBox(3, 7, h/2 -2, w - 12, h/2 -10, ipr.color["rouge"])
