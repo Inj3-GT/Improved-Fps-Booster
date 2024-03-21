@@ -825,7 +825,6 @@ local function IprFpsBooster_InitEnt(r)
 
     timer.Simple(5, function()
         local ipr_cmd = IprFpsBooster_CVar(3, nil, 17) or IprFpsBooster_Cmds()
-
         if (ipr_cmd) then
             if not r and not IsValid(ipr_vgui) then
                 Ipr_Fps_Booster_Vgui_Func()
@@ -843,7 +842,6 @@ local function IprFpsBooster_InitEnt(r)
     if ipr_hook["PostDrawHUD"] and ipr_hook["PostDrawHUD"]["IprFpsBooster_PostDraw"] then
         hook.Remove("PostDrawHUD", "IprFpsBooster_PostDraw")
     end
-
     hook.Add("PostDrawHUD", "IprFpsBooster_PostDraw", IprFpsBooster_PostDraw)
 end 
 if (Ipr_Fps_Booster.Loaded_Lua) then
