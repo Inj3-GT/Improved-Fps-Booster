@@ -5,6 +5,8 @@
 ----------- GNU General Public License v3.0
 ----------- https://github.com/Inj3-GT
 local ipr = {}
+local ipr_cvar_box = {}
+
 ipr.debug = true
 ipr.save = "ipr_fps_booster_/"
 ipr.cvar_lang = {}
@@ -13,7 +15,6 @@ ipr.color = {["gris"] = Color(236, 240, 241), ["vert"] = Color(39, 174, 96), ["r
 ipr.blur = Material("pp/blurscreen")
 ipr.rotate = {5, 15, 25, 35}
 
-local ipr_cvar_box = {}
 local function Ipr_UpdateVgui(s, d)
     if (s) then
         ipr_cvar_box = util.JSONToTable(file.Read(ipr.save.. "_save.json", "DATA") or {})
