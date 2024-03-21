@@ -801,7 +801,7 @@ local function IprFpsBooster_InitEnt(r)
 
     local ipr_cmd = IprFpsBooster_Cmds()
     if (ipr_cmd) then
-        if not (r) then
+        if not r then
             timer.Simple(5, function()
                 if IsValid(ipr_vgui) then
                     return
