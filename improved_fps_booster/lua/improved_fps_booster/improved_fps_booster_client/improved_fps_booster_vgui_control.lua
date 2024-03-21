@@ -541,6 +541,7 @@ local function Ipr_Fps_Booster_Vgui_Func()
 
     do
         local ipr_h, ipr_v = 0, 0
+        
         local function ipr_anim_rotate(self)
             local ipr_cur = CurTime()
             if ipr_cur > (self.time or 0) then
@@ -652,7 +653,6 @@ local function Ipr_Fps_Booster_Vgui_Func()
     end
     ipr_dbut_disable.DoClick = function()
         Ipr_ResetValue()
-
         IprFpsBooster_Status()
         IprFpsBooster_Enable(false)
 
