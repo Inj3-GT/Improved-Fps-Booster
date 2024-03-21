@@ -7,7 +7,7 @@
 local ipr = {}
 local ipr_cvar_box = {}
 ipr.debug = true
-ipr.save = "ipr_fps_booster/"
+ipr.save = "ipr_fps_booster_/"
 ipr.cvar_lang = {}
 ipr.fps_default = {mx = 0, smx = 0, mn = math.huge, gn = 0}
 ipr.color = {["gris"] = Color(236, 240, 241), ["vert"] = Color(39, 174, 96), ["rouge"] = Color(192, 57, 43), ["orange"] = Color(243, 156, 18), ["blanc"] = Color(236, 240, 241), ["bleu"] = Color(52, 73, 94), ["bleuc"] = Color(30, 73, 109)}
@@ -20,7 +20,7 @@ local function Ipr_UpdateVgui(s, d)
         return
     end
     if (d) then
-        local ipr_default = {{ipr_b = true}, {ipr_b = false}, {ipr_b = false}, {ipr_b = false}, {ipr_b = false}, {ipr_b = false}, {ipr_b = true}, {ipr_b = false}, {ipr_b = false}, {ipr_b = false}, {ipr_b = false}, {ipr_b = false}, {ipr_b = false}, {ipr_b = false}, {ipr_b = false}, {ipr_b = true}, {ipr_b = 32}, {ipr_b = 40}}
+        local ipr_default = {{ipr_b = true}, {ipr_b = false}, {ipr_b = false}, {ipr_b = false}, {ipr_b = false}, {ipr_b = false}, {ipr_b = true}, {ipr_b = false}, {ipr_b = false}, {ipr_b = false}, {ipr_b = false}, {ipr_b = false}, {ipr_b = false}, {ipr_b = false}, {ipr_b = false}, {ipr_b = true}, {ipr_b = false}, {ipr_b = 32}, {ipr_b = 40}}
         ipr_cvar_box = ipr_default
     end
 
@@ -72,7 +72,15 @@ local function IprFpsBooster_CVar(cvar, p, n)
     end
 end
 
-local ipr_cmd_ = "M9KGasEffect"
+local function ipr_InfoNum(ply, o, s)
+    local ipr_info = tonumber(ply:GetInfoNum(o, -99))
+    if (s) then
+        return (ipr_info == -99)
+    end
+
+    return ipr_info
+end
+
 local function IprFpsBooster_Cmds(b)
     local ipr_ply = LocalPlayer()
 
@@ -87,11 +95,10 @@ local function IprFpsBooster_Cmds(b)
                         return true
                     end
                 else
-                    if (o == ipr_cmd_) then
+                    if ipr_InfoNum(ipr_ply, o, true) then
                        continue
                     end
-
-                    if tonumber(ipr_t) ~= tonumber(ipr_ply:GetInfoNum(o, 0)) then
+                    if tonumber(ipr_t) ~= ipr_InfoNum(ipr_ply, o) then
                         return true
                     end
                 end
@@ -131,9 +138,7 @@ local function IprFpsBooster_Enable(b)
                 local ipr_v = v.ipr_b
 
                 for o, g in pairs(Ipr_Fps_Booster.DefautCommand[_].Ipr_CmdChild) do
-                    local ipr_n = tonumber(ipr_ply:GetInfoNum(o, -99))
-                    ipr_n = (ipr_n ~= -99) and true or false
-                    if not ipr_n then
+                    if ipr_InfoNum(ipr_ply, o, true) then
                        continue
                     end
 
@@ -145,9 +150,7 @@ local function IprFpsBooster_Enable(b)
     else
         for _, g in pairs(Ipr_Fps_Booster.DefautCommand) do
             for d, t in pairs(g.Ipr_CmdChild) do
-                local ipr_n = tonumber(ipr_ply:GetInfoNum(d, -99))
-                ipr_n = (ipr_n ~= -99) and true or false
-                if not ipr_n then
+                if ipr_InfoNum(ipr_ply, d, true) then
                    continue
                 end
 
@@ -243,10 +246,10 @@ local function IprFpsBooster_Override(g, n)
         for _, v in ipairs(ipr_child) do
             if (v:GetName() == "DSlider") then
                 v.Knob.Paint = function(self, w, h)
-                    draw.RoundedBox(2, 5, 0, w-10, h, ipr.color["blanc"])
+                    draw.RoundedBox(3, 0, 0, w-10, h, ipr.color["vert"])
                 end
                 v.Paint = function(self, w, h)
-                    draw.RoundedBox(3, 7, h/2 -2, w - 12, h/2 -10, ipr.color["bleu"])
+                    draw.RoundedBox(3, 7, h/2 -2, w - 12, h/2 -10, ipr.color["rouge"])
                 end
             end
         end
@@ -266,9 +269,11 @@ local function Ipr_Booster_Option_Func(p)
 
     ipr_vgui_func = vgui.Create( "DFrame" )
     local ipr_scrollbar = vgui.Create( "DScrollPanel", ipr_vgui_func)
+    local ipr_scrollbar_c = vgui.Create( "DScrollPanel", ipr_vgui_func)
 
-    local ipr_cbox_hud = vgui.Create( "DCheckBoxLabel", ipr_vgui_func)
-    local ipr_cbox_close = vgui.Create( "DCheckBoxLabel", ipr_vgui_func)
+    local ipr_cbox_hud = vgui.Create( "DCheckBoxLabel", ipr_scrollbar_c)
+    local ipr_cbox_close = vgui.Create( "DCheckBoxLabel", ipr_scrollbar_c)
+    local ipr_cbox_forceopen = vgui.Create( "DCheckBoxLabel", ipr_scrollbar_c)
 
     local ipr_dnum_w = vgui.Create( "DNumSlider", ipr_vgui_func)
     local ipr_dnum_h = vgui.Create( "DNumSlider", ipr_vgui_func)
@@ -278,7 +283,7 @@ local function Ipr_Booster_Option_Func(p)
     local ipr_close = vgui.Create("DImageButton", ipr_vgui_func)
 
     ipr_vgui_func:SetTitle("")
-    ipr_vgui_func:SetSize(240, 395)
+    ipr_vgui_func:SetSize(240, 405)
     ipr_vgui_func:SetPos(0, 0)
     ipr_vgui_func:MakePopup()
     ipr_vgui_func:ShowCloseButton(false)
@@ -292,7 +297,7 @@ local function Ipr_Booster_Option_Func(p)
         local ipr_getpos_x, ipr_getpos_y = p:GetPos()
         self:SetPos(ipr_getpos_x + 310, ipr_getpos_y + -60)
     end
-
+ 
     local ipr_lang = Ipr_RequestLang()
     ipr_vgui_func.Paint = function( self, w, h )
         IprFpsBooster_GuiBlur(self, 2, Color( 0, 0, 0, 170 ), 8)
@@ -300,32 +305,38 @@ local function Ipr_Booster_Option_Func(p)
         draw.RoundedBoxEx(6, 0, 0, w, 20, ipr.color["bleu"], true, true, false, false)
 
         draw.SimpleText("Options FPS Booster","Ipr_Fps_Booster_Font",w/2,1, ipr.color["blanc"], TEXT_ALIGN_CENTER)
-        draw.SimpleText("Configuration :","Ipr_Fps_Booster_Font",w/2,h-180, ipr.color["blanc"], TEXT_ALIGN_CENTER)
+        draw.SimpleText("Configuration :","Ipr_Fps_Booster_Font",w/2,h/2+18, ipr.color["blanc"], TEXT_ALIGN_CENTER)
 
         local ipr_sys_abs = math.abs(math.sin(CurTime() * 1.5) * 170)
         draw.SimpleText(Ipr_Fps_Booster.Version.. " By Inj3","Ipr_Fps_Booster_Font", w-5,h-17, Color(ipr_sys_abs, ipr_sys_abs, ipr_sys_abs), TEXT_ALIGN_RIGHT)
         
         ipr_lang = Ipr_RequestLang()
         draw.SimpleText(Ipr_Fps_Booster.Lang[ipr_lang].ipr_vgui_opti_t,"Ipr_Fps_Booster_Font",w/2,50, ipr.color["blanc"], TEXT_ALIGN_CENTER)
-        draw.SimpleText(Ipr_Fps_Booster.Lang[ipr_lang].ipr_vgui_posw_t,"Ipr_Fps_Booster_Font",w/2+2,h-105, ipr.color["blanc"], TEXT_ALIGN_CENTER)
-        draw.SimpleText(Ipr_Fps_Booster.Lang[ipr_lang].ipr_vgui_posh_t,"Ipr_Fps_Booster_Font",w/2+2,h-60, ipr.color["blanc"], TEXT_ALIGN_CENTER)
+        draw.SimpleText(Ipr_Fps_Booster.Lang[ipr_lang].ipr_vgui_posw_t,"Ipr_Fps_Booster_Font",w/2+2,h/2+105, ipr.color["blanc"], TEXT_ALIGN_CENTER)
+        draw.SimpleText(Ipr_Fps_Booster.Lang[ipr_lang].ipr_vgui_posh_t,"Ipr_Fps_Booster_Font",w/2+2,h/2+148, ipr.color["blanc"], TEXT_ALIGN_CENTER)
+    end
+
+    local function ipr_bar(p)
+        function p:Paint(w, h)
+        end
+        function p.btnUp:Paint(w, h)
+            draw.RoundedBox(3, 0, 0, w, h, ipr.color["bleu"])
+        end
+        function p.btnDown:Paint(w, h)
+            draw.RoundedBox(3, 0, 0, w, h, ipr.color["bleu"])
+        end
+        function p.btnGrip:Paint(w, h)
+            draw.RoundedBox(3, 0, 0, w, h, ipr.color["bleu"])
+        end
     end
 
     ipr_scrollbar:Dock(FILL)
-    ipr_scrollbar:DockMargin(0, 40, 0, 180)
+    ipr_scrollbar:DockMargin(0, 40, 0, 190)
+    ipr_bar(ipr_scrollbar:GetVBar())
 
-    local Ipr_Fps_Booster_Vbar = ipr_scrollbar:GetVBar()
-    function Ipr_Fps_Booster_Vbar:Paint(w, h)
-    end
-    function Ipr_Fps_Booster_Vbar.btnUp:Paint(w, h)
-        draw.RoundedBox(3, 0, 0, w, h, ipr.color["bleu"])
-    end
-    function Ipr_Fps_Booster_Vbar.btnDown:Paint(w, h)
-        draw.RoundedBox(3, 0, 0, w, h, ipr.color["bleu"])
-    end
-    function Ipr_Fps_Booster_Vbar.btnGrip:Paint(w, h)
-        draw.RoundedBox(3, 0, 0, w, h, ipr.color["bleu"])
-    end
+    ipr_scrollbar_c:Dock(FILL)
+    ipr_scrollbar_c:DockMargin(0, 213, 0, 103)
+    ipr_bar(ipr_scrollbar_c:GetVBar())
 
     local ipr_vgui_cmds = #Ipr_Fps_Booster.DefautCommand
     for i = 1, ipr_vgui_cmds do
@@ -349,11 +360,11 @@ local function Ipr_Booster_Option_Func(p)
         return ipr_vgui_cmds
     end
 
-    ipr_cbox_hud:SetPos(20, 240)
+    ipr_cbox_hud:SetPos(10, 0)
     ipr_cbox_hud:SetText("")
     ipr_cbox_hud.value = ipr_cmds_func()
     ipr_cbox_hud:SetValue(IprFpsBooster_CVar(2, ipr_cbox_hud))
-    ipr_cbox_hud:SetTooltip(Ipr_Fps_Booster.Lang[ipr_lang].ipr_vgui_hudshow_tx)
+    ipr_cbox_hud:SetTooltip("Fps counter is visible on your screen")
     ipr_cbox_hud:SetWide(200)
     function ipr_cbox_hud:Paint(w, h)
         draw.SimpleText(Ipr_Fps_Booster.Lang[ipr_lang].ipr_vgui_hudshow_t, "Ipr_Fps_Booster_Font", 22, 0, ipr.color["blanc"], TEXT_ALIGN_LEFT)
@@ -363,11 +374,11 @@ local function Ipr_Booster_Option_Func(p)
     end
     IprFpsBooster_Override(ipr_cbox_hud, 3)
 
-    ipr_cbox_close:SetPos(20, 265)
+    ipr_cbox_close:SetPos(10, 22)
     ipr_cbox_close:SetText("")
     ipr_cbox_close.value = ipr_cmds_func()
     ipr_cbox_close:SetValue(IprFpsBooster_CVar(2, ipr_cbox_close))
-    ipr_cbox_close:SetTooltip(Ipr_Fps_Booster.Lang[ipr_lang].ipr_vgui_Cls)
+    ipr_cbox_close:SetTooltip("If you press 'Enable' or 'Disable', the panel will close")
     ipr_cbox_close:SetWide(210)
     function ipr_cbox_close:Paint(w, h)
         draw.SimpleText(Ipr_Fps_Booster.Lang[ipr_lang].ipr_vgui_Cls, "Ipr_Fps_Booster_Font", 22, 0, ipr.color["blanc"], TEXT_ALIGN_LEFT)
@@ -377,7 +388,21 @@ local function Ipr_Booster_Option_Func(p)
     end
     IprFpsBooster_Override(ipr_cbox_close, 3)
 
-    ipr_dnum_w:SetPos(-160, 305)
+    ipr_cbox_forceopen:SetPos(10, 44)
+    ipr_cbox_forceopen:SetText("")
+    ipr_cbox_forceopen.value = ipr_cmds_func()
+    ipr_cbox_forceopen:SetValue(IprFpsBooster_CVar(2, ipr_cbox_forceopen))
+    ipr_cbox_forceopen:SetTooltip("Disable automatic start")
+    ipr_cbox_forceopen:SetWide(210)
+    function ipr_cbox_forceopen:Paint(w, h)
+        draw.SimpleText(Ipr_Fps_Booster.Lang[ipr_lang].ipr_vgui_fopen, "Ipr_Fps_Booster_Font", 22, 0, ipr.color["blanc"], TEXT_ALIGN_LEFT)
+    end
+    ipr_cbox_forceopen.OnChange = function(self)
+        IprFpsBooster_CVar(1, self)
+    end
+    IprFpsBooster_Override(ipr_cbox_forceopen, 3)
+
+    ipr_dnum_w:SetPos(-160, 323)
     ipr_dnum_w:SetSize(415, 25)
     ipr_dnum_w:SetText("")
     ipr_dnum_w:SetMinMax(0, 100)
@@ -390,7 +415,7 @@ local function Ipr_Booster_Option_Func(p)
     end
     IprFpsBooster_Override(ipr_dnum_w, 4)
 
-    ipr_dnum_h:SetPos(-160, 350)
+    ipr_dnum_h:SetPos(-160, 366)
     ipr_dnum_h:SetSize(415, 25)
     ipr_dnum_h:SetText("")
     ipr_dnum_h:SetMinMax(0, 100)
@@ -514,8 +539,7 @@ local function Ipr_Fps_Booster_Vgui_Func()
     ipr_sheet:DockPadding( 52, 10, 0, 0)
 
     do
-        local ipr_h = 0
-        local ipr_v = 0
+        local ipr_h, ipr_v = 0, 0
         local function ipr_anim_rotate(self)
             local ipr_cur = CurTime()
             if ipr_cur > (self.time or 0) then
@@ -555,16 +579,16 @@ local function Ipr_Fps_Booster_Vgui_Func()
             local ipr_c, ipr_m, ipr_mx, ipr_gn = IprFpsBooster_CalcFps()
             local ipr_status_gui = IprFpsBooster_Status(true)
 
-            draw.SimpleText("FPS Status","Ipr_Fps_Booster_Font",w/2,h/2-64, ipr.color["blanc"], TEXT_ALIGN_CENTER)
-            draw.SimpleText(Ipr_Fps_Booster.Lang[ipr_lang].ipr_vgui_fps_cur,"Ipr_Fps_Booster_Font",w/2-10,h/2-47, ipr.color["blanc"], TEXT_ALIGN_CENTER)
-            draw.SimpleText("Max : ","Ipr_Fps_Booster_Font",w/2-10,h/2-32, ipr.color["blanc"], TEXT_ALIGN_CENTER)
-            draw.SimpleText("Min : ","Ipr_Fps_Booster_Font",w/2-10,h/2-17, ipr.color["blanc"], TEXT_ALIGN_CENTER)
-            draw.SimpleText("Gain : ","Ipr_Fps_Booster_Font",w/2-10, h/2-2, ipr.color["blanc"], TEXT_ALIGN_CENTER)
+            draw.SimpleText("FPS Status","Ipr_Fps_Booster_Font",w/2,h/2-63, ipr.color["blanc"], TEXT_ALIGN_CENTER)
+            draw.SimpleText(Ipr_Fps_Booster.Lang[ipr_lang].ipr_vgui_fps_cur,"Ipr_Fps_Booster_Font",w/2-10,h/2-46, ipr.color["blanc"], TEXT_ALIGN_CENTER)
+            draw.SimpleText("Max : ","Ipr_Fps_Booster_Font",w/2-10,h/2-31, ipr.color["blanc"], TEXT_ALIGN_CENTER)
+            draw.SimpleText("Min : ","Ipr_Fps_Booster_Font",w/2-10,h/2-16, ipr.color["blanc"], TEXT_ALIGN_CENTER)
+            draw.SimpleText("Gain : ","Ipr_Fps_Booster_Font",w/2-10, h/2-1, ipr.color["blanc"], TEXT_ALIGN_CENTER)
 
-            draw.SimpleText(ipr_c, "Ipr_Fps_Booster_Font",w/2+15,h/2-47, ipr_fps_booster_rgbtransition(ipr_c), TEXT_ALIGN_LEFT)
-            draw.SimpleText(ipr_mx,"Ipr_Fps_Booster_Font",w/2+10,h/2-32, ipr_fps_booster_rgbtransition(ipr_mx), TEXT_ALIGN_LEFT)
-            draw.SimpleText(ipr_m,"Ipr_Fps_Booster_Font",w/2+10,h/2-17, ipr_fps_booster_rgbtransition(ipr_m), TEXT_ALIGN_LEFT)
-            draw.SimpleText((ipr_status_gui and (ipr_mx ~= ipr_gn) and ipr_gn or "OFF"),"Ipr_Fps_Booster_Font",w/2+10, h/2-2, ipr_status_gui and (ipr_mx ~= ipr_gn) and ipr.color["vert"] or ipr.color["rouge"], TEXT_ALIGN_LEFT)
+            draw.SimpleText(ipr_c, "Ipr_Fps_Booster_Font",w/2+15,h/2-46, ipr_fps_booster_rgbtransition(ipr_c), TEXT_ALIGN_LEFT)
+            draw.SimpleText(ipr_mx,"Ipr_Fps_Booster_Font",w/2+10,h/2-31, ipr_fps_booster_rgbtransition(ipr_mx), TEXT_ALIGN_LEFT)
+            draw.SimpleText(ipr_m,"Ipr_Fps_Booster_Font",w/2+10,h/2-16, ipr_fps_booster_rgbtransition(ipr_m), TEXT_ALIGN_LEFT)
+            draw.SimpleText((ipr_status_gui and (ipr_mx ~= ipr_gn) and ipr_gn or "OFF"),"Ipr_Fps_Booster_Font",w/2+10, h/2-1, ipr_status_gui and (ipr_mx ~= ipr_gn) and ipr.color["vert"] or ipr.color["rouge"], TEXT_ALIGN_LEFT)
     
             surface.SetMaterial(ipr_icon_computer)
             surface.SetDrawColor(255, 255, 255, 255)
@@ -771,8 +795,8 @@ local function IprFpsBooster_PostDraw()
     if not ipr_hud then
         return
     end
-    local ipr_w = IprFpsBooster_CVar(3, nil, 17) / 100
-    local ipr_h = IprFpsBooster_CVar(3, nil, 18) / 100
+    local ipr_w = IprFpsBooster_CVar(3, nil, 18) / 100
+    local ipr_h = IprFpsBooster_CVar(3, nil, 19) / 100
     local ipr_c, ipr_m, ipr_mx, ipr_gn = IprFpsBooster_CalcFps()
 
     draw.SimpleText("Fps : " ..ipr_c.. " Min : " ..ipr_m.. " Max : " ..ipr_mx.. " " ..(IprFpsBooster_Status(true) and (Ipr_Mx ~= ipr_gn) and "Gain : " ..ipr_gn or ""), "Ipr_Fps_Booster_Font", ipr_wd * ipr_w,  ipr_ht * ipr_h, ipr.color["blanc"], TEXT_ALIGN_LEFT, TEXT_ALIGN_LEFT)
@@ -799,35 +823,32 @@ local function IprFpsBooster_InitEnt(r)
         Ipr_UpdateVgui(true)
     end
 
-    local ipr_cmd = IprFpsBooster_Cmds()
-    if (ipr_cmd) then
-        if not r then
-            timer.Simple(5, function()
-                if IsValid(ipr_vgui) then
-                    return
-                end
+    timer.Simple(5, function()
+        local ipr_cmd = IprFpsBooster_CVar(3, nil, 17) or IprFpsBooster_Cmds()
 
+        if (ipr_cmd) then
+            if not r and not IsValid(ipr_vgui) then
                 Ipr_Fps_Booster_Vgui_Func()
-            end)
-        end
-    else
-        timer.Simple(5, function()
+            end
+        else
             Ipr_ResetValue(true)
             IprFpsBooster_Status(false, true)
 
             print("[Improved FPS Booster automatically started")
             chat.AddText(ipr.color["vert"], "[", "Improved FPS Booster automatically started", "]")
-        end)
-    end
+        end
+    end)
 
     local ipr_hook = hook.GetTable()
-    if not ipr_hook["PostDrawHUD"] or not ipr_hook["PostDrawHUD"]["IprFpsBooster_PostDraw"] then
-        hook.Add("PostDrawHUD", "IprFpsBooster_PostDraw", IprFpsBooster_PostDraw)
+    if ipr_hook["PostDrawHUD"] and ipr_hook["PostDrawHUD"]["IprFpsBooster_PostDraw"] then
+        hook.Remove("PostDrawHUD", "IprFpsBooster_PostDraw")
     end
-end
+
+    hook.Add("PostDrawHUD", "IprFpsBooster_PostDraw", IprFpsBooster_PostDraw)
+end 
 if (Ipr_Fps_Booster.Loaded_Lua) then
     IprFpsBooster_InitEnt(true)
-end  
+end
   
 Ipr_Fps_Booster.Loaded_Lua = Ipr_Fps_Booster.Loaded_Lua or {}
 hook.Add("OnScreenSizeChanged", "IprFpsBooster_OnScreen", IprFpsBooster_OnScreen)
