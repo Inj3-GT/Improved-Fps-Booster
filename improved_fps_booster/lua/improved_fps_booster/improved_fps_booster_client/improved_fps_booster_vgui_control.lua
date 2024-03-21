@@ -348,13 +348,13 @@ local function Ipr_Booster_Option_Func(p)
         ipr_cbox:SetValue(IprFpsBooster_CVar(2, ipr_cbox))
         ipr_cbox:SetTooltip(Ipr_Fps_Booster.DefautCommand[i].Ipr_ToolTip[ipr_lang])
         ipr_cbox:SetWide(200)
+        IprFpsBooster_Override(ipr_cbox, 3)
         function ipr_cbox:Paint(w, h)
             draw.SimpleText(Ipr_Fps_Booster.DefautCommand[i].Ipr_Texte[ipr_lang], "Ipr_Fps_Booster_Font", 22, 0, ipr.color["blanc"], TEXT_ALIGN_LEFT)
         end
         ipr_cbox.OnChange = function(self)
             IprFpsBooster_CVar(1, self)
         end
-        IprFpsBooster_Override(ipr_cbox, 3)
     end
     local function ipr_cmds_func()
         ipr_vgui_cmds = ipr_vgui_cmds + 1
@@ -367,13 +367,13 @@ local function Ipr_Booster_Option_Func(p)
     ipr_cbox_hud:SetValue(IprFpsBooster_CVar(2, ipr_cbox_hud))
     ipr_cbox_hud:SetTooltip("Fps counter is visible on your screen")
     ipr_cbox_hud:SetWide(200)
+    IprFpsBooster_Override(ipr_cbox_hud, 3)
     function ipr_cbox_hud:Paint(w, h)
         draw.SimpleText(Ipr_Fps_Booster.Lang[ipr_lang].ipr_vgui_hudshow_t, "Ipr_Fps_Booster_Font", 22, 0, ipr.color["blanc"], TEXT_ALIGN_LEFT)
     end
     ipr_cbox_hud.OnChange = function(self)
         IprFpsBooster_CVar(1, self)
     end
-    IprFpsBooster_Override(ipr_cbox_hud, 3)
 
     ipr_cbox_close:SetPos(10, 22)
     ipr_cbox_close:SetText("")
@@ -381,13 +381,13 @@ local function Ipr_Booster_Option_Func(p)
     ipr_cbox_close:SetValue(IprFpsBooster_CVar(2, ipr_cbox_close))
     ipr_cbox_close:SetTooltip("If you press 'Enable' or 'Disable', the panel will close")
     ipr_cbox_close:SetWide(210)
+    IprFpsBooster_Override(ipr_cbox_close, 3)
     function ipr_cbox_close:Paint(w, h)
         draw.SimpleText(Ipr_Fps_Booster.Lang[ipr_lang].ipr_vgui_Cls, "Ipr_Fps_Booster_Font", 22, 0, ipr.color["blanc"], TEXT_ALIGN_LEFT)
     end
     ipr_cbox_close.OnChange = function(self)
         IprFpsBooster_CVar(1, self)
     end
-    IprFpsBooster_Override(ipr_cbox_close, 3)
 
     ipr_cbox_forceopen:SetPos(10, 44)
     ipr_cbox_forceopen:SetText("")
@@ -395,13 +395,13 @@ local function Ipr_Booster_Option_Func(p)
     ipr_cbox_forceopen:SetValue(IprFpsBooster_CVar(2, ipr_cbox_forceopen))
     ipr_cbox_forceopen:SetTooltip("Disable automatic start")
     ipr_cbox_forceopen:SetWide(210)
+    IprFpsBooster_Override(ipr_cbox_forceopen, 3)
     function ipr_cbox_forceopen:Paint(w, h)
         draw.SimpleText(Ipr_Fps_Booster.Lang[ipr_lang].ipr_vgui_fopen, "Ipr_Fps_Booster_Font", 22, 0, ipr.color["blanc"], TEXT_ALIGN_LEFT)
     end
     ipr_cbox_forceopen.OnChange = function(self)
         IprFpsBooster_CVar(1, self)
     end
-    IprFpsBooster_Override(ipr_cbox_forceopen, 3)
 
     ipr_dnum_w:SetPos(-160, 323)
     ipr_dnum_w:SetSize(415, 25)
@@ -411,10 +411,10 @@ local function Ipr_Booster_Option_Func(p)
     ipr_dnum_w:SetValue(IprFpsBooster_CVar(2, ipr_dnum_w))
     ipr_dnum_w:SetDecimals(0)
     IprFpsBooster_Override(ipr_dnum_w, 2)
+    IprFpsBooster_Override(ipr_dnum_w, 4)
     ipr_dnum_w.OnValueChanged = function(self, val)
         IprFpsBooster_CVar(1, self)
     end
-    IprFpsBooster_Override(ipr_dnum_w, 4)
 
     ipr_dnum_h:SetPos(-160, 366)
     ipr_dnum_h:SetSize(415, 25)
@@ -424,8 +424,8 @@ local function Ipr_Booster_Option_Func(p)
     ipr_dnum_h:SetValue(IprFpsBooster_CVar(2, ipr_dnum_h))
     ipr_dnum_h:SetDecimals(0)
     IprFpsBooster_Override(ipr_dnum_h, 2)
-    ipr_dnum_h.OnValueChanged = ipr_dnum_w.OnValueChanged
     IprFpsBooster_Override(ipr_dnum_h, 4)
+    ipr_dnum_h.OnValueChanged = ipr_dnum_w.OnValueChanged
 
     ipr_dbut_save:SetPos(122, 25)
     ipr_dbut_save:SetSize(100, 20)
