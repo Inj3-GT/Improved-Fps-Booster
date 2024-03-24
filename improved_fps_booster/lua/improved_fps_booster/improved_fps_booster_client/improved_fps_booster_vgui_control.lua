@@ -548,8 +548,9 @@ local function Ipr_Fps_Booster_Vgui_Func()
 
     do
         local ipr_rotate = {start = 10, s_end = 35, step = 5}
+        
         local ipr_copy = table.Copy(ipr_rotate)
-        ipr_copy.nextstep = 0.5
+        ipr_copy.nextstep = 0.2
         ipr_copy.update = 0
 
         local function ipr_AnimLoop()
@@ -567,10 +568,8 @@ local function Ipr_Fps_Booster_Vgui_Func()
                     end
                     break
                 end
-
                 ipr_copy.update = ipr_Cur + ipr_copy.nextstep
             end
-
             return ipr_copy.start
         end
 
@@ -589,7 +588,6 @@ local function Ipr_Fps_Booster_Vgui_Func()
 
         local ipr_icon_computer = Material("icon/ipr_boost_computer.png", "noclamp smooth")
         local ipr_icon_wrench = Material("icon/ipr_boost_wrench.png", "noclamp smooth")
-
         ipr_sheet.Paint = function(self, w, h)
             local ipr_c, ipr_m, ipr_mx, ipr_gn = IprFpsBooster_CalcFps()
             local ipr_status_gui = IprFpsBooster_Status(true)
@@ -612,7 +610,7 @@ local function Ipr_Fps_Booster_Vgui_Func()
             surface.SetMaterial(ipr_icon_wrench)
             surface.SetDrawColor(255, 255, 255, 255)
             local ipr_loop = ipr_AnimLoop()
-            surface.ipr_DrawAnim(212, 118, 223, 223, ipr_loop, -20)
+            surface.ipr_DrawAnim(207, 120, 220, 220, ipr_loop, -25)
         end
     end
 
