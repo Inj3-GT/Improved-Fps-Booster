@@ -842,14 +842,15 @@ local function IprFpsBooster_InitEnt(r)
         Ipr_UpdateVgui(false, true)
     else
         Ipr_UpdateVgui(true)
-    end 
+    end
+
+    local ipr_cvar = IprFpsBooster_CVar(3, nil, 17)
+    if (ipr_cvar) then
+        IprFpsBooster_Enable(false)
+    end
 
     timer.Simple(5, function()
-        if IsValid(ipr_vgui) then
-            return
-        end 
-
-        local ipr_cmd = IprFpsBooster_CVar(3, nil, 17) or IprFpsBooster_Cmds()
+        local ipr_cmd = IprFpsBooster_Cmds()
         if (ipr_cmd) then
             if (r) then
                 return
@@ -857,6 +858,10 @@ local function IprFpsBooster_InitEnt(r)
 
             Ipr_Fps_Booster_Vgui_Func()
         else
+            if (ipr_cvar) then
+                Ipr_Fps_Booster_Vgui_Func()
+                return
+            end
             Ipr_ResetValue(true)
             IprFpsBooster_Status(false, true)
 
