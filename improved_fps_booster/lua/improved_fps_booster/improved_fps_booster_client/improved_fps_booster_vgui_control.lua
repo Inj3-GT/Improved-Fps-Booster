@@ -304,7 +304,6 @@ local function Ipr_Booster_Option_Func(p)
     local ipr_lang = Ipr_RequestLang()
     ipr_vgui_func.Paint = function( self, w, h )
         IprFpsBooster_GuiBlur(self, 2, Color( 0, 0, 0, 170 ), 8)
-
         draw.RoundedBoxEx(6, 0, 0, w, 20, ipr.color["bleu"], true, true, false, false)
 
         draw.SimpleText("Options FPS Booster","Ipr_Fps_Booster_Font",w/2,1, ipr.color["blanc"], TEXT_ALIGN_CENTER)
@@ -313,7 +312,6 @@ local function Ipr_Booster_Option_Func(p)
         local ipr_flimit = math.Round(ipr_InfoNum(LocalPlayer(), "fps_max"))
         draw.SimpleText("FPS Limit : ","Ipr_Fps_Booster_Font", 5, h-17, ipr.color["blanc"], TEXT_ALIGN_LEFT)
         draw.SimpleText(ipr_flimit,"Ipr_Fps_Booster_Font", 67, h-17, ipr_RgbTransition(ipr_flimit), TEXT_ALIGN_LEFT)
-
         draw.SimpleText("Inj3","Ipr_Fps_Booster_Font", w-5,h-17, ipr.color["vert"], TEXT_ALIGN_RIGHT)
         draw.SimpleText(Ipr_Fps_Booster.Version.. " By","Ipr_Fps_Booster_Font", w-28,h-17, ipr.color["blanc"], TEXT_ALIGN_RIGHT)
         
