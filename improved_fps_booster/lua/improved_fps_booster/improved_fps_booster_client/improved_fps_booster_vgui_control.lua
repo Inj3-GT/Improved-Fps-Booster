@@ -167,7 +167,7 @@ local function IprFpsBooster_CalcFps()
     local ipr_Cur = CurTime()
 
     if (ipr_Cur > (ipr.c or 0)) then
-        ipr_fps = math.Round(1/RealFrameTime())
+        ipr_fps = math.Round(1/FrameTime())
 
         if (ipr_fps < ipr_tc.mn) then
             ipr_tc.mn = ipr_fps
