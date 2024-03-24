@@ -158,7 +158,7 @@ local function IprFpsBooster_Enable(b)
     local ipr_cmd = IprFpsBooster_Cmds(true)
     if not ipr_cmd then
         Ipr_ResetValue()
-        IprFpsBooster_Status()
+        IprFpsBooster_Status(false, false)
     end
 end
 
@@ -255,6 +255,10 @@ local function IprFpsBooster_Override(g, n)
     end
 end
 
+local function ipr_RgbTransition(ipr_nbc)
+    return (ipr_nbc <= 30) and ipr.color["rouge"] or (ipr_nbc > 30) and (ipr_nbc <= 60) and ipr.color["orange"] or ipr.color["vert"]
+end
+
 local ipr_vgui_func
 local function Ipr_Booster_Option_Func(p)
     if IsValid(ipr_vgui_func) then
@@ -306,8 +310,12 @@ local function Ipr_Booster_Option_Func(p)
         draw.SimpleText("Options FPS Booster","Ipr_Fps_Booster_Font",w/2,1, ipr.color["blanc"], TEXT_ALIGN_CENTER)
         draw.SimpleText("Configuration :","Ipr_Fps_Booster_Font",w/2,h/2+18, ipr.color["blanc"], TEXT_ALIGN_CENTER)
 
-        local ipr_sys_abs = math.abs(math.sin(CurTime() * 1.5) * 170)
-        draw.SimpleText(Ipr_Fps_Booster.Version.. " By Inj3","Ipr_Fps_Booster_Font", w-5,h-17, Color(ipr_sys_abs, ipr_sys_abs, ipr_sys_abs), TEXT_ALIGN_RIGHT)
+        local ipr_flimit = math.Round(ipr_InfoNum(LocalPlayer(), "fps_max"))
+        draw.SimpleText("FPS Limit : ","Ipr_Fps_Booster_Font", 5, h-17, ipr.color["blanc"], TEXT_ALIGN_LEFT)
+        draw.SimpleText(ipr_flimit,"Ipr_Fps_Booster_Font", 67, h-17, ipr_RgbTransition(ipr_flimit), TEXT_ALIGN_LEFT)
+
+        draw.SimpleText("Inj3","Ipr_Fps_Booster_Font", w-5,h-17, ipr.color["vert"], TEXT_ALIGN_RIGHT)
+        draw.SimpleText(Ipr_Fps_Booster.Version.. " By","Ipr_Fps_Booster_Font", w-28,h-17, ipr.color["blanc"], TEXT_ALIGN_RIGHT)
         
         ipr_lang = Ipr_RequestLang()
         draw.SimpleText(Ipr_Fps_Booster.Lang[ipr_lang].ipr_vgui_opti_t,"Ipr_Fps_Booster_Font",w/2,50, ipr.color["blanc"], TEXT_ALIGN_CENTER)
@@ -540,7 +548,7 @@ local function Ipr_Fps_Booster_Vgui_Func()
     ipr_sheet:Dock(FILL)
     ipr_sheet:DockPadding(52, 10, 0, 0)
 
-    do  
+    do
         local ipr_rotate = {start = 10, s_end = 35, step = 5}
         local ipr_copy = table.Copy(ipr_rotate)
         ipr_copy.nextstep = 0.5
@@ -568,10 +576,6 @@ local function Ipr_Fps_Booster_Vgui_Func()
             return ipr_copy.start
         end
 
-        local function ipr_RgbTransition(ipr_nbc)
-            return (ipr_nbc <= 30) and ipr.color["rouge"] or (ipr_nbc > 30) and (ipr_nbc <= 50) and ipr.color["orange"] or ipr.color["vert"]
-        end
-
         function surface.ipr_DrawAnim(x, y, w, h, rot, x0)
             local r = math.rad(rot)
             local c, s = math.cos(r), math.sin(r)
@@ -582,12 +586,12 @@ local function Ipr_Fps_Booster_Vgui_Func()
         end
 
         local function ipr_LimitFps(s)
-           return (math.abs(s) > 999) and 999 or s
+            return (math.abs(s) > 999) and 999 or s
         end
 
         local ipr_icon_computer = Material("icon/ipr_boost_computer.png", "noclamp smooth")
         local ipr_icon_wrench = Material("icon/ipr_boost_wrench.png", "noclamp smooth")
-        
+
         ipr_sheet.Paint = function(self, w, h)
             local ipr_c, ipr_m, ipr_mx, ipr_gn = IprFpsBooster_CalcFps()
             local ipr_status_gui = IprFpsBooster_Status(true)
@@ -631,19 +635,19 @@ local function Ipr_Fps_Booster_Vgui_Func()
         draw.SimpleText(Ipr_Fps_Booster.Lang[ipr_lang].ipr_vgui_enable_t, "Ipr_Fps_Booster_Font", w / 2 + 3, 3, ipr.color["blanc"], TEXT_ALIGN_CENTER)
     end
     ipr_dbut_enable.DoClick = function()
-        local ipr_cmd = IprFpsBooster_Cmds(true)
-        if not ipr_cmd then
+        if not IprFpsBooster_Cmds(true) then
             return chat.AddText(ipr.color["rouge"], "[", "FPS Booster", "] : ", ipr.color["blanc"], "Please check boxes in optimization to activate the fps booster !")
         end
+        if IprFpsBooster_Cmds() then
+            IprFpsBooster_Enable(false)
+            Ipr_ResetValue(true)
 
-        IprFpsBooster_Enable(false)
-        Ipr_ResetValue(true)
-
-        IprFpsBooster_Enable(true)
-        IprFpsBooster_Status(false, true) 
-
-        surface.PlaySound("buttons/combine_button7.wav")
-        chat.AddText(ipr.color["rouge"], "[", "FPS Booster", "] : ", ipr.color["blanc"], Ipr_Fps_Booster.Lang[ipr_lang].ipr_vgui_enable_prevent_t)
+            IprFpsBooster_Enable(true)
+            IprFpsBooster_Status(false, true)
+            chat.AddText(ipr.color["rouge"], "[", "FPS Booster", "] : ", ipr.color["blanc"], Ipr_Fps_Booster.Lang[ipr_lang].ipr_vgui_enable_prevent_t)
+        else
+            chat.AddText(ipr.color["rouge"], "[", "FPS Booster", "] : ", ipr.color["blanc"], "Already enabled !")
+        end
 
         if IprFpsBooster_CVar(3, nil, 16) then
             if IsValid(ipr_vgui) then
@@ -654,6 +658,8 @@ local function Ipr_Fps_Booster_Vgui_Func()
                 ipr_vgui_func:Remove()
             end
         end
+
+        surface.PlaySound("buttons/combine_button7.wav")
     end
 
     ipr_dbut_disable:SetPos(184, 240)
@@ -665,12 +671,15 @@ local function Ipr_Fps_Booster_Vgui_Func()
         draw.SimpleText(Ipr_Fps_Booster.Lang[ipr_lang].ipr_vgui_disable_t, "Ipr_Fps_Booster_Font", w / 2 + 6, 3, ipr.color["blanc"], TEXT_ALIGN_CENTER)
     end
     ipr_dbut_disable.DoClick = function()
-        Ipr_ResetValue()
-        IprFpsBooster_Status()
-        IprFpsBooster_Enable(false)
+        if not IprFpsBooster_Cmds() then
+            Ipr_ResetValue()
+            IprFpsBooster_Status(false, false)
+            IprFpsBooster_Enable(false)
 
-        chat.AddText(ipr.color["rouge"], "[", "FPS Booster", "] : ", ipr.color["blanc"], Ipr_Fps_Booster.Lang[ipr_lang].ipr_vgui_disableop_t)
-        surface.PlaySound("buttons/combine_button5.wav")
+            chat.AddText(ipr.color["rouge"], "[", "FPS Booster", "] : ", ipr.color["blanc"], Ipr_Fps_Booster.Lang[ipr_lang].ipr_vgui_disableop_t)
+        else
+            chat.AddText(ipr.color["rouge"], "[", "FPS Booster", "] : ", ipr.color["blanc"], "Already disabled !")
+        end
 
         if IprFpsBooster_CVar(3, nil, 16) then
             if IsValid(ipr_vgui) then
@@ -681,6 +690,8 @@ local function Ipr_Fps_Booster_Vgui_Func()
                 ipr_vgui_func:Remove()
             end
         end
+
+        surface.PlaySound("buttons/combine_button5.wav")
     end
 
     ipr_dbut_config:SetPos(200, 38)
@@ -732,11 +743,11 @@ local function Ipr_Fps_Booster_Vgui_Func()
             end
 
             if (v:GetName() == "DPanel") then
-                continue
+               continue
             end
             for _, d in pairs(v:GetChildren()) do
                 if (d:GetName() == "DVScrollBar") then
-                    continue
+                   continue
                 end
 
                 for _, y in pairs(d:GetChildren()) do
