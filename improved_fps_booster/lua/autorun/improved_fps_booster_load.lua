@@ -97,7 +97,7 @@ if (CLIENT) then
         },
         {
             Ipr_Texte = {
-                ["FR"] = "Désactiver spray",
+                ["FR"] = "Désactiver le spray",
                 ["EN"] = "Disable spray"
             },
             Ipr_ToolTip = {
@@ -117,8 +117,8 @@ if (CLIENT) then
         },
         {
             Ipr_Texte = {
-                ["FR"] = "Désactiver la dentition",
-                ["EN"] = "Disable teeth"
+                ["FR"] = "Désactiver dents (model)",
+                ["EN"] = "Remove teeth (playermodels)"
             },
             Ipr_ToolTip = {
                 ["FR"] = "Retire la dentition visibles sur les models",
@@ -133,12 +133,12 @@ if (CLIENT) then
         },
         {
             Ipr_Texte = {
-                ["FR"] = "Désactiver ombres",
-                ["EN"] = "Disable Shadow"
+                ["FR"] = "Reduire qualité des ombres",
+                ["EN"] = "Reduces shadow quality"
             },
             Ipr_ToolTip = {
-                ["FR"] = "Réduit la qualité des ombres",
-                ["EN"] = "Reduces shadow quality"
+                ["FR"] = "Réduit la qualité des ombres (ne les supprimes pas complétement).",
+                ["EN"] = "Reduces the quality of shadows (does not removed them completely)."
             },
             Ipr_CmdChild = {
                 ["mat_shadowstate"] = {
@@ -161,7 +161,7 @@ if (CLIENT) then
         },
         {
             Ipr_Texte = {
-                ["FR"] = "Retirer filtrage des textures",
+                ["FR"] = "Désactiver filtrage texture",
                 ["EN"] = "Disable Texture filtering"
             },
             Ipr_ToolTip = {
@@ -177,7 +177,7 @@ if (CLIENT) then
         },
         {
             Ipr_Texte = {
-                ["FR"] = "Désactiver effets m9k",
+                ["FR"] = "Désactiver les effets m9k",
                 ["EN"] = "Disable m9k effect"
             },
             Ipr_ToolTip = {
@@ -237,7 +237,7 @@ if (CLIENT) then
         },
         {
             Ipr_Texte = {
-                ["FR"] = "Désactiver effets de sang",
+                ["FR"] = "Désactiver les effets de sang",
                 ["EN"] = "Disable effects of blood"
             },
             Ipr_ToolTip = {
@@ -265,7 +265,7 @@ if (CLIENT) then
         },
         {
             Ipr_Texte = {
-                ["FR"] = "Désactiver petits objets",
+                ["FR"] = "Désactiver les petits objets",
                 ["EN"] = "Disable small objects"
             },
             Ipr_ToolTip = {
@@ -309,7 +309,7 @@ if (CLIENT) then
         },
         {
             Ipr_Texte = {
-                ["FR"] = "Désactiver effets eau",
+                ["FR"] = "Désactiver les effets de l'eau",
                 ["EN"] = "Disable water splash"
             },
             Ipr_ToolTip = {
@@ -325,7 +325,7 @@ if (CLIENT) then
         },
         {
             Ipr_Texte = {
-                ["FR"] = "Désactiver effets arme",
+                ["FR"] = "Désactiver les effets d'armes",
                 ["EN"] = "Disable weapon effects"
             },
             Ipr_ToolTip = {
