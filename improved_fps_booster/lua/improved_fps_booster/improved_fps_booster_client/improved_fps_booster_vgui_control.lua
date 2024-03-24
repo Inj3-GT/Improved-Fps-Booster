@@ -454,7 +454,10 @@ local function Ipr_Booster_Option_Func(p)
     end
     ipr_dbut_default.DoClick = function()
         Ipr_UpdateVgui(false, true)
-        IprFpsBooster_Enable(true)
+        IprFpsBooster_Enable(false)
+
+        IprFpsBooster_Status(false, false)
+        Ipr_ResetValue(true)
         
         if IsValid(ipr_vgui_func) then
             ipr_vgui_func:Remove()
@@ -464,7 +467,7 @@ local function Ipr_Booster_Option_Func(p)
             p:SetPos(ipr_gx + 100, ipr_gxy)
         end
 
-        chat.AddText(ipr.color["rouge"], "[", "FPS Booster", "] : ", ipr.color["blanc"], "The default configuration has been loaded")
+        chat.AddText(ipr.color["rouge"], "[", "FPS Booster", "] : ", ipr.color["blanc"], "The default configuration has been loaded !")
         surface.PlaySound("buttons/button9.wav")
     end
 
@@ -535,12 +538,12 @@ local function Ipr_Fps_Booster_Vgui_Func()
         draw.SimpleText((ipr_status_gui and "On (Boost)") or "Off", "Ipr_Fps_Booster_Font",(ipr_status_gui and w/2 + 22) or w/2 + 18,16, ipr_status_gui and ipr.color["vert"] or ipr.color["rouge"], TEXT_ALIGN_CENTER)
     end
     ipr_sheet:Dock(FILL)
-    ipr_sheet:DockPadding( 52, 10, 0, 0)
+    ipr_sheet:DockPadding(52, 10, 0, 0)
 
     do  
-        local ipr_rotate = {start = 15, s_end = 35, step = 5}
+        local ipr_rotate = {start = 10, s_end = 35, step = 5}
         local ipr_copy = table.Copy(ipr_rotate)
-        ipr_copy.nextstep = 1
+        ipr_copy.nextstep = 0.5
         ipr_copy.update = 0
 
         local function ipr_AnimLoop()
@@ -605,10 +608,10 @@ local function Ipr_Fps_Booster_Vgui_Func()
             surface.DrawTexturedRect(-10, 0, 350, 235)
 
             surface.SetMaterial(ipr_icon_wrench)
-            if (ipr_status_gui) then surface.SetDrawColor(39, 174, 96, 255) else surface.SetDrawColor(192, 57, 43, 255) end
+            surface.SetDrawColor(255, 255, 255, 255)
 
             local ipr_loop = ipr_AnimLoop()
-            surface.ipr_DrawAnim(207, 118, 223, 223, ipr_loop, -25)
+            surface.ipr_DrawAnim(212, 118, 223, 223, ipr_loop, -20)
         end
     end
 
@@ -636,8 +639,9 @@ local function Ipr_Fps_Booster_Vgui_Func()
 
         IprFpsBooster_Enable(false)
         Ipr_ResetValue(true)
-        IprFpsBooster_Status(false, true)
+
         IprFpsBooster_Enable(true)
+        IprFpsBooster_Status(false, true) 
 
         surface.PlaySound("buttons/combine_button7.wav")
         chat.AddText(ipr.color["rouge"], "[", "FPS Booster", "] : ", ipr.color["blanc"], Ipr_Fps_Booster.Lang[ipr_lang].ipr_vgui_enable_prevent_t)
@@ -832,14 +836,20 @@ local function IprFpsBooster_InitEnt(r)
         Ipr_UpdateVgui(false, true)
     else
         Ipr_UpdateVgui(true)
-    end
+    end 
 
     timer.Simple(5, function()
+        if IsValid(ipr_vgui) then
+            return
+        end 
+
         local ipr_cmd = IprFpsBooster_CVar(3, nil, 17) or IprFpsBooster_Cmds()
         if (ipr_cmd) then
-            if not r and not IsValid(ipr_vgui) then
-                Ipr_Fps_Booster_Vgui_Func()
+            if (r) then
+                return
             end
+
+            Ipr_Fps_Booster_Vgui_Func()
         else
             Ipr_ResetValue(true)
             IprFpsBooster_Status(false, true)
