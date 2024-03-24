@@ -609,7 +609,6 @@ local function Ipr_Fps_Booster_Vgui_Func()
 
             surface.SetMaterial(ipr_icon_wrench)
             surface.SetDrawColor(255, 255, 255, 255)
-
             local ipr_loop = ipr_AnimLoop()
             surface.ipr_DrawAnim(212, 118, 223, 223, ipr_loop, -20)
         end
