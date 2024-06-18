@@ -202,14 +202,12 @@ local function IprFpsBooster_GuiBlur(f, fl, c, br)
     surface.SetMaterial(ipr.blur)
 
     local ipr_x, ipr_y = f:LocalToScreen(0, 0)
-    local ipr_sw, ipr_sh = ScrW(), ScrH()
-    for i = 1, 3 do
-        ipr.blur:SetFloat("$blur", (i / 3) * fl)
-        ipr.blur:Recompute()
-        render.UpdateScreenEffectTexture()
-        surface.DrawTexturedRect(ipr_x * -1, ipr_y * -1, ipr_sw, ipr_sh)
-    end
+    ipr.blur:SetInt("$blur", 2)
+    ipr.blur:Recompute()
+    render.UpdateScreenEffectTexture()
 
+    local ipr_sw, ipr_sh = ScrW(), ScrH()
+    surface.DrawTexturedRect(ipr_x * -1, ipr_y * -1, ipr_sw, ipr_sh)
     draw.RoundedBoxEx(br, 0, 0, f:GetWide(), f:GetTall(), c, true, true, true, true)
 end
 

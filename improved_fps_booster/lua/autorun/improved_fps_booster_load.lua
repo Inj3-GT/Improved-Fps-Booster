@@ -109,10 +109,6 @@ if (CLIENT) then
                     Ipr_Enabled = "0",
                     Ipr_Disabled = "1"
                 },
-                ["cl_playerspraydisable"] = {
-                    Ipr_Enabled = "1",
-                    Ipr_Disabled = "0"
-                }
             }
         },
         {
