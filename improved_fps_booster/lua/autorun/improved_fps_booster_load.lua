@@ -20,7 +20,7 @@ if (CLIENT) then
     }
     Ipr_Fps_Booster.Lang = {
         ["FR"] = {
-            ipr_vgui_enabled = "Voulez-vous activer Improved FPS Booster ?",
+            ipr_vgui_enabled = "Voulez-vous activer Improved FPS Booster?",
             ipr_vgui_opti_t = "Optimisation :",
             ipr_vgui_posw_t = "FPS Position Largeur :",
             ipr_vgui_posh_t = "FPS Position Hauteur :",
@@ -39,7 +39,7 @@ if (CLIENT) then
             ipr_vgui_fopen = "Forcer ouverture (session)",
         },
         ["EN"] = {
-            ipr_vgui_enabled = "Do you want enable Improved FPS Booster ?",
+            ipr_vgui_enabled = "Do you want enable Improved FPS Booster?",
             ipr_vgui_opti_t = "Optimization :",
             ipr_vgui_posw_t = "FPS Position Width :",
             ipr_vgui_posh_t = "FPS Position Height :",
@@ -47,7 +47,7 @@ if (CLIENT) then
             ipr_vgui_hudshow_tx = "Show full fps counter visible directly on your HUD",
             ipr_vgui_enable_t = "Enable",
             ipr_vgui_disable_t = "Disable",
-            ipr_vgui_enable_prevent_t = "If you encounter graphic problems or crashes, use the Options button to change your settings. For open Improved Fps Booster /boost.",
+            ipr_vgui_enable_prevent_t = "If you encounter graphic problems or crashes, use the Options button to change your settings. To open Improved Fps Booster /boost.",
             ipr_vgui_disableop_t = "FPS Booster is now disabled, For open Improved FPS Booster /boost.",
             ipr_vgui_fps_cur = "Actual :",
             ipr_vgui_fps_load_data = "Options settings Loaded",
@@ -56,17 +56,38 @@ if (CLIENT) then
             ipr_vgui_Default = "Default",
             ipr_vgui_Cls = "Closed (enable/disable)",
             ipr_vgui_fopen = "Forced open (session)",
-        },
+
+        ["TR"] = {
+            ipr_vgui_enabled = "Gelişmiş FPS Artırıcıyı etkinleştirmek istiyor musunuz?",
+            ipr_vgui_opti_t = "Optimizasyon :",
+            ipr_vgui_posw_t = "FPS Genişlik Konumu :",
+            ipr_vgui_posh_t = "FPS Yükseklik Konumu :",
+            ipr_vgui_hudshow_t = "Arayüzde FPS'i göster",
+            ipr_vgui_hudshow_tx = "FPS göstergesinin tamamını doğrudan arayüzünüzde görünür şekilde göster",
+            ipr_vgui_enable_t = "Etkinleştir",
+            ipr_vgui_disable_t = "Devre dışı bırak",
+            ipr_vgui_enable_prevent_t = "Grafiksel hatalarla veya çökmelerle karşılarşırsanız, 'Ayarlar' düğmesi kısmından ayarlarınızı değiştirebilirsiniz. Gelimiş FPS Artırıcıyı açmak için '/boost'",
+            ipr_vgui_disableop_t = "FPS Artırıcı devre dışı bırakıldı, tekrar açmak için '/boost'",
+            ipr_vgui_fps_cur = "Güncel :",
+            ipr_vgui_fps_load_data = "Ayarlar Yüklendi",
+            ipr_vgui_Lang = "Dil :",
+            ipr_vgui_LoadS = "Konfigürasyonu Yükle",
+            ipr_vgui_Default = "Varsayılan",
+            ipr_vgui_Cls = "Kapalı (etkin/devre dışı)",
+            ipr_vgui_fopen = "Zorla açıldı (oturum)",
+        }
     }
     Ipr_Fps_Booster.DefautCommand = {
         {
             Ipr_Texte = {
                 ["FR"] = "Rendu Multicoeur",
-                ["EN"] = "Multicore Rendering"
+                ["EN"] = "Multicore Rendering",
+                ["TR"] = "Çok Çekirdekli İşleme"
             },
             Ipr_ToolTip = {
                 ["FR"] = "Tirer parti d'un processeur multicœur",
-                ["EN"] = "Take advantage of a Multi Core CPU"
+                ["EN"] = "Take advantage of a Multi Core CPU",
+                ["TR"] = "Çok Çekirdekli işlemcinin avantajlarından yararlanın"
             },
             Ipr_CmdChild = {
                 ["gmod_mcore_test"] = {
@@ -82,11 +103,13 @@ if (CLIENT) then
         {
             Ipr_Texte = {
                 ["FR"] = "Désactiver skybox 3D",
-                ["EN"] = "Disable 3D skybox"
+                ["EN"] = "Disable 3D skybox",
+                ["TR"] = "3B skybox'ı devre dışı bırak"
             },
             Ipr_ToolTip = {
                 ["FR"] = "Retire le rendu du ciel",
-                ["EN"] = "Delete the sky"
+                ["EN"] = "Delete the sky",
+                ["TR"] = "Gökyüzünü kaldır"
             },
             Ipr_CmdChild = {
                 ["r_3dsky"] = {
@@ -98,11 +121,13 @@ if (CLIENT) then
         {
             Ipr_Texte = {
                 ["FR"] = "Désactiver le spray",
-                ["EN"] = "Disable spray"
+                ["EN"] = "Disable spray",
+                ["TR"] = "Sprayleri devre dışı bırak"
             },
             Ipr_ToolTip = {
                 ["FR"] = "Retire l'effet de pulvérisation",
-                ["EN"] = "Remove the spray effect"
+                ["EN"] = "Remove the spray effect",
+                ["TR"] = "Spray efektini kaldır"
             },
             Ipr_CmdChild = {
                 ["r_spray_lifetime"] = {
@@ -114,11 +139,13 @@ if (CLIENT) then
         {
             Ipr_Texte = {
                 ["FR"] = "Désactiver dents (model)",
-                ["EN"] = "Remove teeth (playermodels)"
+                ["EN"] = "Remove teeth (playermodels)",
+                ["TR"] = "Oyuncu modellerinde dişleri kaldır"
             },
             Ipr_ToolTip = {
                 ["FR"] = "Retire la dentition visibles sur les models",
-                ["EN"] = "Remove teeth on the models"
+                ["EN"] = "Remove teeth on the models",
+                ["TR"] = "Modellerin dişini kaldır"
             },
             Ipr_CmdChild = {
                 ["r_teeth"] = {
@@ -130,11 +157,13 @@ if (CLIENT) then
         {
             Ipr_Texte = {
                 ["FR"] = "Reduire qualité des ombres",
-                ["EN"] = "Reduces shadow quality"
+                ["EN"] = "Reduces shadow quality",
+                ["TR"] = "Gölge kalitesini düşürür"
             },
             Ipr_ToolTip = {
                 ["FR"] = "Réduit la qualité des ombres (ne les supprimes pas complétement).",
-                ["EN"] = "Reduces the quality of shadows (does not removed them completely)."
+                ["EN"] = "Reduces the quality of shadows (does not removed them completely).",
+                ["TR"] = "Gölgelerin kalitesini düşürür (gölgeleri tamamen kaldırmaz)"
             },
             Ipr_CmdChild = {
                 ["mat_shadowstate"] = {
@@ -158,11 +187,13 @@ if (CLIENT) then
         {
             Ipr_Texte = {
                 ["FR"] = "Désactiver filtrage texture",
-                ["EN"] = "Disable Texture filtering"
+                ["EN"] = "Disable Texture filtering",
+                ["TR"] = "Doku filtrelemeyi devre dışı bırak"
             },
             Ipr_ToolTip = {
                 ["FR"] = "Retire le filtrage des textures",
-                ["EN"] = "Removes filtering on textures"
+                ["EN"] = "Removes filtering on textures",
+                ["TR"] = "Dokularda filtrelemeyi kaldırır"
             },
             Ipr_CmdChild = {
                 ["mat_filtertextures"] = {
@@ -174,11 +205,13 @@ if (CLIENT) then
         {
             Ipr_Texte = {
                 ["FR"] = "Désactiver les effets m9k",
-                ["EN"] = "Disable m9k effect"
+                ["EN"] = "Disable m9k effect",
+                ["TR"] = "M9K efektini devre dışı bırak"
             },
             Ipr_ToolTip = {
                 ["FR"] = "Retire les effets sur les armes m9k",
-                ["EN"] = "Remove particle effect on M9K"
+                ["EN"] = "Remove particle effect on M9K",
+                ["TR"] = "M9K parçacık efektini kaldırır"
             },
             Ipr_CmdChild = {
                 ["M9KGasEffect"] = {
@@ -190,11 +223,13 @@ if (CLIENT) then
         {
             Ipr_Texte = {
                 ["FR"] = "Comportement moteur",
-                ["EN"] = "Modify the behavior (engine)"
+                ["EN"] = "Modify the behavior (engine)",
+                ["TR"] = "Oyun motorunun işleyiş biçimini değiştir"
             },
             Ipr_ToolTip = {
                 ["FR"] = "Modifie le comportement du moteur (particule, matrice osseuse, corde, pvs - threads séparés)",
-                ["EN"] = "Modifies engine behavior (particle, bone matrix, string, pvs - separate threads)"
+                ["EN"] = "Modifies engine behavior (particle, bone matrix, string, pvs - separate thread)",
+                ["TR"] = "Oyun motorunun işleyiş biçimini değiştirir (parçacık, kemik matriksi, string, pvs - ayrı iş parçacığı)"
             },
             Ipr_CmdChild = {
                 ["r_threaded_particles"] = {
@@ -218,11 +253,13 @@ if (CLIENT) then
         {
             Ipr_Texte = {
                 ["FR"] = "Accéleration materiel",
-                ["EN"] = "Hardware acceleration"
+                ["EN"] = "Hardware acceleration",
+                ["TR"] = "Donanım hızlandırma"
             },
             Ipr_ToolTip = {
                 ["FR"] = "Algorithme de calcul de perspective plus rapide.",
-                ["EN"] = "Faster perspective calculation algorithm."
+                ["EN"] = "Faster perspective calculation algorithm.",
+                ["TR"] = "Daha hızlı perspektif hesaplama algoritması."
             },
             Ipr_CmdChild = {
                 ["r_fastzreject"] = {
@@ -234,11 +271,13 @@ if (CLIENT) then
         {
             Ipr_Texte = {
                 ["FR"] = "Désactiver les effets de sang",
-                ["EN"] = "Disable effects of blood"
+                ["EN"] = "Disable effects of blood",
+                ["TR"] = "Kan efektini devre dışı bırak"
             },
             Ipr_ToolTip = {
                 ["FR"] = "Désactiver les effets sanguins (éclaboussure)",
-                ["EN"] = "Disables the effects of blood (splash)"
+                ["EN"] = "Disables the effects of blood (splash)",
+                ["TR"] = "Kan efektlerini devre dışı bırakır (kanın sıçraması gibi)"
             },
             Ipr_CmdChild = {
                 ["violence_ablood"] = {
@@ -262,11 +301,13 @@ if (CLIENT) then
         {
             Ipr_Texte = {
                 ["FR"] = "Désactiver les petits objets",
-                ["EN"] = "Disable small objects"
+                ["EN"] = "Disable small objects",
+                ["TR"] = "Küçük nesneleri devre dışı bırak"
             },
             Ipr_ToolTip = {
                 ["FR"] = "Désactive les petits objets (bouteilles, petites boîtes de conserve, briques)",
-                ["EN"] = "Disables small objects (bottles, small cans, bricks)"
+                ["EN"] = "Disables small objects (bottles, small cans, bricks)",
+                ["TR"] = "Küçük nesneleri devre dışı bırakır (şişeler, küçük teneke kutular, tuğlalar)"
             },
             Ipr_CmdChild = {
                 ["cl_phys_props_enable"] = {
@@ -286,11 +327,13 @@ if (CLIENT) then
         {
             Ipr_Texte = {
                 ["FR"] = "Désactiver le bloom",
-                ["EN"] = "Disable Bloom"
+                ["EN"] = "Disable Bloom",
+                ["TR"] = "Bloom'u devre dışı bırak"
             },
             Ipr_ToolTip = {
                 ["FR"] = "Désactive le bloom (effet graphique)",
-                ["EN"] = "Disables bloom (graphical effect)"
+                ["EN"] = "Disables bloom (graphical effect)",
+                ["TR"] = "Bloom'u devre dışı bırakır (grafiksel efekt)"
             },
             Ipr_CmdChild = {
                 ["mat_bloom_scalefactor_scalar"] = {
@@ -306,11 +349,13 @@ if (CLIENT) then
         {
             Ipr_Texte = {
                 ["FR"] = "Désactiver les effets de l'eau",
-                ["EN"] = "Disable water splash"
+                ["EN"] = "Disable water splash",
+                ["TR"] = "Su sıçramasını devre dışı bırak"
             },
             Ipr_ToolTip = {
                 ["FR"] = "Désactiver l'effet d'éclaboussures d'eau",
-                ["EN"] = "Disable water splash effect"
+                ["EN"] = "Disables water splash effect",
+                ["TR"] = "Su sıçrama efektini devre dışı bırakır"
             },
             Ipr_CmdChild = {
                 ["cl_show_splashes"] = {
@@ -322,11 +367,13 @@ if (CLIENT) then
         {
             Ipr_Texte = {
                 ["FR"] = "Désactiver les effets d'armes",
-                ["EN"] = "Disable weapon effects"
+                ["EN"] = "Disable weapon effects",
+                ["TR"] = "Silah efektlerini devre dışı bırak"
             },
             Ipr_ToolTip = {
                 ["FR"] = "Désactiver effets arme",
-                ["EN"] = "Disable effects on weapons"
+                ["EN"] = "Disables effects on weapons",
+                ["TR"] = "Silah efektlerini devre dışı bırakır"
             },
             Ipr_CmdChild = {
                 ["cl_ejectbrass"] = {
