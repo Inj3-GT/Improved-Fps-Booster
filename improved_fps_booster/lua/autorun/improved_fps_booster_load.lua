@@ -56,7 +56,7 @@ if (CLIENT) then
             ipr_vgui_Default = "Default",
             ipr_vgui_Cls = "Closed (enable/disable)",
             ipr_vgui_fopen = "Forced open (session)",
-
+        },
         ["TR"] = {
             ipr_vgui_enabled = "Gelişmiş FPS Artırıcıyı etkinleştirmek istiyor musunuz?",
             ipr_vgui_opti_t = "Optimizasyon :",
