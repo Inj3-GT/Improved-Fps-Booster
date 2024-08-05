@@ -71,10 +71,10 @@ if (CLIENT) then
             ipr_vgui_fps_cur = "Güncel :",
             ipr_vgui_fps_load_data = "Ayarlar Yüklendi",
             ipr_vgui_Lang = "Dil :",
-            ipr_vgui_LoadS = "Konfigürasyonu Yükle",
+            ipr_vgui_LoadS = "Konfigi Yükle",
             ipr_vgui_Default = "Varsayılan",
             ipr_vgui_Cls = "Kapalı (etkin/devre dışı)",
-            ipr_vgui_fopen = "Zorla açıldı (oturum)",
+            ipr_vgui_fopen = "Zorla açma (oturum açılırken)",
         }
     }
     Ipr_Fps_Booster.DefautCommand = {
@@ -157,8 +157,8 @@ if (CLIENT) then
         {
             Ipr_Texte = {
                 ["FR"] = "Reduire qualité des ombres",
-                ["EN"] = "Reduces shadow quality",
-                ["TR"] = "Gölge kalitesini düşürür"
+                ["EN"] = "Reduce shadow quality",
+                ["TR"] = "Gölge kalitesini düşür"
             },
             Ipr_ToolTip = {
                 ["FR"] = "Réduit la qualité des ombres (ne les supprimes pas complétement).",
@@ -193,7 +193,7 @@ if (CLIENT) then
             Ipr_ToolTip = {
                 ["FR"] = "Retire le filtrage des textures",
                 ["EN"] = "Removes filtering on textures",
-                ["TR"] = "Dokularda filtrelemeyi kaldırır"
+                ["TR"] = "Dokuların filtrelemesini kaldırır"
             },
             Ipr_CmdChild = {
                 ["mat_filtertextures"] = {
