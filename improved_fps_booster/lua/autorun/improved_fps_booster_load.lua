@@ -60,13 +60,13 @@ if (CLIENT) then
         ["TR"] = {
             ipr_vgui_enabled = "Gelişmiş FPS Artırıcıyı etkinleştirmek istiyor musunuz?",
             ipr_vgui_opti_t = "Optimizasyon :",
-            ipr_vgui_posw_t = "FPS Genişlik Konumu :",
-            ipr_vgui_posh_t = "FPS Yükseklik Konumu :",
+            ipr_vgui_posw_t = "FPS Yatay Konum :",
+            ipr_vgui_posh_t = "FPS Dikey Konum :",
             ipr_vgui_hudshow_t = "Arayüzde FPS'i göster",
             ipr_vgui_hudshow_tx = "FPS göstergesinin tamamını doğrudan arayüzünüzde görünür şekilde göster",
             ipr_vgui_enable_t = "Etkinleştir",
             ipr_vgui_disable_t = "Devre dışı bırak",
-            ipr_vgui_enable_prevent_t = "Grafiksel hatalarla veya çökmelerle karşılarşırsanız, 'Ayarlar' düğmesi kısmından ayarlarınızı değiştirebilirsiniz. Gelimiş FPS Artırıcıyı açmak için '/boost'",
+            ipr_vgui_enable_prevent_t = "Grafiksel hatalarla veya çökmelerle karşılarşırsanız, 'Ayarlar' düğmesi kısmından ayarlarınızı değiştirebilirsiniz. Gelişmiş FPS Artırıcıyı açmak için '/boost'",
             ipr_vgui_disableop_t = "FPS Artırıcı devre dışı bırakıldı, tekrar açmak için '/boost'",
             ipr_vgui_fps_cur = "Güncel :",
             ipr_vgui_fps_load_data = "Ayarlar Yüklendi",
@@ -74,7 +74,7 @@ if (CLIENT) then
             ipr_vgui_LoadS = "Konfigi Yükle",
             ipr_vgui_Default = "Varsayılan",
             ipr_vgui_Cls = "Kapalı (etkin/devre dışı)",
-            ipr_vgui_fopen = "Zorla açma (oturum açılırken)",
+            ipr_vgui_fopen = "Zorla aç (oturum açılırken)",
         }
     }
     Ipr_Fps_Booster.DefautCommand = {
