@@ -55,10 +55,6 @@ If your game crashes after Improved Fps Booster activation, uncheck the multicor
 
 Github: https://github.com/Inj3-GT/
 
-Forum: centralcityrp.fr
-
-Steam Group: https://steamcommunity.com/groups/CentralCityRoleplay
-
 FR:
 * ✅ Ouverture à la première connexion.
 
@@ -111,7 +107,3 @@ Développé par Inj3.
 Si votre jeu crash après activation de Improved Fps Booster, décocher le rendu multicœur (multicore rendering) dans options.
 
 Github : https://github.com/Inj3-GT/
-
-Forum : centralcityrp.fr
-
-Groupe Steam : https://steamcommunity.com/groups/CentralCityRoleplay
