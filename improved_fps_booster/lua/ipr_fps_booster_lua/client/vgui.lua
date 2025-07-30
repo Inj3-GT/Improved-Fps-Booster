@@ -17,13 +17,13 @@ local function Ipr_HUD()
             {Name = "FPS :", FColor = Ipr.Settings.TColor["blanc"]},
             {Name = Ipr_FpsCurrent, FColor = Ipr.Function.ColorTransition(Ipr_FpsCurrent)},
             {Name = "|", FColor = Ipr.Settings.TColor["blanc"]},
-            {Name = "Min :", FColor = Ipr.Settings.TColor["blanc"]},
+            {Name = Ipr.Settings.Fps.Min.Name, FColor = Ipr.Settings.TColor["blanc"]},
             {Name = Ipr_FpsMin, FColor = Ipr.Function.ColorTransition(Ipr_FpsMin)},
             {Name = "|", FColor = Ipr.Settings.TColor["blanc"]},
-            {Name = "Max :", FColor = Ipr.Settings.TColor["blanc"]},
+            {Name = Ipr.Settings.Fps.Max.Name, FColor = Ipr.Settings.TColor["blanc"]},
             {Name = Ipr_FpsMax, FColor = Ipr.Function.ColorTransition(Ipr_FpsMax)},
             {Name = "|", FColor = Ipr.Settings.TColor["blanc"]},
-            {Name = "Low 1% :", FColor = Ipr.Settings.TColor["blanc"]},
+            {Name = Ipr.Settings.Fps.Low.Name, FColor = Ipr.Settings.TColor["blanc"]},
             {Name = Ipr_FpsLow, FColor = Ipr.Function.ColorTransition(Ipr_FpsLow)},
 
             Pos = {PWide = Ipr_HWide, PHeight = Ipr_HHeight},
@@ -531,8 +531,8 @@ local function Ipr_FpsBooster()
         draw.SimpleText(Ipr.Settings.Fps.Min.Name, Ipr.Settings.Font, w / 2 + 6, 55, Ipr.Settings.TColor["blanc"], TEXT_ALIGN_RIGHT)
         draw.SimpleText(Ipr_FpsMin, Ipr.Settings.Font, w / 2 + 8, 55, Ipr.Function.ColorTransition(Ipr_FpsMin), TEXT_ALIGN_LEFT)
 
-        draw.SimpleText(Ipr.Settings.Fps.Low.Name, Ipr.Settings.Font, w / 2 + 17, 70, Ipr.Settings.TColor["blanc"], TEXT_ALIGN_RIGHT)
-        draw.SimpleText(Ipr_FpsLow, Ipr.Settings.Font, w / 2 + 19, 70, Ipr.Function.ColorTransition(Ipr_FpsLow), TEXT_ALIGN_LEFT)
+        draw.SimpleText(Ipr.Settings.Fps.Low.Name, Ipr.Settings.Font, w / 2 + 16, 70, Ipr.Settings.TColor["blanc"], TEXT_ALIGN_RIGHT)
+        draw.SimpleText(Ipr_FpsLow, Ipr.Settings.Font, w / 2 + 18, 70, Ipr.Function.ColorTransition(Ipr_FpsLow), TEXT_ALIGN_LEFT)
     end
     Ipr_PFps.DoClick = function()
         gui.OpenURL(Ipr.Settings.ExternalLink)

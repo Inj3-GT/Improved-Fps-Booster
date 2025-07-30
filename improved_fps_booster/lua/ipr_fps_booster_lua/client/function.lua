@@ -90,10 +90,10 @@ Ipr.Function.GetConvar = function(name)
             return Ipr_Convars.Checked
         end
     end
-
     if (Ipr.Settings.Debug) then
         print("Convar not found !", " " ..name)
     end
+
     return nil
 end
 
@@ -107,11 +107,11 @@ Ipr.Function.SetConvar = function(name, value, save, exist, copy)
         }
         file.Write(Ipr.Settings.Save.. "convars.json", util.TableToJSON(Ipr_Fps_Booster.Convars))
 
-        if (Ipr.Settings.Debug) then
-            print("Creating a new convar : " ..name, value, save)
-        end
         if (copy) then
             Ipr.Function.CopyData()
+        end
+        if (Ipr.Settings.Debug) then
+            print("Creating a new convar : " ..name, value, save)
         end
     else
         if (exist) then
