@@ -23,7 +23,7 @@ Ipr.Function.CreateData = function()
     end
 
     if not Ipr_FileLangs then
-        local Ipr_FileCountry = file.Exists("ipr_fps_booster_language/fr.lua", "LUA")
+        local Ipr_FileCountry = file.Exists("ipr_fps_booster_language/" ..string.lower(Ipr.Settings.Country.target).. ".lua", "LUA")
         if (Ipr_FileCountry) then
             local Ipr_GetCountry = system.GetCountry()
             if (Ipr_GetCountry) and Ipr.Settings.Country.code[Ipr_GetCountry] then
