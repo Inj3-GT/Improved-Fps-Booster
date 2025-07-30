@@ -55,11 +55,14 @@ return {
         ["gris"] = Color(128, 128, 128, 145),
     },
     Country = {
-        ["BE"] = true,
-        ["FR"] = true,
-        ["DZ"] = true,
-        ["MA"] = true,
-        ["CA"] = true
+        code = {
+           ["BE"] = true,
+           ["FR"] = true,
+           ["DZ"] = true,
+           ["MA"] = true,
+           ["CA"] = true,
+        },
+        target = "FR",
     },
     Vgui = {
         Primary = false,

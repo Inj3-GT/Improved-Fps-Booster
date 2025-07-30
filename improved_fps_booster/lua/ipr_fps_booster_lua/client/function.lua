@@ -9,24 +9,33 @@ Ipr.Function = {}
 Ipr.Settings = include("table.lua")
 
 Ipr.Function.CreateData = function()
-    local Ipr_CreateDir = file.Exists(Ipr.Settings.Save, "DATA")
+    local Ipr_CreateDir = file.IsDir(Ipr.Settings.Save, "DATA")
     if not Ipr_CreateDir then
         file.CreateDir(Ipr.Settings.Save)
     end
 
-    local Ipr_FileLangs, Ipr_SetLang = file.Exists(Ipr.Settings.Save.. "language.json", "DATA")
+    local Ipr_DirLang = Ipr.Settings.Save.. "language.json"
+    local Ipr_FileLangs, Ipr_SetLang = file.Exists(Ipr_DirLang, "DATA")
+    
+    local Ipr_CheckSize = file.Size(Ipr_DirLang, "DATA")
+    if (Ipr_CheckSize == 0) then
+        Ipr_FileLangs = false
+    end
+
     if not Ipr_FileLangs then
         local Ipr_FileCountry = file.Exists("ipr_fps_booster_language/fr.lua", "LUA")
-        
         if (Ipr_FileCountry) then
             local Ipr_GetCountry = system.GetCountry()
-            Ipr_SetLang = (Ipr_GetCountry) and Ipr.Settings.Country[Ipr_GetCountry] and "FR"
+            if (Ipr_GetCountry) and Ipr.Settings.Country.code[Ipr_GetCountry] then
+                Ipr_SetLang = Ipr.Settings.Country.target
+            end
         end
-        Ipr_SetLang = (Ipr_SetLang) or Ipr.Function.SearchLang()
-        
-        file.Write(Ipr.Settings.Save.. "language.json", Ipr_SetLang)
+        if not Ipr_SetLang or (Ipr_SetLang == "") then
+            Ipr_SetLang = Ipr.Function.SearchLang()
+        end
+
+        file.Write(Ipr_DirLang, Ipr_SetLang)
     end
-    Ipr.Settings.SetLang = (Ipr_SetLang) or file.Read(Ipr.Settings.Save.. "language.json", "DATA")
 
     local Ipr_FileConvars, Ipr_SetConvars = file.Exists(Ipr.Settings.Save.. "convars.json", "DATA")
     if not Ipr_FileConvars then
@@ -51,12 +60,18 @@ Ipr.Function.CreateData = function()
 
         file.Write(Ipr.Settings.Save.. "convars.json", util.TableToJSON(Ipr_SetConvars))
     end
+
+    Ipr.Settings.SetLang = (Ipr_SetLang) or file.Read(Ipr_DirLang, "DATA")
     Ipr_Fps_Booster.Convars = (Ipr_SetConvars) or util.JSONToTable(file.Read(Ipr.Settings.Save.. "convars.json", "DATA"))
 end
 
 Ipr.Function.SearchLang = function()
-    local Ipr_SearchLang = file.Find("ipr_fps_booster_language/*", "LUA")
+    local Ipr_DefaultLang = file.Exists("ipr_fps_booster_language/" ..Ipr_Fps_Booster.Settings.DefaultLanguage.. ".lua", "LUA")
+    if (Ipr_DefaultLang) then 
+        return Ipr_Fps_Booster.Settings.DefaultLanguage
+    end
 
+    local Ipr_SearchLang = file.Find("ipr_fps_booster_language/*", "LUA")
     for i = 1, #Ipr_SearchLang do
         local Ipr_Lang = Ipr_SearchLang[i]
         local Ipr_Size = file.Size("ipr_fps_booster_language/" ..Ipr_Lang, "LUA")
