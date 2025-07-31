@@ -61,13 +61,13 @@ Ipr.Function.CreateData = function()
         file.Write(Ipr.Settings.Save.. "convars.json", util.TableToJSON(Ipr_SetConvars))
     end
 
+    Ipr.Settings.SetLang = (Ipr_SetLang) or file.Read(Ipr_DirLang, "DATA")
+    Ipr_Fps_Booster.Convars = (Ipr_SetConvars) or util.JSONToTable(file.Read(Ipr.Settings.Save.. "convars.json", "DATA"))
+
     local Ipr_CheckMatch = Ipr.Function.Activate(true, true)
     if (Ipr_CheckMatch) then
         Ipr.Settings.Status.State = true
     end
-
-    Ipr.Settings.SetLang = (Ipr_SetLang) or file.Read(Ipr_DirLang, "DATA")
-    Ipr_Fps_Booster.Convars = (Ipr_SetConvars) or util.JSONToTable(file.Read(Ipr.Settings.Save.. "convars.json", "DATA"))
 end
 
 Ipr.Function.SearchLang = function()
