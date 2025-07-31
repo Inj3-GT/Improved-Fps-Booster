@@ -70,8 +70,8 @@ Ipr.Function.CreateData = function()
         Ipr_Fps_Booster.Convars = util.JSONToTable(file.Read(Ipr.Settings.Save.. "convars.json", "DATA"))
     end
 
-    local Ipr_CheckMatch = Ipr.Function.Activate(false, true)
-    if (Ipr_CheckMatch) then
+    local Ipr_CheckMatch = Ipr.Function.Activate(true, true)
+    if not Ipr_CheckMatch then
         Ipr.Settings.Status.State = true
     end
 end
