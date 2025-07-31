@@ -30,16 +30,16 @@ return {
     Fps =  {
         Max = {
             Int = 0,
-            Name = "Max : "
+            Name = "Max :"
         },
         Min = {
             Int = math.huge,
-            Name = "Min : "},
+            Name = "Min :"},
         Low = {
             Lists = {},
             MaxFrame = 10,
             InProgress = false,
-            Name = "Low 1% : ",
+            Name = "Low 1% :",
         },
     },
     TColor = {
