@@ -34,6 +34,7 @@ Ipr.Function.CreateData = function()
             Ipr_SetLang = Ipr.Function.SearchLang()
         end
 
+        Ipr.Settings.SetLang = Ipr_SetLang
         file.Write(Ipr_DirLang, Ipr_SetLang)
     end
 
@@ -58,13 +59,18 @@ Ipr.Function.CreateData = function()
             }
         end
 
+        Ipr_Fps_Booster.Convars = Ipr_SetConvars
         file.Write(Ipr.Settings.Save.. "convars.json", util.TableToJSON(Ipr_SetConvars))
     end
+    
+    if not Ipr_SetLang then
+        Ipr.Settings.SetLang = file.Read(Ipr_DirLang, "DATA")
+    end
+    if not Ipr_SetConvars then
+        Ipr_Fps_Booster.Convars = util.JSONToTable(file.Read(Ipr.Settings.Save.. "convars.json", "DATA"))
+    end
 
-    Ipr.Settings.SetLang = (Ipr_SetLang) or file.Read(Ipr_DirLang, "DATA")
-    Ipr_Fps_Booster.Convars = (Ipr_SetConvars) or util.JSONToTable(file.Read(Ipr.Settings.Save.. "convars.json", "DATA"))
-
-    local Ipr_CheckMatch = Ipr.Function.Activate(true, true)
+    local Ipr_CheckMatch = Ipr.Function.Activate(false, true)
     if (Ipr_CheckMatch) then
         Ipr.Settings.Status.State = true
     end
