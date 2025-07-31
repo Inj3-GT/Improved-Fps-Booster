@@ -5,7 +5,7 @@
 // https://github.com/Inj3-GT
 
 return {
-    // Icon Flag
+    // Icon Flag (https://wiki.facepunch.com/gmod/Flag_Icon_List)
     Icon = "fr.png",
 
     // Vgui
