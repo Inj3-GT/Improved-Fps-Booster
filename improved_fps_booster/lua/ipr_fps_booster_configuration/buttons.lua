@@ -14,31 +14,30 @@ return {
             ToolTip = "TSaveOpti",
         },
         Sound = function(tbl)
-            return tbl.Settings.Data.Set and "friends/message.wav" or "buttons/button18.wav"
+            return tbl.Settings.Revert.Set and "friends/message.wav" or "buttons/button18.wav"
         end,
         Function = function(tbl)
-            if not tbl.Settings.Data.Set then
-                chat.AddText(tbl.Settings.TColor["rouge"], tbl.Settings.Script, tbl.Settings.TColor["blanc"], Ipr_Fps_Booster.Lang[tbl.Settings.SetLang].CheckedBox)
+            if not tbl.Settings.Revert.Set then
+                chat.AddText(tbl.Settings.TColor["rouge"], tbl.Settings.Script, tbl.Settings.TColor["blanc"], tbl.Data.Lang[tbl.Settings.SetLang].CheckedBox)
                 return
             end
 
             local Ipr_CurrentState = tbl.Function.CurrentState()
             if (Ipr_CurrentState) then
                 tbl.Function.Activate(true)
-                chat.AddText(tbl.Settings.TColor["rouge"], tbl.Settings.Script, tbl.Settings.TColor["blanc"], Ipr_Fps_Booster.Lang[tbl.Settings.SetLang].OptimizationReloaded)
             end
 
             local Ipr_StartupDelay = timer.Exists(tbl.Settings.StartupLaunch.Name)
             if (Ipr_StartupDelay) then
                 timer.Remove(tbl.Settings.StartupLaunch.Name)
-                chat.AddText(tbl.Settings.TColor["rouge"], tbl.Settings.Script, tbl.Settings.TColor["blanc"], Ipr_Fps_Booster.Lang[tbl.Settings.SetLang].StartupAbandoned)
+                chat.AddText(tbl.Settings.TColor["rouge"], tbl.Settings.Script, tbl.Settings.TColor["blanc"], tbl.Data.Lang[tbl.Settings.SetLang].StartupAbandoned)
             end
 
             tbl.Function.SetConvar("Startup", false, 2)
             tbl.Function.CopyData()
+            tbl.Function.SaveConvar()
 
-            file.Write(tbl.Settings.Save.. "convars.json", util.TableToJSON(Ipr_Fps_Booster.Convars))
-            chat.AddText(tbl.Settings.TColor["rouge"], tbl.Settings.Script, tbl.Settings.TColor["blanc"], Ipr_Fps_Booster.Lang[tbl.Settings.SetLang].SettingsSaved)
+            chat.AddText(tbl.Settings.TColor["rouge"], tbl.Settings.Script, tbl.Settings.TColor["blanc"], tbl.Data.Lang[tbl.Settings.SetLang].SettingsSaved)
         end
     },
     {
@@ -61,7 +60,7 @@ return {
             local Ipr_StartupDelay = timer.Exists(tbl.Settings.StartupLaunch.Name)
             if (Ipr_StartupDelay) then
                 timer.Remove(tbl.Settings.StartupLaunch.Name)
-                chat.AddText(tbl.Settings.TColor["rouge"], tbl.Settings.Script, tbl.Settings.TColor["blanc"], Ipr_Fps_Booster.Lang[tbl.Settings.SetLang].StartupAbandoned)
+                chat.AddText(tbl.Settings.TColor["rouge"], tbl.Settings.Script, tbl.Settings.TColor["blanc"], tbl.Data.Lang[tbl.Settings.SetLang].StartupAbandoned)
             end
 
             Ipr_StartupDelay = not Ipr_StartupDelay
@@ -76,13 +75,12 @@ return {
 
                 timer.Create(tbl.Settings.StartupLaunch.Name, tbl.Settings.StartupLaunch.Delay, 1, function()
                     tbl.Function.SetConvar(but.Convar.Name, true, 2)
-                    chat.AddText(tbl.Settings.TColor["rouge"], tbl.Settings.Script, tbl.Settings.TColor["vert"], Ipr_Fps_Booster.Lang[tbl.Settings.SetLang].StartupEnabled)
+                    chat.AddText(tbl.Settings.TColor["rouge"], tbl.Settings.Script, tbl.Settings.TColor["vert"], tbl.Data.Lang[tbl.Settings.SetLang].StartupEnabled)
                 end)
 
-                chat.AddText(tbl.Settings.TColor["rouge"], tbl.Settings.Script, tbl.Settings.TColor["blanc"], Ipr_Fps_Booster.Lang[tbl.Settings.SetLang].StartupLaunched)
+                chat.AddText(tbl.Settings.TColor["rouge"], tbl.Settings.Script, tbl.Settings.TColor["blanc"], tbl.Data.Lang[tbl.Settings.SetLang].StartupLaunched)
             else
                 tbl.Function.SetConvar(but.Convar.Name, Ipr_StartupDelay, 1)
-                chat.AddText(tbl.Settings.TColor["rouge"], tbl.Settings.Script, tbl.Settings.TColor["blanc"], Ipr_Fps_Booster.Lang[tbl.Settings.SetLang].StartupDisabled)
             end
         end
     },
@@ -102,7 +100,7 @@ return {
                 tbl.Settings.Vgui.CheckBox[i].Vgui:SetValue(tbl.Settings.Vgui.CheckBox[i].Default)
             end
 
-            chat.AddText(tbl.Settings.TColor["rouge"], tbl.Settings.Script, tbl.Settings.TColor["blanc"], Ipr_Fps_Booster.Lang[tbl.Settings.SetLang].DefaultConfig)
+            chat.AddText(tbl.Settings.TColor["rouge"], tbl.Settings.Script, tbl.Settings.TColor["blanc"], tbl.Data.Lang[tbl.Settings.SetLang].DefaultConfig)
         end
     },
 }
