@@ -46,6 +46,4 @@ else
     end
     
     MsgC(Color(0, 250, 0), "\nImproved FPS Booster System " ..Ipr_Fps_Booster.Version.. " by " ..Ipr_Fps_Booster.Developer.. "\n")
-
 end
-
