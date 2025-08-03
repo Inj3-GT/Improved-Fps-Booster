@@ -39,17 +39,13 @@ else
         AddCSLuaFile("ipr_fps_booster_language/" ..Ipr_Lang)
     end
     
-    local Ipr_BlackListFile = {["include"] = true}
     local Ipr_FilesClient = file.Find("ipr_fps_booster_lua/client/*", "LUA")
     for i = 1, #Ipr_FilesClient do
         local Ipr_FClient = Ipr_FilesClient[i]
-        if (Ipr_BlackListFile[Ipr_FClient]) then
-            continue
-        end
-
         AddCSLuaFile("ipr_fps_booster_lua/client/" ..Ipr_FClient)
     end
     
     MsgC(Color(0, 250, 0), "\nImproved FPS Booster System " ..Ipr_Fps_Booster.Version.. " by " ..Ipr_Fps_Booster.Developer.. "\n")
 
 end
+
