@@ -5,6 +5,7 @@
 // https://github.com/Inj3-GT
 
 Ipr_Fps_Booster = Ipr_Fps_Booster or {}
+
 Ipr_Fps_Booster.Developer = "Inj3"
 Ipr_Fps_Booster.Version = "4.0.1"
 
@@ -50,4 +51,5 @@ else
     end
     
     MsgC(Color(0, 250, 0), "\nImproved FPS Booster System " ..Ipr_Fps_Booster.Version.. " by " ..Ipr_Fps_Booster.Developer.. "\n")
+
 end
