@@ -616,13 +616,13 @@ local function Ipr_FpsBooster()
     end
 
     local Ipr_PResetFps = vgui.Create("DButton", Ipr.Settings.Vgui.Primary)
-    Ipr_PResetFps:SetSize(151, 21)
+    Ipr_PResetFps:SetSize(152, 21)
     Ipr_PResetFps:SetPos(Ipr_PSize.w / 2 - Ipr_PResetFps:GetWide() / 2, 189)
     Ipr_PResetFps:SetText("")
     Ipr.Function.SetToolTip(Ipr.Data.Lang[Ipr.Settings.SetLang].TReset, Ipr_PResetFps, true)
     Ipr_PResetFps.Paint = function(self, w, h)
         draw.RoundedBox(6, 0, 0, w, h, self:IsHovered() and Ipr.Settings.TColor["bleuc"] or Ipr.Settings.TColor["bleu"])
-        draw.SimpleText("Reset FPS Max/Min", Ipr.Settings.Font, w / 2 + 7, 2, Ipr.Settings.TColor["blanc"], TEXT_ALIGN_CENTER)
+        draw.SimpleText("Reset FPS Max/Min", Ipr.Settings.Font, w / 2 + 8, 2, Ipr.Settings.TColor["blanc"], TEXT_ALIGN_CENTER)
 
         surface.SetMaterial(Ipr.Settings.IResetFps)
         surface.SetDrawColor(color_white)
