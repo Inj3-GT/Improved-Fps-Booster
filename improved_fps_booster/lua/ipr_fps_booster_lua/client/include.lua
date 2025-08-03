@@ -5,7 +5,6 @@
 // https://github.com/Inj3-GT
 
 local Ipr_IncludeConfig = {}
-
 Ipr_IncludeConfig.Default = {}
 Ipr_IncludeConfig.Lang = {}
 
