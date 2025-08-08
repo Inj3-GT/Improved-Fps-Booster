@@ -244,6 +244,7 @@ Ipr.Function.FpsCalculator = function()
         local Ipr_CountFrame = #Ipr.Settings.Fps.Low.Frame
         if (Ipr_CountFrame < Ipr.Settings.Fps.Low.MaxFrame) then
             local Ipr_InsertFrame = Ipr_CountFrame + 1
+            
             Ipr.Settings.Fps.Low.Frame[Ipr_InsertFrame] = Ipr.Settings.FpsCurrent
         else
             table.sort(Ipr.Settings.Fps.Low.Frame, function(a, b) 
@@ -611,4 +612,5 @@ Ipr.Function.SettingsVgui = {
 }
 
 return Ipr
+
 
