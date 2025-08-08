@@ -228,6 +228,7 @@ Ipr.Function.FpsCalculator = function()
 
     if Ipr_SysTime > (Ipr.CurNext or 0) then
         local Ipr_AbsoluteFrameTime = engine.AbsoluteFrameTime()
+        
         Ipr.Settings.FpsCurrent = math.Round(1 / Ipr_AbsoluteFrameTime)
         Ipr.Settings.FpsCurrent = (Ipr.Settings.FpsCurrent > Ipr.Settings.MaxFps) and Ipr.Settings.MaxFps or Ipr.Settings.FpsCurrent
 
@@ -610,3 +611,4 @@ Ipr.Function.SettingsVgui = {
 }
 
 return Ipr
+
