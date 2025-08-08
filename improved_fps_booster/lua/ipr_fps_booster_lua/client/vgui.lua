@@ -28,7 +28,6 @@ local function Ipr_HUD()
 
             Pos = {PWide = Ipr_HWide, PHeight = Ipr_HHeight},
         },
-
         {
             {Name = "Map :", FColor = Ipr.Settings.TColor["blanc"]},
             {Name = Ipr.Settings.Map, FColor = Ipr.Settings.TColor["orangec"]},
@@ -37,7 +36,7 @@ local function Ipr_HUD()
             {Name = Ipr_PlayerPing, FColor = (Ipr_PlayerPing > 100) and Ipr.Settings.TColor["rouge"] or Ipr.Settings.TColor["vert"]},
 
             Pos = {PWide = Ipr_HWide - 1, PHeight = Ipr_HHeight + 20},
-        },
+        }
     }
 
     Ipr.Function.DrawMultipleTextAligned(Ipr_HudFpsBooster)
@@ -129,7 +128,7 @@ local function Ipr_FpsBooster_Options(primary)
         draw.SimpleText(Ipr.Data.Lang[Ipr.Settings.SetLang].NOptions, Ipr.Settings.Font, w / 2, 1, Ipr.Settings.TColor["blanc"], TEXT_ALIGN_CENTER)
 
         local Ipr_FpsLimit = math.Round(Ipr.Function.InfoNum("fps_max"))
-        Ipr_FpsLimit = (Ipr_FpsLimit > 1000) and 1000 or Ipr_FpsLimit
+        Ipr_FpsLimit = (Ipr_FpsLimit > Ipr.Settings.MaxFps) and Ipr.Settings.MaxFps or Ipr_FpsLimit
 
         draw.SimpleText(Ipr.Data.Lang[Ipr.Settings.SetLang].FPSLimit, Ipr.Settings.Font, 5, h - 19, Ipr.Settings.TColor["blanc"], TEXT_ALIGN_LEFT)
         draw.SimpleText(Ipr_FpsLimit, Ipr.Settings.Font, 67, h - 19, Ipr.Function.ColorTransition(Ipr_FpsLimit), TEXT_ALIGN_LEFT)

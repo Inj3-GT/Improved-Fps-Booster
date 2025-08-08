@@ -15,16 +15,7 @@ return {
     IToolTip = Material("icon16/help.png", "noclamp"),
     Debug = false,
     Map = game.GetMap(),
-    Infinity = math.huge,
-    Escape = 5,
-    Pos = {
-        w = ScrW(),
-        h = ScrH(),
-    },
-    Status = {
-        Name = "FPS Status",
-        State = false,
-    },
+    MaxFps = 999,
     Fps =  {
         Max = {
             Int = 0,
@@ -32,13 +23,22 @@ return {
         },
         Min = {
             Int = math.huge,
-            Name = "Min :"},
+            Name = "Min :"
+        },
         Low = {
-            Lists = {},
+            Frame = {},
             MaxFrame = 10,
-            InProgress = false,
+            Current = false,
             Name = "Low 1% :",
         },
+    },
+    Pos = {
+        w = ScrW(),
+        h = ScrH(),
+    },
+    Status = {
+        Name = "FPS Status",
+        State = false,
     },
     TColor = {
         ["blanc"] = Color(245, 245, 245),
@@ -74,6 +74,7 @@ return {
     SetConvars = {},
     Revert = {},
     SetLang = Ipr_Fps_Booster.DefaultLanguage,
+    Escape = 5,
     Script = "[Improved Fps Booster] : ",
     Font = "Ipr_Fps_Booster_Font",
     Save = "improvedfpsbooster/",

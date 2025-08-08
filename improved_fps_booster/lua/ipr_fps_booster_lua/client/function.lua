@@ -226,34 +226,37 @@ end
 Ipr.Function.FpsCalculator = function()
     local Ipr_SysTime = SysTime()
 
-    if (Ipr_SysTime > (Ipr.CurNext or 0)) then
+    if Ipr_SysTime > (Ipr.CurNext or 0) then
         local Ipr_AbsoluteFrameTime = engine.AbsoluteFrameTime()
-        
         Ipr.Settings.FpsCurrent = math.Round(1 / Ipr_AbsoluteFrameTime)
-        Ipr.Settings.FpsCurrent = (Ipr.Settings.FpsCurrent > 999) and 999 or Ipr.Settings.FpsCurrent
+        Ipr.Settings.FpsCurrent = (Ipr.Settings.FpsCurrent > Ipr.Settings.MaxFps) and Ipr.Settings.MaxFps or Ipr.Settings.FpsCurrent
 
         if (Ipr.Settings.FpsCurrent < Ipr.Settings.Fps.Min.Int) then
             Ipr.Settings.Fps.Min.Int = Ipr.Settings.FpsCurrent
         end
-        if (Ipr.Settings.FpsCurrent > (Ipr.Settings.Fps.Max.Int ~= Ipr.Settings.Infinity and Ipr.Settings.Fps.Max.Int or 0)) then
+        if (Ipr.Settings.FpsCurrent > Ipr.Settings.Fps.Max.Int) then
             Ipr.Settings.Fps.Max.Int = Ipr.Settings.FpsCurrent
         end
+        
+        Ipr.Settings.Fps.Low.Current = Ipr.Settings.Fps.Low.Current or Ipr.Settings.Fps.Min.Int
 
-        Ipr.Settings.Fps.Low.InProgress  = Ipr.Settings.Fps.Low.InProgress or Ipr.Settings.Fps.Min.Int
-
-        if (#Ipr.Settings.Fps.Low.Lists <= Ipr.Settings.Fps.Low.MaxFrame) then
-            Ipr.Settings.Fps.Low.Lists[#Ipr.Settings.Fps.Low.Lists + 1] = Ipr.Settings.FpsCurrent
+        local Ipr_CountFrame = #Ipr.Settings.Fps.Low.Frame
+        if (Ipr_CountFrame < Ipr.Settings.Fps.Low.MaxFrame) then
+            local Ipr_InsertFrame = Ipr_CountFrame + 1
+            Ipr.Settings.Fps.Low.Frame[Ipr_InsertFrame] = Ipr.Settings.FpsCurrent
         else
-            table.sort(Ipr.Settings.Fps.Low.Lists, function(a, b) return a < b end)
+            table.sort(Ipr.Settings.Fps.Low.Frame, function(a, b) 
+                return a < b 
+            end)
 
-            Ipr.Settings.Fps.Low.InProgress = Ipr.Settings.Fps.Low.Lists[2]
-            Ipr.Settings.Fps.Low.Lists = {}
+            Ipr.Settings.Fps.Low.Current = Ipr.Settings.Fps.Low.Frame[2]
+            Ipr.Settings.Fps.Low.Frame = {}
         end
 
         Ipr.CurNext = Ipr_SysTime + 0.3
     end
 
-    return Ipr.Settings.FpsCurrent, Ipr.Settings.Fps.Min.Int, Ipr.Settings.Fps.Max.Int, Ipr.Settings.Fps.Low.InProgress
+    return Ipr.Settings.FpsCurrent, Ipr.Settings.Fps.Min.Int, Ipr.Settings.Fps.Max.Int, Ipr.Settings.Fps.Low.Current
 end
 
 Ipr.Function.CopyData = function()
@@ -281,7 +284,7 @@ Ipr.Function.GetCopyData = function()
 end
 
 Ipr.Function.ResetFps = function()
-    Ipr.Settings.Fps.Min.Int = Ipr.Settings.Infinity
+    Ipr.Settings.Fps.Min.Int = math.huge
     Ipr.Settings.Fps.Max.Int = 0
 end
 
@@ -350,10 +353,11 @@ Ipr.Function.DrawMultipleTextAligned = function(tbl)
 
             local Ipr_NameText = Ipr_TextTbl[i].Name
             local Ipr_TWide = surface.GetTextSize(Ipr_NameText)
-
             Ipr_OldWide = Ipr_OldWide + Ipr_TWide + Ipr.Settings.Escape
 
-            draw.SimpleTextOutlined(Ipr_NameText, Ipr.Settings.Font, Ipr_Pos.PWide + Ipr_NewWide, Ipr_Pos.PHeight, Ipr_TextTbl[i].FColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_LEFT, 1, ColorAlpha(color_black, 100))
+            local Ipr_TAlign = Ipr_Pos.PWide + Ipr_NewWide
+            local Ipr_TLeft = TEXT_ALIGN_LEFT
+            draw.SimpleTextOutlined(Ipr_NameText, Ipr.Settings.Font, Ipr_TAlign, Ipr_Pos.PHeight, Ipr_TextTbl[i].FColor, Ipr_TLeft, Ipr_TLeft, 1, ColorAlpha(color_black, 100))
         end
 
         Ipr_OldWide = 0
