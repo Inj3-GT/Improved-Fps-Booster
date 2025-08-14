@@ -511,17 +511,20 @@ local function Ipr_FpsBooster()
 
         draw.SimpleText(Ipr.Settings.Status.Name, Ipr.Settings.Font, Ipr_CenterFpsHud, 6, Ipr.Settings.TColor["blanc"], TEXT_ALIGN_CENTER)
 
-        draw.SimpleText(Ipr.Data.Lang[Ipr.Settings.SetLang].FpsCurrent, Ipr.Settings.Font, Ipr_CenterFpsHud + 10, 25, Ipr.Settings.TColor["blanc"], TEXT_ALIGN_RIGHT)
-        draw.SimpleText(Ipr_FpsCurrent, Ipr.Settings.Font, Ipr_CenterFpsHud + 15, 25, Ipr.Function.ColorTransition(Ipr_FpsCurrent), TEXT_ALIGN_LEFT)
+        local Ipr_CurrentPos = Ipr_CenterFpsHud + 10
+        draw.SimpleText(Ipr.Data.Lang[Ipr.Settings.SetLang].FpsCurrent, Ipr.Settings.Font, Ipr_CurrentPos, 25, Ipr.Settings.TColor["blanc"], TEXT_ALIGN_RIGHT)
+        draw.SimpleText(Ipr_FpsCurrent, Ipr.Settings.Font, Ipr_CurrentPos + 5, 25, Ipr.Function.ColorTransition(Ipr_FpsCurrent), TEXT_ALIGN_LEFT)
 
-        draw.SimpleText(Ipr.Settings.Fps.Max.Name, Ipr.Settings.Font, Ipr_CenterFpsHud + 10, 40, Ipr.Settings.TColor["blanc"], TEXT_ALIGN_RIGHT)
-        draw.SimpleText(Ipr_FpsMax, Ipr.Settings.Font, Ipr_CenterFpsHud + 14, 40, Ipr.Function.ColorTransition(Ipr_FpsMax), TEXT_ALIGN_LEFT)
+        Ipr_CurrentPos = Ipr_CurrentPos - 5
+        draw.SimpleText(Ipr.Settings.Fps.Max.Name, Ipr.Settings.Font, Ipr_CurrentPos, 40, Ipr.Settings.TColor["blanc"], TEXT_ALIGN_RIGHT)
+        draw.SimpleText(Ipr_FpsMax, Ipr.Settings.Font, Ipr_CurrentPos + 5, 40, Ipr.Function.ColorTransition(Ipr_FpsMax), TEXT_ALIGN_LEFT)
 
-        draw.SimpleText(Ipr.Settings.Fps.Min.Name, Ipr.Settings.Font, Ipr_CenterFpsHud + 6, 55, Ipr.Settings.TColor["blanc"], TEXT_ALIGN_RIGHT)
-        draw.SimpleText(Ipr_FpsMin, Ipr.Settings.Font, Ipr_CenterFpsHud + 10, 55, Ipr.Function.ColorTransition(Ipr_FpsMin), TEXT_ALIGN_LEFT)
+        draw.SimpleText(Ipr.Settings.Fps.Min.Name, Ipr.Settings.Font, Ipr_CurrentPos, 55, Ipr.Settings.TColor["blanc"], TEXT_ALIGN_RIGHT)
+        draw.SimpleText(Ipr_FpsMin, Ipr.Settings.Font, Ipr_CurrentPos + 5, 55, Ipr.Function.ColorTransition(Ipr_FpsMin), TEXT_ALIGN_LEFT)
 
-        draw.SimpleText(Ipr.Settings.Fps.Low.Name, Ipr.Settings.Font, Ipr_CenterFpsHud + 15, 70, Ipr.Settings.TColor["blanc"], TEXT_ALIGN_RIGHT)
-        draw.SimpleText(Ipr_FpsLow, Ipr.Settings.Font, Ipr_CenterFpsHud + 19, 70, Ipr.Function.ColorTransition(Ipr_FpsLow), TEXT_ALIGN_LEFT)
+        Ipr_CurrentPos = Ipr_CurrentPos + 10
+        draw.SimpleText(Ipr.Settings.Fps.Low.Name, Ipr.Settings.Font, Ipr_CurrentPos, 70, Ipr.Settings.TColor["blanc"], TEXT_ALIGN_RIGHT)
+        draw.SimpleText(Ipr_FpsLow, Ipr.Settings.Font, Ipr_CurrentPos + 5, 70, Ipr.Function.ColorTransition(Ipr_FpsLow), TEXT_ALIGN_LEFT)
     end
     Ipr_PFps.DoClick = function()
         gui.OpenURL(Ipr.Settings.ExternalLink)
@@ -901,4 +904,5 @@ hook.Add("ShutDown", "IprFpsBooster_ShutDown", Ipr_PlayerShutDown)
 hook.Add("OnScreenSizeChanged", "IprFpsBooster_OnScreen", Ipr_OnScreenSize)
 hook.Add("InitPostEntity", "IprFpsBooster_InitPlayer", Ipr_InitPostPlayer)
 hook.Add("OnPlayerChat", "IprFpsBooster_ChatCmds", Ipr_ChatCmds)
+
 
