@@ -7,7 +7,7 @@
 Ipr_Fps_Booster = Ipr_Fps_Booster or {}
 
 Ipr_Fps_Booster.Developer = "Inj3"
-Ipr_Fps_Booster.Version = "4.0.2"
+Ipr_Fps_Booster.Version = "4.0.3"
 
 if (CLIENT) then
     Ipr_Fps_Booster.DefaultLanguage = "EN"
@@ -47,4 +47,5 @@ else
     
     MsgC(Color(0, 250, 0), "\nImproved FPS Booster System " ..Ipr_Fps_Booster.Version.. " by " ..Ipr_Fps_Booster.Developer.. "\n")
 end
+
 
