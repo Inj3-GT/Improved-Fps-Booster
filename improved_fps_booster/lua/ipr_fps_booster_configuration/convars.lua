@@ -23,9 +23,9 @@ return {
         Name = "Corde",
         DefaultCheck = false,
         Convars = {
-            ["r_queued_ropes"] = {
-                Enabled = "1",
-                Disabled = "0"
+            ["rope_smooth"] = {
+                Enabled = "0",
+                Disabled = "1"
             }
         },
         Localization = {

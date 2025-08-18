@@ -31,9 +31,10 @@ return {
             if (Ipr_StartupDelay) then
                 timer.Remove(tbl.Settings.StartupLaunch.Name)
                 chat.AddText(tbl.Settings.TColor["rouge"], tbl.Settings.Script, tbl.Settings.TColor["blanc"], tbl.Data.Lang[tbl.Settings.SetLang].StartupAbandoned)
+
+                tbl.Function.SetConvar("Startup", false, 2)
             end
 
-            tbl.Function.SetConvar("Startup", false, 2)
             tbl.Function.CopyData()
             tbl.Function.SaveConvar()
 
