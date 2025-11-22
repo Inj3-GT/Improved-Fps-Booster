@@ -16,15 +16,15 @@ Ipr.Function.CreateData = function()
         file.CreateDir(Ipr.Settings.Save)
     end
 
-    local Ipr_DirLang = Ipr.Settings.Save.. "language.json"
-    local Ipr_FileLangs, Ipr_SetLang = file.Exists(Ipr_DirLang, "DATA")
-    
+    local Ipr_DirLang, Ipr_SetLang = Ipr.Settings.Save.. "language.json"
+    local Ipr_FLangs = file.Exists(Ipr_DirLang, "DATA")
     local Ipr_CheckSize = file.Size(Ipr_DirLang, "DATA")
+    
     if (Ipr_CheckSize == 0) then
-        Ipr_FileLangs = false
+        Ipr_FLangs = false
     end
 
-    if not Ipr_FileLangs then
+    if not Ipr_FLangs then
         local Ipr_FileCountry = file.Exists("ipr_fps_booster_language/" ..string.lower(Ipr.Settings.Country.target).. ".lua", "LUA")
         if (Ipr_FileCountry) then
             local Ipr_GetCountry = system.GetCountry()
@@ -611,6 +611,7 @@ Ipr.Function.SettingsVgui = {
 }
 
 return Ipr
+
 
 
 
