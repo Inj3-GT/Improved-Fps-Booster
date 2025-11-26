@@ -7,11 +7,9 @@
 Ipr_Fps_Booster = Ipr_Fps_Booster or {}
 
 Ipr_Fps_Booster.Developer = "Inj3"
-Ipr_Fps_Booster.Version = "4.0.4"
+Ipr_Fps_Booster.Version = "4.0.5"
 
 if (CLIENT) then
-    Ipr_Fps_Booster.DefaultLanguage = "EN"
-    
     surface.CreateFont("Ipr_Fps_Booster_Font",{
         font = "Rajdhani Bold",
         size = 18,

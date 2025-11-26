@@ -80,7 +80,7 @@ Ipr.Function.CreateData = function()
 end
 
 Ipr.Function.SearchLang = function()
-    local Ipr_DLang = Ipr_Fps_Booster.DefaultLanguage
+    local Ipr_DLang = Ipr.Settings.SetLang
     local Ipr_DefaultLang = file.Exists("ipr_fps_booster_language/" ..Ipr_DLang.. ".lua", "LUA")
     if (Ipr_DefaultLang) then 
         return Ipr_DLang
@@ -220,8 +220,13 @@ Ipr.Function.Activate = function(bool, match)
         end
     end
 
-    Ipr.Settings.Status.State = bool
+    if (Ipr.Settings.Status.State ~= bool) then
+        Ipr.Function.ResetFps()
+        Ipr.Settings.Status.State = bool
+    end
 end
+
+local math = math
 
 Ipr.Function.FpsCalculator = function()
     local Ipr_SysTime = SysTime()
@@ -258,7 +263,10 @@ Ipr.Function.FpsCalculator = function()
         Ipr.CurNext = Ipr_SysTime + 0.3
     end
 
-    return Ipr.Settings.FpsCurrent, Ipr.Settings.Fps.Min.Int, Ipr.Settings.Fps.Max.Int, Ipr.Settings.Fps.Low.Current
+    local Ipr_InfMin = Ipr.Settings.Fps.Min.Int
+    Ipr_InfMin = (Ipr_InfMin == math.huge) and Ipr.Settings.Fps.Max.Int or Ipr_InfMin
+
+    return Ipr.Settings.FpsCurrent, Ipr_InfMin, Ipr.Settings.Fps.Max.Int, Ipr.Settings.Fps.Low.Current
 end
 
 Ipr.Function.CopyData = function()
@@ -610,8 +618,6 @@ Ipr.Function.SettingsVgui = {
     end,
 }
 
+Ipr.Cmd = include("ipr_fps_booster_configuration/commands.lua")
+
 return Ipr
-
-
-
-

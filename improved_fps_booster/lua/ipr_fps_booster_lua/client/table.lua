@@ -73,7 +73,7 @@ return {
     },
     SetConvars = {},
     Revert = {},
-    SetLang = Ipr_Fps_Booster.DefaultLanguage,
+    SetLang = "EN",
     Escape = 5,
     Script = "[Improved Fps Booster] : ",
     Font = "Ipr_Fps_Booster_Font",

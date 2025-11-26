@@ -560,7 +560,6 @@ local function Ipr_FpsBooster()
         local Ipr_ConvarsEnabled = Ipr.Function.Activate(true, true)
         if (Ipr_ConvarsEnabled) then
             Ipr.Function.Activate(true)
-            Ipr.Function.ResetFps()
 
             chat.AddText(Ipr.Settings.TColor["rouge"], Ipr.Settings.Script, Ipr.Settings.TColor["blanc"], Ipr.Data.Lang[Ipr.Settings.SetLang].PreventCrash)
         else
@@ -591,7 +590,6 @@ local function Ipr_FpsBooster()
         local Ipr_ConvarsEnabled = Ipr.Function.Activate(false, true)
         if (Ipr_ConvarsEnabled) then
             Ipr.Function.Activate(false)
-            Ipr.Function.ResetFps()
 
             chat.AddText(Ipr.Settings.TColor["rouge"], Ipr.Settings.Script, Ipr.Settings.TColor["blanc"], Ipr.Data.Lang[Ipr.Settings.SetLang].Optimization)
         else
@@ -867,35 +865,20 @@ local function Ipr_OnScreenSize()
     Ipr.Settings.Pos.w, Ipr.Settings.Pos.h = ScrW(), ScrH()
 end
 
-local Ipr_ChatCommands = {
-    ["/boost"] = {
-        Function = function()
-            Ipr.Function.CreateData()
-            Ipr_FpsBooster()
-
-            return true
-        end
-    },
-    ["/reset"] = {
-        Function = function()
-            Ipr.Function.Activate(false)
-            Ipr.Function.ResetFps()
-
-            chat.AddText(Ipr.Settings.TColor["rouge"], Ipr.Settings.Script, Ipr.Settings.TColor["blanc"], Ipr.Data.Lang[Ipr.Settings.SetLang].SReset)
-            surface.PlaySound("buttons/combine_button5.wav")
-
-            return true
-        end
-    },
-}                        
+Ipr.PanelOpen = function()
+    Ipr.Function.CreateData()
+    Ipr_FpsBooster()
+end
 
 local function Ipr_ChatCmds(ply, text)
     local Ipr_LocalPlayer = LocalPlayer()
     if (ply == Ipr_LocalPlayer) then
         text = string.lower(text)
 
-        if (Ipr_ChatCommands[text]) then
-            Ipr_ChatCommands[text].Function()
+        if (Ipr.Cmd[text]) then
+            Ipr.Cmd[text](Ipr)
+
+            return true
         end
     end
 end
@@ -904,5 +887,3 @@ hook.Add("ShutDown", "IprFpsBooster_ShutDown", Ipr_PlayerShutDown)
 hook.Add("OnScreenSizeChanged", "IprFpsBooster_OnScreen", Ipr_OnScreenSize)
 hook.Add("InitPostEntity", "IprFpsBooster_InitPlayer", Ipr_InitPostPlayer)
 hook.Add("OnPlayerChat", "IprFpsBooster_ChatCmds", Ipr_ChatCmds)
-
-
