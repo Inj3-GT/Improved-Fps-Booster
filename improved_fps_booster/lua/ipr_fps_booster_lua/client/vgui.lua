@@ -870,13 +870,22 @@ Ipr.PanelOpen = function()
     IprFpsBooster()
 end
 
+local vCmds, vFunc = Ipr.Cmd
+for cmd, func in pairs(vCmds) do
+    vFunc = function()
+        func(Ipr)
+    end
+
+    concommand.Add(cmd, vFunc)
+end
+
 local function Ipr_ChatCmds(ply, text)
     local Ipr_LocalPlayer = LocalPlayer()
     if (ply == Ipr_LocalPlayer) then
         text = string.lower(text)
 
-        if (Ipr.Cmd[text]) then
-            Ipr.Cmd[text](Ipr)
+        if (vCmds[text]) then
+            vCmds[text](Ipr)
 
             return true
         end
@@ -887,3 +896,4 @@ hook.Add("ShutDown", "IprFpsBooster_ShutDown", Ipr_PlayerShutDown)
 hook.Add("OnScreenSizeChanged", "IprFpsBooster_OnScreen", Ipr_OnScreenSize)
 hook.Add("InitPostEntity", "IprFpsBooster_InitPlayer", Ipr_InitPostPlayer)
 hook.Add("OnPlayerChat", "IprFpsBooster_ChatCmds", Ipr_ChatCmds)
+
