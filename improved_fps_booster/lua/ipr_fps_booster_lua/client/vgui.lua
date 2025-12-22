@@ -127,7 +127,7 @@ local function IprFpsBooster_Options(primary)
             end
         end
 
-        Ipr.Function.RenderBlur(self, ColorAlpha(color_black, 170), 6)
+        Ipr.Function.RenderBlur(self, ColorAlpha(color_black, 180), 6)
 
         draw.RoundedBoxEx(6, 0, 0, w, 20, Ipr.Settings.TColor["bleu"], true, true, false, false)
         draw.SimpleText(Ipr.Data.Lang[Ipr.Settings.SetLang].NOptions, Ipr.Settings.Font, w / 2, 1, Ipr.Settings.TColor["blanc"], TEXT_ALIGN_CENTER)
@@ -181,8 +181,7 @@ local function IprFpsBooster_Options(primary)
     Ipr.Function.SetToolTip(Ipr.Data.Lang[Ipr.Settings.SetLang].RevertData, Ipr_Revert, true)
     Ipr_Revert.Paint = nil
     Ipr_Revert.DoClick = function()
-        local Ipr_CopyFind = false
-        local Ipr_TableData = Ipr.Function.GetCopyData()
+        local Ipr_TableData, Ipr_CopyFind = Ipr.Function.GetCopyData()
 
         for i = 1, #Ipr.Settings.SetConvars do
             local Ipr_ConvarList = Ipr.Settings.SetConvars[i]
@@ -416,7 +415,7 @@ local function IprFpsBooster()
         return
     end
 
-    local vFrame, vPSize =  vgui.Create("DFrame"), {w = 300, h = 267}
+    local vFrame, vPSize =  vgui.Create("DFrame"), {w = 300, h = 275}
     vFrame:SetTitle("")
     vFrame:SetSize(vPSize.w, vPSize.h)
     vFrame:Center()
@@ -442,7 +441,7 @@ local function IprFpsBooster()
             end
         end
 
-        Ipr.Function.RenderBlur(self, ColorAlpha(color_black, 170), 6)
+        Ipr.Function.RenderBlur(self, ColorAlpha(color_black, 180), 6)
 
         draw.RoundedBoxEx(6, 0, 0, w, 33, Ipr.Settings.TColor["bleu"], true, true, false, false)
         draw.SimpleText(Ipr.Data.Lang[Ipr.Settings.SetLang].TEnabled,Ipr.Settings.Font,w / 2, 1, Ipr.Settings.TColor["blanc"], TEXT_ALIGN_CENTER)
@@ -497,13 +496,13 @@ local function IprFpsBooster()
     Ipr_PIcon.Paint = function(self, w, h)
         surface.SetDrawColor(Ipr.Settings.TColor["bleu"])
         surface.SetMaterial(Ipr.Settings.IComputer)
-        surface.DrawTexturedRect(-11, 0, 349, 235)
+        surface.DrawTexturedRect(-11, 4, 349, 235)
 
         local Ipr_CurrentState = Ipr.Function.CurrentState()
         surface.SetDrawColor((Ipr_CurrentState) and Ipr.Settings.TColor["vert"] or Ipr.Settings.TColor["rouge"])
         surface.SetMaterial(Ipr.Settings.IWrench)
         local Ipr_Loop = Ipr_Copy.Loop()
-        Ipr_Copy.Draw(207, 120, 220, 220, Ipr_Loop, -25)
+        Ipr_Copy.Draw(207, 125, 220, 220, Ipr_Loop, -25)
     end
 
     local Ipr_PFps = vgui.Create("DButton", vFrame)
@@ -611,7 +610,7 @@ local function IprFpsBooster()
 
     local Ipr_PResetFps = vgui.Create("DButton", vFrame)
     Ipr_PResetFps:SetSize(152, 21)
-    Ipr_PResetFps:SetPos(vPSize.w / 2 - Ipr_PResetFps:GetWide() / 2, 189)
+    Ipr_PResetFps:SetPos(vPSize.w / 2 - Ipr_PResetFps:GetWide() / 2, 193)
     Ipr_PResetFps:SetText("")
     Ipr.Function.SetToolTip(Ipr.Data.Lang[Ipr.Settings.SetLang].TReset, Ipr_PResetFps, true)
     Ipr_PResetFps.Paint = function(self, w, h)
@@ -875,7 +874,6 @@ for cmd, func in pairs(vCmds) do
     vFunc = function()
         func(Ipr)
     end
-
     concommand.Add(cmd, vFunc)
 end
 
@@ -886,7 +884,6 @@ local function Ipr_ChatCmds(ply, text)
 
         if (vCmds[text]) then
             vCmds[text](Ipr)
-
             return true
         end
     end
