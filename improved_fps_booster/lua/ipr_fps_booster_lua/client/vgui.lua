@@ -864,16 +864,12 @@ local function Ipr_OnScreenSize()
     Ipr.Settings.Pos.w, Ipr.Settings.Pos.h = ScrW(), ScrH()
 end
 
-Ipr.PanelOpen = function()
-    Ipr.Function.CreateData()
-    IprFpsBooster()
-end
-
 local vCmds, vFunc = Ipr.Cmd
 for cmd, func in pairs(vCmds) do
     vFunc = function()
         func(Ipr)
     end
+    
     concommand.Add(cmd, vFunc)
 end
 
@@ -889,8 +885,12 @@ local function Ipr_ChatCmds(ply, text)
     end
 end
 
+Ipr.PanelOpen = function()
+    Ipr.Function.CreateData()
+    IprFpsBooster()
+end
+
 hook.Add("ShutDown", "IprFpsBooster_ShutDown", Ipr_PlayerShutDown)
 hook.Add("OnScreenSizeChanged", "IprFpsBooster_OnScreen", Ipr_OnScreenSize)
 hook.Add("InitPostEntity", "IprFpsBooster_InitPlayer", Ipr_InitPostPlayer)
 hook.Add("OnPlayerChat", "IprFpsBooster_ChatCmds", Ipr_ChatCmds)
-
