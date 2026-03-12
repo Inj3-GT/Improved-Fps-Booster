@@ -4,10 +4,9 @@
 // General Public License v3.0
 // https://github.com/Inj3-GT
 
-Ipr_Fps_Booster = Ipr_Fps_Booster or {}
-
-Ipr_Fps_Booster.Developer = "Inj3"
-Ipr_Fps_Booster.Version = "4.0.5"
+IprFpsBooster = IprFpsBooster or {}
+IprFpsBooster.Developer = "Inj3"
+IprFpsBooster.Version = "4.0.6"
 
 if (CLIENT) then
     surface.CreateFont("Ipr_Fps_Booster_Font",{
@@ -19,29 +18,29 @@ if (CLIENT) then
     
     include("ipr_fps_booster_lua/client/vgui.lua")
 else
-    local Ipr_Resource = {"resource/fonts/Rajdhani-Bold.ttf", "materials/icon/ipr_boost_pc.png", "materials/icon/ipr_boost_wtool.png"}
-    for i = 1, #Ipr_Resource do
-        local Ipr_Resources = Ipr_Resource[i]
-        resource.AddFile(Ipr_Resources)
+    local ipr_fresource = {"resource/fonts/Rajdhani-Bold.ttf", "materials/icon/ipr_boost_pc.png", "materials/icon/ipr_boost_wtool.png"}
+    for i = 1, #ipr_fresource do
+        local ipr_tresource = ipr_fresource[i]
+        resource.AddFile(ipr_tresource)
     end
 
-    local Ipr_FilesConfig = file.Find("ipr_fps_booster_configuration/*", "LUA")
-    for i = 1, #Ipr_FilesConfig do
-        local Ipr_Config = Ipr_FilesConfig[i]
-        AddCSLuaFile("ipr_fps_booster_configuration/" ..Ipr_Config)
+    local ipr_fconfig = file.Find("ipr_fps_booster_configuration/*", "LUA")
+    for i = 1, #ipr_fconfig do
+        local ipr_tconfig = ipr_fconfig[i]
+        AddCSLuaFile("ipr_fps_booster_configuration/" ..ipr_tconfig)
     end
     
-    local Ipr_FilesLang = file.Find("ipr_fps_booster_language/*", "LUA")
-    for i = 1, #Ipr_FilesLang do
-        local Ipr_Lang = Ipr_FilesLang[i]
-        AddCSLuaFile("ipr_fps_booster_language/" ..Ipr_Lang)
+    local ipr_flang = file.Find("ipr_fps_booster_language/*", "LUA")
+    for i = 1, #ipr_flang do
+        local ipr_tlang = ipr_flang[i]
+        AddCSLuaFile("ipr_fps_booster_language/" ..ipr_tlang)
     end
     
-    local Ipr_FilesClient = file.Find("ipr_fps_booster_lua/client/*", "LUA")
-    for i = 1, #Ipr_FilesClient do
-        local Ipr_FClient = Ipr_FilesClient[i]
-        AddCSLuaFile("ipr_fps_booster_lua/client/" ..Ipr_FClient)
+    local ipr_fclient = file.Find("ipr_fps_booster_lua/client/*", "LUA")
+    for i = 1, #ipr_fclient do
+        local ipr_tclient = ipr_fclient[i]
+        AddCSLuaFile("ipr_fps_booster_lua/client/" ..ipr_tclient)
     end
     
-    MsgC(Color(0, 250, 0), "\nImproved FPS Booster System " ..Ipr_Fps_Booster.Version.. " by " ..Ipr_Fps_Booster.Developer.. "\n")
+    MsgC(Color(0, 250, 0), "\nImproved FPS Booster System " ..IprFpsBooster.Version.. " by " ..IprFpsBooster.Developer.. "\n")
 end
