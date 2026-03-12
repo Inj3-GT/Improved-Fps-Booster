@@ -7,15 +7,15 @@
 return {
     {
         Cmd = "!boost",
-        Func = function(tbl)
-            tbl.PanelOpen()
+        Func = function(t)
+            t.PanelOpen()
         end
     },
     {
         Cmd = "!reset",
-        Func = function(tbl)
-            tbl.Function.Activate(false)
-            chat.AddText(tbl.Settings.TColor["rouge"], tbl.Settings.Script, tbl.Settings.TColor["blanc"], tbl.Data.Lang[tbl.Settings.SetLang].SReset)
+        Func = function(t)
+            t.Function.Activate(false)
+            chat.AddText(t.Settings.TColor["rouge"], t.Settings.Script, t.Settings.TColor["blanc"], t.Data.Lang[t.Settings.SetLang].SReset)
             surface.PlaySound("buttons/combine_button5.wav")
         end
     }
