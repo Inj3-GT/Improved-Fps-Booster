@@ -19,9 +19,9 @@ You can position it in any direction, turn it on/off (see Options).
 
 * ✅ All checkboxes/sliders are saved locally.
 
-* ✅ [Chat command] /boost to open the panel.
+* ✅ [Chat command] !boost to open the panel.
 
-* ✅[Chat command] /reset to restore the default values.
+* ✅[Chat command] !reset to restore the default values.
 
 * ✅ Compatible with all gamemodes.
 
@@ -72,9 +72,9 @@ Vous pouvez le positionner dans n'importe quelle direction, activer/désactiver 
 
 * ✅ Toutes les cases à cocher/sliders sont sauvegardées localement.
 
-* ✅ [Commande chat] /boost pour ouvrir le panel.
+* ✅ [Commande chat] !boost pour ouvrir le panel.
 
-* ✅ [Commande chat] /reset pour rétablir les valeurs par défaut.
+* ✅ [Commande chat] !reset pour rétablir les valeurs par défaut.
 
 * ✅ Compatible avec tous les gamemodes.
 
