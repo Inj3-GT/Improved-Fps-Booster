@@ -4,24 +4,24 @@
 // General Public License v3.0
 // https://github.com/Inj3-GT
 
-local ipr_includeconfig = {}
-ipr_includeconfig.Default = {}
-ipr_includeconfig.Lang = {}
+local ipr_data = {}
+ipr_data.Default = {}
+ipr_data.Lang = {}
 
-local ipr_fileslang = file.Find("ipr_fps_booster_language/*", "LUA")
-for i = 1, #ipr_fileslang do
-    local ipr_tlang = ipr_fileslang[i]
-    local ipr_reflang = string.upper(string.gsub(ipr_tlang, ".lua", ""))
+local ipr_file_lang = file.Find("ipr_fps_booster_language/*", "LUA")
+for i = 1, #ipr_file_lang do
+    local ipr_index_lang = ipr_file_lang[i]
+    local ipr_var_lang = string.upper(string.gsub(ipr_index_lang, ".lua", ""))
 
-    ipr_includeconfig.Lang[ipr_reflang] = include("ipr_fps_booster_language/"..ipr_tlang)
+    ipr_data.Lang[ipr_var_lang] = include("ipr_fps_booster_language/"..ipr_index_lang)
 end
 
-local ipr_filesconfig = file.Find("ipr_fps_booster_configuration/*", "LUA")
-for i = 1, #ipr_filesconfig do
-    local ipr_tconfig = ipr_filesconfig[i]
-    local ipr_refconfig = string.lower(string.gsub(ipr_tconfig, ".lua", ""))
+local ipr_file_config = file.Find("ipr_fps_booster_configuration/*", "LUA")
+for i = 1, #ipr_file_config do
+    local ipr_index_config = ipr_file_config[i]
+    local ipr_var_config = string.lower(string.gsub(ipr_index_config, ".lua", ""))
     
-    ipr_includeconfig.Default[ipr_refconfig] = include("ipr_fps_booster_configuration/"..ipr_tconfig)
+    ipr_data.Default[ipr_var_config] = include("ipr_fps_booster_configuration/"..ipr_index_config)
 end
 
-return ipr_includeconfig
+return ipr_data
