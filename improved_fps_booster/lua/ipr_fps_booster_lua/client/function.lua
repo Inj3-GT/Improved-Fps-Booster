@@ -58,20 +58,20 @@ ipr.Function.CreateData = function()
     if not ipr_file_convars then
         ipr_convars = {}
 
-        local ipr_convars_lists = ipr.Data.Default.convars
-        for i = 1, #ipr_convars_lists do
+        local ipr_data_convars = ipr.Data.Default.convars
+        for i = 1, #ipr_data_convars do
             ipr_convars[#ipr_convars + 1] = {
-                Name = ipr_convars_lists[i].Name,
-                Checked = ipr_convars_lists[i].DefaultCheck
+                Name = ipr_data_convars[i].Name,
+                Checked = ipr_data_convars[i].DefaultCheck
             }
         end
 
-        local ipr_settings_lists = ipr.Data.Default.settings
-        for i = 1, #ipr_settings_lists do
+        local ipr_data_settings = ipr.Data.Default.settings
+        for i = 1, #ipr_data_settings do
             ipr_convars[#ipr_convars + 1] = {
-                Vgui = ipr_settings_lists[i].Vgui,
-                Name = ipr_settings_lists[i].Name,
-                Checked = ipr_settings_lists[i].DefaultCheck
+                Vgui = ipr_data_settings[i].Vgui,
+                Name = ipr_data_settings[i].Name,
+                Checked = ipr_data_settings[i].DefaultCheck
             }
         end
 
@@ -282,10 +282,10 @@ ipr.Function.CopyData = function()
     }
 
     for i = 1, #ipr.Settings.SetConvars do
-        local ipr_copy_list = ipr.Settings.SetConvars[i]
+        local ipr_index_convars = ipr.Settings.SetConvars[i]
 
-        if not ipr_exclude[ipr_copy_list.Name] and not ipr_copy_list.Vgui then
-            ipr_data[#ipr_data + 1] = ipr_copy_list
+        if not ipr_exclude[ipr_index_convars.Name] and not ipr_index_convars.Vgui then
+            ipr_data[#ipr_data + 1] = ipr_index_convars
         end
     end
 

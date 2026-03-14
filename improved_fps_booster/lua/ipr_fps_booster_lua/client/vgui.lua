@@ -165,20 +165,20 @@ local ipr_PanelOptions = function(primary)
         local ipr_copy_data, ipr_copy_find = ipr.Function.GetCopyData()
 
         for i = 1, #ipr.Settings.SetConvars do
-            local ipr_convar_list = ipr.Settings.SetConvars[i]
-            local ipr_convar_name, ipr_convar_check = ipr_convar_list.Name, ipr_convar_list.Checked
+            local ipr_index_convars = ipr.Settings.SetConvars[i]
+            local ipr_convar_name, ipr_convar_check = ipr_index_convars.Name, ipr_index_convars.Checked
 
             for t = 1, #ipr_copy_data do
-                local ipr_copy_list = ipr_copy_data[t]
-                local ipr_copy_name, ipr_copy_default = ipr_copy_list.Name, ipr_copy_list.Checked
+                local ipr_index_copy = ipr_copy_data[t]
+                local ipr_copy_name, ipr_copy_default = ipr_index_copy.Name, ipr_index_copy.Checked
 
                 if (ipr_convar_name == ipr_copy_name and ipr_convar_check ~= ipr_copy_default) then
                     for c = 1, #ipr.Settings.Vgui.CheckBox do
-                        local ipr_check_list = ipr.Settings.Vgui.CheckBox[c]
-                        local ipr_check_name = ipr_check_list.Name
+                        local ipr_index_checkbox = ipr.Settings.Vgui.CheckBox[c]
+                        local ipr_check_name = ipr_index_checkbox.Name
 
                         if (ipr_copy_name == ipr_check_name) then
-                            ipr_check_list.Vgui:SetValue(ipr_copy_default)
+                            ipr_index_checkbox.Vgui:SetValue(ipr_copy_default)
                             ipr_copy_find = true
                             break
                         end
