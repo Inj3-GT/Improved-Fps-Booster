@@ -497,6 +497,37 @@ ipr.Function.DCheckBoxLabel = function(panel, tbl)
     return ipr_soptibutton, ipr_soptipanel
 end
 
+ipr.Function.DScrollPaint = function(panel, int)
+    panel = panel:GetVBar()
+    panel:SetWide(int)
+
+    panel.btnUp:SetSize(0, 0)
+    panel.btnDown:SetSize(0, 0)
+
+    panel.PerformLayout = function(self)
+        local ipr_wide = self:GetWide()
+        local ipr_tall = self:GetTall()
+
+        local ipr_scroll = self:GetScroll() / self.CanvasSize
+        local ipr_bar = math.max(self:BarScale() *  ipr_tall, 10)
+
+        local ipr_bartall = ipr_tall - ipr_bar
+        ipr_bartall = ipr_bartall + 1
+        ipr_scroll = ipr_scroll * ipr_bartall
+
+        self.btnGrip:SetPos(0, ipr_scroll)
+        self.btnGrip:SetSize(ipr_wide, ipr_bar)
+    end
+
+    panel.Paint = function(self, w, h)
+        draw.RoundedBox(5, 0, 0, w, h, ColorAlpha(color_black, 65))
+    end
+
+    panel.btnGrip.Paint = function(self, w, h)
+        draw.RoundedBox(5, 0, 0, w, h, ipr.Settings.TColor["bleu"])
+    end
+end
+
 ipr.Function.DNumSlider = function(panel, tbl)
     local ipr_dnumpanel = vgui.Create("DPanel", panel)
     ipr_dnumpanel:SetSize(225, 39)
