@@ -5,6 +5,7 @@
 // https://github.com/Inj3-GT
 
 IprFpsBooster = IprFpsBooster or {}
+
 IprFpsBooster.Developer = "Inj3"
 IprFpsBooster.Version = "4.0.6"
 
