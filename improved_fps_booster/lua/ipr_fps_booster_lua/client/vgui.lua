@@ -245,8 +245,8 @@ local ipr_PanelOptions = function(primary)
                 local ipr_data_check = ipr_data_copy[i].Checked
 
                 for c = 1, ipr_convars_length do
-                    local ipr_data_find = ipr.Settings.SetConvars[c]
-                    if (ipr_data_name == ipr_data_find.Name) and (ipr_data_check ~= ipr_data_find.Checked) then
+                    local ipr_index_convar = ipr.Settings.SetConvars[c]
+                    if (ipr_data_name == ipr_index_convar.Name) and (ipr_data_check ~= ipr_index_convar.Checked) then
                         ipr_convar_find = true
                         break
                     end
@@ -265,18 +265,18 @@ local ipr_PanelOptions = function(primary)
     ipr.Function.DScrollPaint(ipr_options_bscroll, 11)
 
     for i = 1, #ipr.Data.Default.settings do
-        local ipr_data_settings = ipr.Data.Default.settings[i]
-        local ipr_vgui_checkbox, ipr_vgui_slider = ipr.Function.SettingsVgui[ipr_data_settings.Vgui](ipr_options_bscroll, ipr_data_settings, ipr_DrawHud)
+        local ipr_index_settings = ipr.Data.Default.settings[i]
+        local ipr_vgui_checkbox, ipr_vgui_slider = ipr.Function.SettingsVgui[ipr_index_settings.Vgui](ipr_options_bscroll, ipr_index_settings, ipr_DrawHud)
 
-        ipr.Function.SetConvar(ipr_data_settings.Name, ipr_data_settings.DefaultCheck, nil, true)
-        if (ipr_data_settings.Localization.ToolTip) then
-            ipr.Function.SetToolTip(ipr_data_settings.Localization.ToolTip, ipr_vgui_checkbox)
+        ipr.Function.SetConvar(ipr_index_settings.Name, ipr_index_settings.DefaultCheck, nil, true)
+        if (ipr_index_settings.Localization.ToolTip) then
+            ipr.Function.SetToolTip(ipr_index_settings.Localization.ToolTip, ipr_vgui_checkbox)
         end
 
-        ipr.Settings.Vgui.CheckBox[#ipr.Settings.Vgui.CheckBox + 1] = {Vgui = ipr_vgui_checkbox, Default = ipr_data_settings.DefaultCheck, Name = ipr_data_settings.Name, Paired = ipr_data_settings.Paired}
+        ipr.Settings.Vgui.CheckBox[#ipr.Settings.Vgui.CheckBox + 1] = {Vgui = ipr_vgui_checkbox, Default = ipr_index_settings.DefaultCheck, Name = ipr_index_settings.Name, Paired = ipr_index_settings.Paired}
 
-        if (ipr_data_settings.Paired) then
-            ipr_vgui_slider:SetDisabled(not ipr.Function.GetConvar(ipr_data_settings.Paired))
+        if (ipr_index_settings.Paired) then
+            ipr_vgui_slider:SetDisabled(not ipr.Function.GetConvar(ipr_index_settings.Paired))
         end
     end
 
@@ -298,25 +298,25 @@ local ipr_PanelOptions = function(primary)
         ipr_options_manage:DockMargin(4, 3, 4, 0)
         ipr_options_manage.Paint = nil
 
-        local ipr_data_buttons = ipr.Data.Default.buttons[i]
-        local ipr_options_vmanage = vgui.Create(ipr_data_buttons.Vgui, ipr_options_manage)
+        local ipr_index_buttons = ipr.Data.Default.buttons[i]
+        local ipr_options_vmanage = vgui.Create(ipr_index_buttons.Vgui, ipr_options_manage)
         ipr_options_vmanage:Dock(FILL)
         ipr_options_vmanage:DockMargin(0, 1, 0, 1)
         ipr_options_vmanage:SetText("")
-        ipr_options_vmanage:SetImage(ipr_data_buttons.Icon)
-        ipr.Function.SetToolTip(ipr_data_buttons.Localization.ToolTip, ipr_options_vmanage)
-        if (ipr_data_buttons.Convar) then
-            ipr.Function.SetConvar(ipr_data_buttons.Convar.Name, ipr_data_buttons.Convar.DefaultCheck, nil, true)
+        ipr_options_vmanage:SetImage(ipr_index_buttons.Icon)
+        ipr.Function.SetToolTip(ipr_index_buttons.Localization.ToolTip, ipr_options_vmanage)
+        if (ipr_index_buttons.Convar) then
+            ipr.Function.SetConvar(ipr_index_buttons.Convar.Name, ipr_index_buttons.Convar.DefaultCheck, nil, true)
         end
         local ipr_convar_color = ipr.Settings.TColor["blanc"]
         ipr_options_vmanage.Paint = function(self, w, h)
             local ipr_hovered = self:IsHovered()
-            if (ipr_data_buttons.DrawLine) then
-                if (ipr_data_buttons.Convar) then
+            if (ipr_index_buttons.DrawLine) then
+                if (ipr_index_buttons.Convar) then
                     draw.RoundedBoxEx(6, 0, 0, w, h, (ipr_hovered) and ipr.Settings.TColor["bleuc"] or ipr.Settings.TColor["bleu"], true, true, false, false)
 
                     local ipr_startup_delay = timer.Exists(ipr.Settings.StartupLaunch.Name)
-                    ipr_convar_color = (ipr_startup_delay) and ipr.Settings.TColor["orange"] or ipr.Function.GetConvar(ipr_data_buttons.Convar.Name) and ipr.Settings.TColor["vert"] or ipr.Settings.TColor["rouge"]
+                    ipr_convar_color = (ipr_startup_delay) and ipr.Settings.TColor["orange"] or ipr.Function.GetConvar(ipr_index_buttons.Convar.Name) and ipr.Settings.TColor["vert"] or ipr.Settings.TColor["rouge"]
                     draw.RoundedBox(0, 0, h- 1, w, h, ipr_convar_color)
                 else
                     if (ipr.Settings.Revert.Set) then
@@ -333,16 +333,16 @@ local ipr_PanelOptions = function(primary)
                 draw.RoundedBox(6, 0, 0, w, h, (ipr_hovered) and ipr.Settings.TColor["gvert_"] or ipr.Settings.TColor["gvert"])
             end
             surface.SetFont(ipr.Settings.Font)
-            local ipr_button_text = ipr.Data.Lang[ipr.Settings.SetLang][ipr_data_buttons.Localization.Text]
+            local ipr_button_text = ipr.Data.Lang[ipr.Settings.SetLang][ipr_index_buttons.Localization.Text]
             local ipr_pos_wide, ipr_pos_heigth = surface.GetTextSize(ipr_button_text)
 
             draw.SimpleText(ipr_button_text, ipr.Settings.Font, w / 2 - ipr_pos_wide / 2 + 7, h / 2 - ipr_pos_heigth /  2, (ipr_hovered) and ColorAlpha(color_white, 130) or ipr.Settings.TColor["blanc"], TEXT_ALIGN_LEFT)
         end
         ipr_options_vmanage.DoClick = function()
-            local ipr_data_sound = ipr_data_buttons.Sound(ipr)
+            local ipr_data_sound = ipr_index_buttons.Sound(ipr)
             surface.PlaySound(ipr_data_sound)
             
-            ipr_data_buttons.Function(ipr, ipr_data_buttons)
+            ipr_index_buttons.Function(ipr, ipr_index_buttons)
         end
     end
 
@@ -620,12 +620,12 @@ local ipr_PanelBooster = function()
         table.SortByMember(ipr_data, "Selected", true)
 
         for i = 1, #ipr_data do
-            local ipr_data_var = ipr_data[i]
-            local ipr_data_langs = ipr_data_var.Lang
+            local ipr_index_data = ipr_data[i]
+            local ipr_data_langs = ipr_index_data.Lang
 
-            ipr_booster_lang:AddChoice(ipr.Data.Lang[ipr.Settings.SetLang].SelectLangue.. " " ..ipr_data_langs, ipr_data_langs, false, ipr_data_var.Icon)
+            ipr_booster_lang:AddChoice(ipr.Data.Lang[ipr.Settings.SetLang].SelectLangue.. " " ..ipr_data_langs, ipr_data_langs, false, ipr_index_data.Icon)
 
-            if (ipr_data_var.Selected) then
+            if (ipr_index_data.Selected) then
                 ipr_booster_lang:AddSpacer()
             end
         end
@@ -796,12 +796,12 @@ local ipr_cmds_lenght = #ipr_cmds
 do
     local ipr_func = false
     for i = 1, ipr_cmds_lenght do
-        local ipr_cmd_index = ipr_cmds[i]
+        local ipr_index_cmd = ipr_cmds[i]
         ipr_func = function()
-            ipr_cmd_index.Func(ipr)
+            ipr_index_cmd.Func(ipr)
         end
 
-        concommand.Add(ipr_cmd_index.Cmd, ipr_func)
+        concommand.Add(ipr_index_cmd.Cmd, ipr_func)
     end
 end
 
@@ -811,10 +811,10 @@ local ipr_ChatCmds = function(ply, text)
         text = string.lower(text)
         
         for i = 1, ipr_cmds_lenght do
-            local ipr_cmd_index = ipr_cmds[i]
+            local ipr_index_cmd = ipr_cmds[i]
 
-            if (ipr_cmd_index.Cmd == text) then
-                ipr_cmd_index.Func(ipr)
+            if (ipr_index_cmd.Cmd == text) then
+                ipr_index_cmd.Func(ipr)
                 return true
             end
         end

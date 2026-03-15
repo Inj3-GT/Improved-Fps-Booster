@@ -95,9 +95,9 @@ ipr.Function.SearchLang = function()
         return ipr_data_lang
     end
 
-    local ipr_find = file.Find("ipr_fps_booster_language/*", "LUA")
-    for i = 1, #ipr_find do
-        local ipr_index_lang = ipr_find[i]
+    local ipr_find_lang = file.Find("ipr_fps_booster_language/*", "LUA")
+    for i = 1, #ipr_find_lang do
+        local ipr_index_lang = ipr_find_lang[i]
         local ipr_size = file.Size("ipr_fps_booster_language/" ..ipr_index_lang, "LUA")
 
         if (ipr_size ~= 0) then
@@ -110,9 +110,9 @@ end
 
 ipr.Function.GetConvar = function(name)
     for i = 1, #ipr.Settings.SetConvars do
-        local ipr_convars = ipr.Settings.SetConvars[i]
-        if (ipr_convars.Name == name) then
-            return ipr_convars.Checked
+        local ipr_index_convars = ipr.Settings.SetConvars[i]
+        if (ipr_index_convars.Name == name) then
+            return ipr_index_convars.Checked
         end
     end
     if (ipr.Settings.Debug) then
@@ -145,9 +145,9 @@ ipr.Function.SetConvar = function(name, value, save, exist, copy)
         end
 
         for i = 1, #ipr.Settings.SetConvars do
-            local ipr_togglecount = ipr.Settings.SetConvars[i]
+            local ipr_index_convars = ipr.Settings.SetConvars[i]
 
-            if (ipr_togglecount.Name == name) then
+            if (ipr_index_convars.Name == name) then
                 ipr.Settings.SetConvars[i].Checked = value
                 break
             end
@@ -357,20 +357,20 @@ ipr.Function.DrawMultipleTextAligned = function(tbl)
     local ipr_new_wide = 0
 
     for t = 1, #tbl do
-        local ipr_data_text = tbl[t]
-        local ipr_pos = ipr_data_text.Pos
+        local ipr_index_text = tbl[t]
+        local ipr_pos = ipr_index_text.Pos
 
-        for i = 1, #ipr_data_text do
+        for i = 1, #ipr_index_text do
             ipr_new_wide = ipr_old_wide
 
             surface.SetFont(ipr.Settings.Font)
 
-            local ipr_text_name = ipr_data_text[i].Name
+            local ipr_text_name = ipr_index_text[i].Name
             local ipr_text_wide = surface.GetTextSize(ipr_text_name)
             ipr_old_wide = ipr_old_wide + ipr_text_wide + ipr.Settings.Escape
 
             local ipr_text_align = ipr_pos.PWide + ipr_new_wide
-            draw.SimpleTextOutlined(ipr_text_name, ipr.Settings.Font, ipr_text_align, ipr_pos.PHeight, ipr_data_text[i].FColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_LEFT, 1, ColorAlpha(color_black, 100))
+            draw.SimpleTextOutlined(ipr_text_name, ipr.Settings.Font, ipr_text_align, ipr_pos.PHeight, ipr_index_text[i].FColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_LEFT, 1, ColorAlpha(color_black, 100))
         end
 
         ipr_old_wide = 0
@@ -425,9 +425,9 @@ ipr.Function.SetToolTip = function(text, panel, localization)
     end
 
     for i = 1, #ipr_override_children do
-        local ipr_override_child = ipr_override_children[i]
+        local ipr_index_child = ipr_override_children[i]
 
-        ipr_override_child.OnCursorMoved = function(self)
+        ipr_index_child.OnCursorMoved = function(self)
             if not IsValid(ipr.Settings.Vgui.ToolTip) then
                 return
             end
@@ -437,16 +437,14 @@ ipr.Function.SetToolTip = function(text, panel, localization)
 
             ipr.Settings.Vgui.ToolTip:SetPos(ipr_pos, ipr_inputy - 30)
         end
-
-        ipr_override_child.OnCursorExited = function()
+        ipr_index_child.OnCursorExited = function()
             if not IsValid(ipr.Settings.Vgui.ToolTip) then
                 return
             end
 
             ipr.Settings.Vgui.ToolTip:SetVisible(false)
         end
-        
-        ipr_override_child.OnCursorEntered = function(self)
+        ipr_index_child.OnCursorEntered = function(self)
             if not IsValid(ipr.Settings.Vgui.ToolTip) then
                 return
             end
@@ -464,11 +462,11 @@ ipr.Function.DComboBox = function(panel)
     panel = panel:GetChildren()
 
     for i = 1, #panel do
-        local ipr_data_panel = panel[i]
-        local ipr_name_panel = ipr_data_panel:GetName()
+        local ipr_index_panel = panel[i]
+        local ipr_name_panel = ipr_index_panel:GetName()
 
         if (ipr_name_panel == "DPanel") then
-            ipr_data_panel.Paint = function(self, w, h)
+            ipr_index_panel.Paint = function(self, w, h)
                 local ipr_center_wide = w / 2
                 local ipr_center_height = h / 2
 
@@ -510,8 +508,6 @@ ipr.Function.DCheckBoxLabel = function(panel, tbl)
 
         draw.RoundedBox(12, 2, 2, w - 4, h - 4, ipr.Settings.TColor["gris"])
         draw.RoundedBox(12, self.SLerp, 5, 10, 10, (ipr_checked) and ipr.Settings.TColor["vert"] or ipr.Settings.TColor["rouge"])
-        
-        //surface.DrawCircle(self.SLerp + 5, 10, 6, ColorAlpha(color_black, 90))
     end
     ipr_dcheckbox.DoClick = function(self)
         local ipr_sound_checked = self:GetChecked() and "garrysmod/ui_return.wav" or "buttons/button15.wav"
@@ -621,12 +617,12 @@ ipr.Function.DNumSlider = function(panel, tbl)
     }
 
     for i = 1, #ipr_panel_child do
-        local ipr_data_child = ipr_panel_child[i]
-        local ipr_data_name = ipr_data_child:GetName()
+        local ipr_index_child = ipr_panel_child[i]
+        local ipr_data_name = ipr_index_child:GetName()
 
         local ipr_vgui_override = ipr_vgui[ipr_data_name]
         if (ipr_vgui_override) then
-            ipr_vgui_override(ipr_data_child)
+            ipr_vgui_override(ipr_index_child)
         end
     end
 
