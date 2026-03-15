@@ -79,6 +79,6 @@ return {
     Font = "Ipr_Fps_Booster_Font",
     Save = "improvedfpsbooster/",
     ExternalLink = "https://steamcommunity.com/sharedfiles/filedetails/?id=1762151370",
-    BackGround = Color(32, 32, 32, 150),
-    PBackGround = Color(32, 32, 32, 190)
+    BackGround = Color(10, 10, 10, 125),
+    PBackGround = Color(26, 26, 26, 180),
 }
