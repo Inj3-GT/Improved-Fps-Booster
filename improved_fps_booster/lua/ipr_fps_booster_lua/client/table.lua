@@ -80,5 +80,5 @@ return {
     Save = "improvedfpsbooster/",
     ExternalLink = "https://steamcommunity.com/sharedfiles/filedetails/?id=1762151370",
     BackGround = Color(32, 32, 32, 150),
-    PBackGround = Color(32, 32, 32, 185)
+    PBackGround = Color(32, 32, 32, 190)
 }
