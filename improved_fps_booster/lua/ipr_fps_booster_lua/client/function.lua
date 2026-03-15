@@ -460,6 +460,32 @@ ipr.Function.SetToolTip = function(text, panel, localization)
     end
 end
 
+ipr.Function.DComboBox = function(panel)
+    panel = panel:GetChildren()
+
+    for i = 1, #panel do
+        local ipr_data_panel = panel[i]
+        local ipr_name_panel = ipr_data_panel:GetName()
+
+        if (ipr_name_panel == "DPanel") then
+            ipr_data_panel.Paint = function(self, w, h)
+                local ipr_center_wide = w / 2
+                local ipr_center_height = h / 2
+
+                local ipr_arrow_right = {
+                    {x = ipr_center_wide, y = ipr_center_height - 8 / 2},
+                    {x = ipr_center_wide + 5, y = ipr_center_height},
+                    {x = ipr_center_wide, y = ipr_center_height + 8 / 2},
+                }
+
+                surface.SetDrawColor(ColorAlpha(ipr.Settings.TColor["blanc"], 170))
+                draw.NoTexture()
+                surface.DrawPoly(ipr_arrow_right)
+            end
+        end
+    end
+end
+
 ipr.Function.DCheckBoxLabel = function(panel, tbl)
     local ipr_dpanel = vgui.Create("DPanel", panel)
     ipr_dpanel:Dock(TOP)
@@ -482,10 +508,10 @@ ipr.Function.DCheckBoxLabel = function(panel, tbl)
 
         self.SLerp = Lerp(SysTime() * 13, self.SLerp or ipr_pos_wide, ipr_pos_wide)
 
-        draw.RoundedBox(12, 2, 2, w - 4, h - 4, (ipr_checked) and ipr.Settings.TColor["bleu"] or ipr.Settings.TColor["gris"])
-        draw.RoundedBox(12, self.SLerp, 5, 10, 10, ipr.Settings.TColor["blanc"])
+        draw.RoundedBox(12, 2, 2, w - 4, h - 4, ipr.Settings.TColor["gris"])
+        draw.RoundedBox(12, self.SLerp, 5, 10, 10, (ipr_checked) and ipr.Settings.TColor["vert"] or ipr.Settings.TColor["rouge"])
         
-        surface.DrawCircle(self.SLerp + 5, 10, 6, ColorAlpha(color_black, 90))
+        //surface.DrawCircle(self.SLerp + 5, 10, 6, ColorAlpha(color_black, 90))
     end
     ipr_dcheckbox.DoClick = function(self)
         local ipr_sound_checked = self:GetChecked() and "garrysmod/ui_return.wav" or "buttons/button15.wav"
@@ -561,7 +587,7 @@ ipr.Function.DNumSlider = function(panel, tbl)
 
     local ipr_primary_wide = ipr_dpanel:GetWide()
     local ipr_panel_child = ipr_dnumslider:GetChildren()
-    local ipr_override_slider = {
+    local ipr_vgui = {
         ["DSlider"] = function(slide)
             slide:Dock(FILL)
             slide:SetSize(ipr_primary_wide, 25)
@@ -598,7 +624,7 @@ ipr.Function.DNumSlider = function(panel, tbl)
         local ipr_data_child = ipr_panel_child[i]
         local ipr_data_name = ipr_data_child:GetName()
 
-        local ipr_vgui_override = ipr_override_slider[ipr_data_name]
+        local ipr_vgui_override = ipr_vgui[ipr_data_name]
         if (ipr_vgui_override) then
             ipr_vgui_override(ipr_data_child)
         end
