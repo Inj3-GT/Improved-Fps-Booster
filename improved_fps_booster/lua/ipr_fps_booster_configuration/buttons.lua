@@ -13,32 +13,30 @@ return {
             Text = "SaveOpti",
             ToolTip = "TSaveOpti",
         },
-        Sound = function(tbl)
-            return tbl.Settings.Revert.Set and "friends/message.wav" or "buttons/button18.wav"
+        Sound = function(t)
+            return t.Settings.Revert.Set and "friends/message.wav" or "buttons/button18.wav"
         end,
-        Function = function(tbl)
-            if not tbl.Settings.Revert.Set then
-                chat.AddText(tbl.Settings.TColor["rouge"], tbl.Settings.Script, tbl.Settings.TColor["blanc"], tbl.Data.Lang[tbl.Settings.SetLang].CheckedBox)
+        Function = function(t)
+            if not t.Settings.Revert.Set then
+                chat.AddText(t.Settings.TColor["rouge"], t.Settings.Script, t.Settings.TColor["blanc"], t.Data.Lang[t.Settings.SetLang].CheckedBox)
                 return
             end
 
-            local Ipr_CurrentState = tbl.Function.CurrentState()
+            local Ipr_CurrentState = t.Function.CurrentState()
             if (Ipr_CurrentState) then
-                tbl.Function.Activate(true)
+                t.Function.Activate(true)
             end
 
-            local Ipr_StartupDelay = timer.Exists(tbl.Settings.StartupLaunch.Name)
-            if (Ipr_StartupDelay) then
-                timer.Remove(tbl.Settings.StartupLaunch.Name)
-                chat.AddText(tbl.Settings.TColor["rouge"], tbl.Settings.Script, tbl.Settings.TColor["blanc"], tbl.Data.Lang[tbl.Settings.SetLang].StartupAbandoned)
-
-                tbl.Function.SetConvar("Startup", false, 2)
+            if timer.Exists(t.Settings.StartupLaunch.Name) then
+                timer.Remove(t.Settings.StartupLaunch.Name)
+                t.Function.SetConvar("Startup", false, 2)
+                chat.AddText(t.Settings.TColor["rouge"], t.Settings.Script, t.Settings.TColor["blanc"], t.Data.Lang[t.Settings.SetLang].StartupAbandoned)
             end
 
-            tbl.Function.CopyData()
-            tbl.Function.SaveConvar()
+            t.Function.CopyData()
+            t.Function.SaveConvar()
 
-            chat.AddText(tbl.Settings.TColor["rouge"], tbl.Settings.Script, tbl.Settings.TColor["blanc"], tbl.Data.Lang[tbl.Settings.SetLang].SettingsSaved)
+            chat.AddText(t.Settings.TColor["rouge"], t.Settings.Script, t.Settings.TColor["blanc"], t.Data.Lang[t.Settings.SetLang].SettingsSaved)
         end
     },
     {
@@ -54,34 +52,36 @@ return {
             Text = "ApplyStartup",
             ToolTip = "TApplyStartup",
         },
-        Sound = function(tbl)
-            return timer.Exists(tbl.Settings.StartupLaunch.Name) and "friends/friend_join.wav" or "hl1/fvox/fuzz.wav"
+        Sound = function(t)
+            return timer.Exists(t.Settings.StartupLaunch.Name) and "friends/friend_join.wav" or "hl1/fvox/fuzz.wav"
         end,
-        Function = function(tbl, but)
-            local Ipr_StartupDelay = timer.Exists(tbl.Settings.StartupLaunch.Name)
+        Function = function(t, b)
+            local Ipr_StartupDelay = timer.Exists(t.Settings.StartupLaunch.Name)
             if (Ipr_StartupDelay) then
-                timer.Remove(tbl.Settings.StartupLaunch.Name)
-                chat.AddText(tbl.Settings.TColor["rouge"], tbl.Settings.Script, tbl.Settings.TColor["blanc"], tbl.Data.Lang[tbl.Settings.SetLang].StartupAbandoned)
+                timer.Remove(t.Settings.StartupLaunch.Name)
+                chat.AddText(t.Settings.TColor["rouge"], t.Settings.Script, t.Settings.TColor["blanc"], t.Data.Lang[t.Settings.SetLang].StartupAbandoned)
             end
 
             Ipr_StartupDelay = not Ipr_StartupDelay
 
             if (Ipr_StartupDelay) then
-                local Ipr_CurrentState = tbl.Function.CurrentState()
+                local Ipr_CurrentState = t.Function.CurrentState()
                 if not Ipr_CurrentState then
-                    tbl.Function.Activate(true)
+                    t.Function.Activate(true)
                 end
 
-                tbl.Function.SetConvar(but.Convar.Name, Ipr_StartupDelay)
+                t.Function.SetConvar(b.Convar.Name, Ipr_StartupDelay)
 
-                timer.Create(tbl.Settings.StartupLaunch.Name, tbl.Settings.StartupLaunch.Delay, 1, function()
-                    tbl.Function.SetConvar(but.Convar.Name, true, 2)
-                    chat.AddText(tbl.Settings.TColor["rouge"], tbl.Settings.Script, tbl.Settings.TColor["vert"], tbl.Data.Lang[tbl.Settings.SetLang].StartupEnabled)
-                end)
-
-                chat.AddText(tbl.Settings.TColor["rouge"], tbl.Settings.Script, tbl.Settings.TColor["blanc"], tbl.Data.Lang[tbl.Settings.SetLang].StartupLaunched)
+                if not timer.Exists(t.Settings.StartupLaunch.Name) then
+                    timer.Create(t.Settings.StartupLaunch.Name, t.Settings.StartupLaunch.Delay, 1, function()
+                        t.Function.SetConvar(b.Convar.Name, true, 2)
+                        chat.AddText(t.Settings.TColor["rouge"], t.Settings.Script, t.Settings.TColor["vert"], t.Data.Lang[t.Settings.SetLang].StartupEnabled)
+                    end)
+                
+                    chat.AddText(t.Settings.TColor["rouge"], t.Settings.Script, t.Settings.TColor["blanc"], t.Data.Lang[t.Settings.SetLang].StartupLaunched)
+                end
             else
-                tbl.Function.SetConvar(but.Convar.Name, Ipr_StartupDelay, 1)
+                t.Function.SetConvar(b.Convar.Name, Ipr_StartupDelay, 1)
             end
         end
     },
@@ -96,12 +96,12 @@ return {
         Sound = function()
             return "common/wpn_select.wav"
         end,
-        Function = function(tbl)
-            for i = 1, #tbl.Settings.Vgui.CheckBox do
-                tbl.Settings.Vgui.CheckBox[i].Vgui:SetValue(tbl.Settings.Vgui.CheckBox[i].Default)
+        Function = function(t)
+            for i = 1, #t.Settings.Vgui.CheckBox do
+                t.Settings.Vgui.CheckBox[i].Vgui:SetValue(t.Settings.Vgui.CheckBox[i].Default)
             end
 
-            chat.AddText(tbl.Settings.TColor["rouge"], tbl.Settings.Script, tbl.Settings.TColor["blanc"], tbl.Data.Lang[tbl.Settings.SetLang].DefaultConfig)
+            chat.AddText(t.Settings.TColor["rouge"], t.Settings.Script, t.Settings.TColor["blanc"], t.Data.Lang[t.Settings.SetLang].DefaultConfig)
         end
     },
 }
