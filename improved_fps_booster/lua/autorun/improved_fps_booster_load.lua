@@ -12,6 +12,7 @@ IprFpsBooster.Version = "4.0.6"
 if (CLIENT) then
     surface.CreateFont("Ipr_Fps_Booster_Font",{
         font = "Rajdhani Bold",
+		extended = true,
         size = 18,
         weight = 250,
         antialias = true,
