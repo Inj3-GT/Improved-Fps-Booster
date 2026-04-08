@@ -14,31 +14,19 @@ return {
     IWrench = Material("icon/ipr_boost_wtool.png", "noclamp smooth"),
     IToolTip = Material("icon16/help.png", "noclamp"),
     Debug = false,
+    Status = false,
     Map = game.GetMap(),
-    MaxFps = 999,
     Fps =  {
-        Max = {
-            Int = 0,
-            Name = "Max :"
-        },
-        Min = {
-            Int = math.huge,
-            Name = "Min :"
-        },
-        Low = {
-            Frame = {},
-            MaxFrame = 10,
-            Current = false,
-            Name = "Low 1% :",
-        },
+        Max = 0,
+        Min = math.huge,
+        LowFrame = {},
+        LowMaxFrame = 10,
+        LowCurrent = false,
+        Ceiling = 999,
     },
     Pos = {
         w = ScrW(),
         h = ScrH(),
-    },
-    Status = {
-        Name = "FPS Status",
-        State = false,
     },
     TColor = {
         ["blanc"] = Color(245, 245, 245),

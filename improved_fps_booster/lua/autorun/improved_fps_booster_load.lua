@@ -7,7 +7,7 @@
 IprFpsBooster = IprFpsBooster or {}
 
 IprFpsBooster.Developer = "Inj3"
-IprFpsBooster.Version = "4.0.6"
+IprFpsBooster.Version = "4.0.7"
 
 if (CLIENT) then
     surface.CreateFont("Ipr_Fps_Booster_Font",{
