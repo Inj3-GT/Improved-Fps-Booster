@@ -38,6 +38,18 @@ return {
     RevertDataCancel = "未检测到之前的设置！",
     NOptions = "FPS加速选项",
     FPSLimit = "FPS限制 :",
+    Fps = "帧率 :",
+    FStatus = "帧率状态",
+    FMax = "最大 :",
+    FMin = "最小 :",
+    FLow = "低 1% :",
+    BEnabled = "开启（加速)",
+    BDisabled = "关",
+    BReset = "重置帧率",
+    BOption = "选项",
+    BConfig = "配置 :",
+    FMap = "地图 :",
+    FPing = "延迟 :",
 
     // Convars
     MultiCore = "多核渲染",

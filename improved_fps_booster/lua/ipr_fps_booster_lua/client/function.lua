@@ -84,7 +84,7 @@ ipr.Function.CreateData = function()
 
     local ipr_match = ipr.Function.Activate(true, true)
     if not ipr_match then
-        ipr.Settings.Status.State = true
+        ipr.Settings.Status = true
     end
 end
 
@@ -184,7 +184,7 @@ end
 
 ipr.Function.IsChecked = function()
     for i = 1, #ipr.Settings.SetConvars do
-        if not ipr.Settings.SetConvars[i].Vgui and (ipr.Settings.SetConvars[i].Checked == true) then
+        if not ipr.Settings.SetConvars[i].Vgui and (ipr.Settings.SetConvars[i].Checked) then
             return true
         end
     end
@@ -193,7 +193,26 @@ ipr.Function.IsChecked = function()
 end
 
 ipr.Function.CurrentState = function()
-    return ipr.Settings.Status.State
+    return ipr.Settings.Status
+end
+
+do
+    local ipr_cache = {}
+
+    ipr.Function.LTextSize = function(text)
+        local ipr_lang = ipr.Settings.SetLang
+        if not ipr_cache[ipr_lang] then
+            ipr_cache = {}
+            ipr_cache[ipr_lang] = {}
+        end
+        if not ipr_cache[ipr_lang][text] then
+            surface.SetFont(ipr.Settings.Font)
+            local ipr_w, ipr_h = surface.GetTextSize(ipr.Data.Lang[ipr_lang][text])
+            ipr_cache[ipr_lang][text] = {w = ipr_w, h = ipr_h}
+        end
+
+        return ipr_cache[ipr_lang][text].w, ipr_cache[ipr_lang][text].h
+    end
 end
 
 ipr.Function.Activate = function(bool, match)
@@ -228,9 +247,9 @@ ipr.Function.Activate = function(bool, match)
         end
     end
 
-    if (ipr.Settings.Status.State ~= bool) then
+    if (ipr.Settings.Status ~= bool) then
         ipr.Function.ResetFps()
-        ipr.Settings.Status.State = bool
+        ipr.Settings.Status = bool
     end
 end
 
@@ -241,38 +260,38 @@ ipr.Function.FpsCalculator = function()
         local ipr_absolute_frametime = engine.AbsoluteFrameTime()
         
         ipr.Settings.FpsCurrent = math.Round(1 / ipr_absolute_frametime)
-        ipr.Settings.FpsCurrent = (ipr.Settings.FpsCurrent > ipr.Settings.MaxFps) and ipr.Settings.MaxFps or ipr.Settings.FpsCurrent
+        ipr.Settings.FpsCurrent = (ipr.Settings.FpsCurrent > ipr.Settings.Fps.Ceiling) and ipr.Settings.Fps.Ceiling or ipr.Settings.FpsCurrent
 
-        if (ipr.Settings.FpsCurrent < ipr.Settings.Fps.Min.Int) then
-            ipr.Settings.Fps.Min.Int = ipr.Settings.FpsCurrent
+        if (ipr.Settings.FpsCurrent < ipr.Settings.Fps.Min) then
+            ipr.Settings.Fps.Min = ipr.Settings.FpsCurrent
         end
-        if (ipr.Settings.FpsCurrent > ipr.Settings.Fps.Max.Int) then
-            ipr.Settings.Fps.Max.Int = ipr.Settings.FpsCurrent
+        if (ipr.Settings.FpsCurrent > ipr.Settings.Fps.Max) then
+            ipr.Settings.Fps.Max = ipr.Settings.FpsCurrent
         end
         
-        ipr.Settings.Fps.Low.Current = ipr.Settings.Fps.Low.Current or ipr.Settings.Fps.Min.Int
+        ipr.Settings.Fps.LowCurrent = ipr.Settings.Fps.LowCurrent or ipr.Settings.Fps.Min
 
-        local ipr_count_frame = #ipr.Settings.Fps.Low.Frame
-        if (ipr_count_frame < ipr.Settings.Fps.Low.MaxFrame) then
+        local ipr_count_frame = #ipr.Settings.Fps.LowFrame
+        if (ipr_count_frame < ipr.Settings.Fps.LowMaxFrame) then
             local ipr_insert_frame = ipr_count_frame + 1
             
-            ipr.Settings.Fps.Low.Frame[ipr_insert_frame] = ipr.Settings.FpsCurrent
+            ipr.Settings.Fps.LowFrame[ipr_insert_frame] = ipr.Settings.FpsCurrent
         else
-            table.sort(ipr.Settings.Fps.Low.Frame, function(a, b) 
+            table.sort(ipr.Settings.Fps.LowFrame, function(a, b) 
                 return a < b 
             end)
 
-            ipr.Settings.Fps.Low.Current = ipr.Settings.Fps.Low.Frame[2]
-            ipr.Settings.Fps.Low.Frame = {}
+            ipr.Settings.Fps.LowCurrent = ipr.Settings.Fps.LowFrame[2]
+            ipr.Settings.Fps.LowFrame = {}
         end
 
         ipr.CurNext = ipr_systime + 0.3
     end
 
-    local ipr_fps_min = ipr.Settings.Fps.Min.Int
-    ipr_fps_min = (ipr_fps_min == math.huge) and ipr.Settings.Fps.Max.Int or ipr_fps_min
+    local ipr_fps_min = ipr.Settings.Fps.Min
+    ipr_fps_min = (ipr_fps_min == math.huge) and ipr.Settings.Fps.Max or ipr_fps_min
 
-    return ipr.Settings.FpsCurrent, ipr_fps_min, ipr.Settings.Fps.Max.Int, ipr.Settings.Fps.Low.Current
+    return ipr.Settings.FpsCurrent, ipr_fps_min, ipr.Settings.Fps.Max, ipr.Settings.Fps.LowCurrent
 end
 
 ipr.Function.CopyData = function()
@@ -300,8 +319,8 @@ ipr.Function.GetCopyData = function()
 end
 
 ipr.Function.ResetFps = function()
-    ipr.Settings.Fps.Min.Int = math.huge
-    ipr.Settings.Fps.Max.Int = 0
+    ipr.Settings.Fps.Min = math.huge
+    ipr.Settings.Fps.Max = 0
 end
 
 ipr.Function.ColorTransition = function(int)
@@ -386,11 +405,12 @@ ipr.Function.SetToolTip = function(text, panel, localization)
         local ipr_text = text
         local ipr_icon_size = 16
         local ipr_box_size = 9
+        
         ipr.Settings.Vgui.ToolTip.Text = function(text) 
             surface.SetFont(ipr.Settings.Font)
             local ipr_text_wide, ipr_text_height = surface.GetTextSize(text)
-            ipr.Settings.Vgui.ToolTip:SetSize(ipr_text_wide + ipr_icon_size + ipr_box_size, ipr_text_height + 1)
 
+            ipr.Settings.Vgui.ToolTip:SetSize(ipr_text_wide + ipr_icon_size + ipr_box_size, ipr_text_height + 1)
             ipr_text = text
         end
         ipr.Settings.Vgui.ToolTip.Paint = function(self, w, h)
