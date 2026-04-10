@@ -1,5 +1,5 @@
 // Script by Inj3
-// Steam : https://steamcommunity.com/id/Inj3/
+// Steam : https://steamcommunity.com/profiles/76561197988568430
 // Discord : Inj3
 // General Public License v3.0
 // https://github.com/Inj3-GT
@@ -34,6 +34,4 @@ else
         local ipr_index_client = ipr_file_client[i]
         AddCSLuaFile("ipr_fps_booster_lua/client/" ..ipr_index_client)
     end
-    
-    MsgC(Color(0, 250, 0), "\nImproved FPS Booster System " ..IprFpsBooster.Version.. " by " ..IprFpsBooster.Developer.. "\n")
 end

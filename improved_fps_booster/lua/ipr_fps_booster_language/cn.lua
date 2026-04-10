@@ -1,5 +1,5 @@
 // Script by Inj3
-// Steam : https://steamcommunity.com/id/Inj3/
+// Steam : https://steamcommunity.com/profiles/76561197988568430
 // Discord : Inj3
 // General Public License v3.0
 // https://github.com/Inj3-GT
@@ -8,10 +8,11 @@ return {
     // Font can be adjusted based on the language
     FontSize = 16,
     FontTTF = "Rajdhani Bold",
+    FontExtented = false,
     FontWeigth = 1,
 
     // Icon Flag (https://wiki.facepunch.com/gmod/Flag_Icon_List)
-    Icon = "cn.png",
+    Icon = "cn",
 
     // Vgui
     Addon = "[帧率优化增强器] :",

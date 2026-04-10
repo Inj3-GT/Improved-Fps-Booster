@@ -1,5 +1,5 @@
 // Script by Inj3
-// Steam : https://steamcommunity.com/id/Inj3/
+// Steam : https://steamcommunity.com/profiles/76561197988568430
 // Discord : Inj3
 // General Public License v3.0
 // https://github.com/Inj3-GT
@@ -342,7 +342,7 @@ local ipr_PanelOptions = function(primary)
 
             local ipr_pos_wide, ipr_pos_heigth = ipr.Function.LTextSize(ipr_index_buttons.Localization.Text)
             local ipr_data_lang = ipr.Data.Lang[ipr.Settings.SetLang]
-            draw.SimpleText(ipr_data_lang[ipr_index_buttons.Localization.Text], ipr_font, w / 2 - ipr_pos_wide / 2 + 7, h / 2 - ipr_pos_heigth /  2, (ipr_hovered) and ColorAlpha(color_white, 130) or ipr.Settings.TColor["blanc"], TEXT_ALIGN_LEFT)
+            draw.SimpleText(ipr_data_lang[ipr_index_buttons.Localization.Text], ipr_font, (w - ipr_pos_wide) / 2 + 7, (h - ipr_pos_heigth) /  2, (ipr_hovered) and ColorAlpha(color_white, 130) or ipr.Settings.TColor["blanc"], TEXT_ALIGN_LEFT)
         end
         ipr_options_vmanage.DoClick = function()
             local ipr_data_sound = ipr_index_buttons.Sound(ipr)
@@ -362,7 +362,7 @@ local ipr_PanelOptions = function(primary)
 
         timer.Simple(0.3, function()
             if IsValid(primary) and not primary.PMoved then
-                primary:MoveTo(ipr.Settings.Pos.w / 2 - primary:GetWide() / 2, ipr.Settings.Pos.h / 2 - primary:GetTall() / 2, 0.3, 0)
+                primary:MoveTo((ipr.Settings.Pos.w - primary:GetWide()) / 2, (ipr.Settings.Pos.h - primary:GetTall()) / 2, 0.3, 0)
             end
         end)
     end
@@ -411,7 +411,7 @@ local ipr_PanelBooster = function()
         local ipr_wstatus = ipr.Function.LTextSize((ipr_current) and "BEnabled" or "BDisabled")
         
         local ipr_wsum = ipr_wfps + ipr_wstatus
-        local ipr_wpos = w / 2 - (ipr_wsum / 2)
+        local ipr_wpos = (w - ipr_wsum) / 2
         draw.SimpleText(ipr_data_lang.Fps, ipr_font, ipr_wpos, 16, ipr.Settings.TColor["blanc"], TEXT_ALIGN_LEFT)
         
         local ipr_status_color = (ipr_current) and (ipr.Settings.Revert.Set) and ipr.Settings.TColor["orange"] or (ipr_current) and ipr.Settings.TColor["vert"] or ipr.Settings.TColor["rouge"]
@@ -420,6 +420,7 @@ local ipr_PanelBooster = function()
 
     local ipr_booster_status = vgui.Create("DPanel", ipr_booster)
     ipr_booster_status:Dock(FILL)
+
     do
         local ipr_rotate = {start = 10, s_end = 35, step = 5}
         local ipr_copy, ipr_nextstep, ipr_update = table.Copy(ipr_rotate), 0.2, 0
@@ -470,7 +471,7 @@ local ipr_PanelBooster = function()
 
     local ipr_booster_fps = vgui.Create("DButton", ipr_booster)
     ipr_booster_fps:SetSize(110, 83)
-    ipr_booster_fps:SetPos(ipr_booster_size.w / 2 - ipr_booster_fps:GetWide() / 2, ipr_booster_size.h / 2 - ipr_booster_fps:GetTall() / 2 - 13)
+    ipr_booster_fps:SetPos((ipr_booster_size.w - ipr_booster_fps:GetWide()) / 2, (ipr_booster_size.h - ipr_booster_fps:GetTall()) / 2 - 13)
     ipr_booster_fps:SetText("")
     ipr_booster_fps.Paint = function(self, w, h)
         local ipr_fps_current, ipr_fps_min, ipr_fps_max, ipr_fps_low = ipr.Function.FpsCalculator()
@@ -506,9 +507,8 @@ local ipr_PanelBooster = function()
 
         local ipr_text_wide, ipr_text_heigth = ipr.Function.LTextSize("VEnabled")
         local ipr_icon = 15
-        local ipr_pos_w, ipr_pos_h = (ipr_icon + w - ipr_text_wide) / 2, h / 2 - ipr_text_heigth / 2
-        local ipr_data_lang = ipr.Data.Lang[ipr.Settings.SetLang]
-        draw.SimpleText(ipr_data_lang.VEnabled, ipr_font, ipr_pos_w, ipr_pos_h, (ipr_hovered) and ColorAlpha(color_white, 130) or ipr.Settings.TColor["blanc"], TEXT_ALIGN_LEFT)
+        local ipr_pos_w, ipr_pos_h = (ipr_icon + w - ipr_text_wide) / 2, (h - ipr_text_heigth) / 2
+        draw.SimpleText(ipr.Data.Lang[ipr.Settings.SetLang].VEnabled, ipr_font, ipr_pos_w, ipr_pos_h, (ipr_hovered) and ColorAlpha(color_white, 130) or ipr.Settings.TColor["blanc"], TEXT_ALIGN_LEFT)
 
         surface.SetMaterial(ipr.Settings.IEnabled)
         surface.SetDrawColor(color_white)
@@ -547,9 +547,8 @@ local ipr_PanelBooster = function()
 
         local ipr_text_wide, ipr_text_heigth = ipr.Function.LTextSize("VDisabled")
         local ipr_icon = 15
-        local ipr_pos_w, ipr_pos_h = (ipr_icon + w - ipr_text_wide) / 2, h / 2 - ipr_text_heigth / 2
-        local ipr_data_lang = ipr.Data.Lang[ipr.Settings.SetLang]
-        draw.SimpleText(ipr_data_lang.VDisabled, ipr_font, ipr_pos_w, ipr_pos_h, (ipr_hovered) and ColorAlpha(color_white, 130) or ipr.Settings.TColor["blanc"], TEXT_ALIGN_LEFT)
+        local ipr_pos_w, ipr_pos_h = (ipr_icon + w - ipr_text_wide) / 2, (h - ipr_text_heigth) / 2
+        draw.SimpleText(ipr.Data.Lang[ipr.Settings.SetLang].VDisabled, ipr_font, ipr_pos_w, ipr_pos_h, (ipr_hovered) and ColorAlpha(color_white, 130) or ipr.Settings.TColor["blanc"], TEXT_ALIGN_LEFT)
 
         surface.SetMaterial(ipr.Settings.IDisabled)
         surface.SetDrawColor(color_white)
@@ -575,7 +574,7 @@ local ipr_PanelBooster = function()
 
     local ipr_booster_reset = vgui.Create("DButton", ipr_booster)
     ipr_booster_reset:SetSize(152, 21)
-    ipr_booster_reset:SetPos(ipr_booster_size.w / 2 - ipr_booster_reset:GetWide() / 2, 193)
+    ipr_booster_reset:SetPos((ipr_booster_size.w - ipr_booster_reset:GetWide()) / 2, 193)
     ipr_booster_reset:SetText("")
     ipr.Function.SetToolTip("TReset", ipr_booster_reset)
     ipr_booster_reset.Paint = function(self, w, h)
@@ -585,7 +584,7 @@ local ipr_PanelBooster = function()
         local ipr_data_lang = ipr.Data.Lang[ipr.Settings.SetLang]
         local ipr_text_wide, ipr_text_heigth = ipr.Function.LTextSize("BReset")
         local ipr_icon = 15
-        local ipr_pos_w, ipr_pos_h = (ipr_icon + w - ipr_text_wide) / 2, h / 2 - ipr_text_heigth / 2
+        local ipr_pos_w, ipr_pos_h = (ipr_icon + w - ipr_text_wide) / 2, (h - ipr_text_heigth) / 2
         draw.SimpleText(ipr_data_lang.BReset, ipr_font, ipr_pos_w, ipr_pos_h, (ipr_hovered) and ColorAlpha(color_white, 130) or ipr.Settings.TColor["blanc"], TEXT_ALIGN_LEFT)
 
         surface.SetMaterial(ipr.Settings.IResetFps)
@@ -608,18 +607,13 @@ local ipr_PanelBooster = function()
 
         local ipr_data_lang = ipr.Data.Lang[ipr.Settings.SetLang]
         local ipr_text_wide, ipr_text_heigth = ipr.Function.LTextSize("BOption")
-        local ipr_icon = 15
-        local ipr_pos_w, ipr_pos_h = (ipr_icon + w - ipr_text_wide) / 2, h / 2 - ipr_text_heigth / 2
+        local ipr_icon = 20
+        local ipr_pos_w, ipr_pos_h = (ipr_icon + w - ipr_text_wide) / 2, (h - ipr_text_heigth) / 2
         draw.SimpleText(ipr_data_lang.BOption, ipr_font, ipr_pos_w, ipr_pos_h, (ipr_hovered) and ColorAlpha(color_white, 130) or ipr.Settings.TColor["blanc"], TEXT_ALIGN_LEFT)
 
         surface.SetMaterial(ipr.Settings.IMatOptions)
         surface.SetDrawColor(ipr.Settings.TColor["blanc"])
-
-        local ipr_rotation_tool = 0
-        if (ipr_hovered) then
-            ipr_rotation_tool = math.sin(SysTime() * 80 * math.pi / 180) * 180
-        end
-        surface.DrawTexturedRectRotated(13, 11, 16, 16, ipr_rotation_tool)
+        surface.DrawTexturedRectRotated(13, 11, 16, 16, (ipr_hovered) and math.sin(SysTime() * 80 * math.pi / 180) * 180 or 0)
     end
     ipr_booster_options.DoClick = function()
         ipr_PanelOptions(ipr_booster)
@@ -636,10 +630,10 @@ local ipr_PanelBooster = function()
         local ipr_data = {}
         for k, v in pairs(ipr.Data.Lang) do
             local ipr_selected = (index == k)
-            ipr_data[#ipr_data + 1] = {Lang = k, Icon = (ipr_selected) and "icon16/bullet_add.png" or "materials/flags16/" ..v.Icon, Selected = (ipr_selected)}
+            ipr_data[#ipr_data + 1] = {Lang = k, Icon = (ipr_selected) and "icon16/bullet_add.png" or "materials/flags16/" ..v.Icon.. ".png", Selected = (ipr_selected)}
         end
 
-        ipr_material_lang = Material("materials/flags16/" ..ipr.Data.Lang[index].Icon, "noclamp")
+        ipr_material_lang = Material("materials/flags16/" ..ipr.Data.Lang[index].Icon.. ".png", "noclamp")
         table.SortByMember(ipr_data, "Selected", true)
         ipr.Function.UpdateFont(index)
 
@@ -665,16 +659,9 @@ local ipr_PanelBooster = function()
         surface.SetFont(ipr_font)
         local ipr_text_wide, ipr_text_heigth = surface.GetTextSize(ipr_settings_lang)
         
-        local ipr_icon = 10
-        local ipr_pos_w, ipr_pos_h = (ipr_icon + w - ipr_text_wide) / 2, h / 2 - ipr_text_heigth / 2
+        local ipr_icon = 7
+        local ipr_pos_w, ipr_pos_h = (ipr_icon + w - ipr_text_wide) / 2, (h - ipr_text_heigth) / 2
         draw.SimpleText(ipr_settings_lang, ipr_font, ipr_pos_w, ipr_pos_h, (ipr_hovered) and ColorAlpha(color_white, 130) or ipr.Settings.TColor["blanc"], TEXT_ALIGN_LEFT)
-
-        surface.SetDrawColor(ColorAlpha(ipr.Settings.TColor["blanc"], 125))
-        local ipr_align_left = ipr_pos_w - 4
-        surface.DrawLine(ipr_align_left, 5, ipr_align_left, h - 5)
-
-        local ipr_align_right = ipr_pos_w + ipr_text_wide + 5
-        surface.DrawLine(ipr_align_right, 5, ipr_align_right, h - 5)
 
         surface.SetMaterial(ipr_material_lang)
         surface.SetDrawColor(color_white)
@@ -798,6 +785,8 @@ local ipr_InitPostPlayer = function()
         if (ipr_fog_enabled) then
             ipr.Function.FogActivate(true)
         end
+
+        MsgC(ipr.Settings.TColor["rouge"], "\n" ..ipr_data_lang.Addon.. " v" ..IprFpsBooster.Version.. " / " ..IprFpsBooster.Developer.. "\n")
     end)
 end
 

@@ -1,5 +1,5 @@
 // Script by Inj3
-// Steam : https://steamcommunity.com/id/Inj3/
+// Steam : https://steamcommunity.com/profiles/76561197988568430
 // Discord : Inj3
 // General Public License v3.0
 // https://github.com/Inj3-GT
@@ -222,6 +222,7 @@ do
             local ipr_data_lang = ipr.Data.Lang[index]
             surface.CreateFont(ipr_font,{
                 font = ipr_data_lang.FontTTF,
+                extented = ipr_data_lang.FontExtented,
                 size = ipr_data_lang.FontSize,
                 weight = ipr_data_lang.FontWeigth,
                 antialias = true,
@@ -561,7 +562,7 @@ ipr.Function.DCheckBoxLabel = function(panel, tbl)
     ipr_dlabel.Paint = function(self, w, h)
         local _, ipr_text_heigth = ipr.Function.LTextSize(tbl.Localization.Text)
         local ipr_hovered = ipr_dcheckbox:IsHovered() and ColorAlpha(color_white, 130) or ipr.Settings.TColor["blanc"]
-        draw.SimpleText(ipr.Data.Lang[ipr.Settings.SetLang][tbl.Localization.Text], ipr_font, 0, h / 2 - ipr_text_heigth / 2, ipr_hovered, TEXT_ALIGN_LEFT)
+        draw.SimpleText(ipr.Data.Lang[ipr.Settings.SetLang][tbl.Localization.Text], ipr_font, 0, (h - ipr_text_heigth) / 2, ipr_hovered, TEXT_ALIGN_LEFT)
     end
 
     return ipr_dcheckbox, ipr_dpanel
