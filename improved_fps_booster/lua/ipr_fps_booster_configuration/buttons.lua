@@ -14,11 +14,12 @@ return {
             ToolTip = "TSaveOpti",
         },
         Sound = function(t)
-            return t.Settings.Revert.Set and "friends/message.wav" or "buttons/button18.wav"
+            return (t.Settings.Revert.Set) and "friends/message.wav" or "buttons/button18.wav"
         end,
         Function = function(t)
+            local ipr_data_lang = t.Data.Lang[t.Settings.SetLang]
             if not t.Settings.Revert.Set then
-                chat.AddText(t.Settings.TColor["rouge"], t.Settings.Script, t.Settings.TColor["blanc"], t.Data.Lang[t.Settings.SetLang].CheckedBox)
+                chat.AddText(t.Settings.TColor["rouge"], ipr_data_lang.Addon.. " ", t.Settings.TColor["blanc"], ipr_data_lang.CheckedBox)
                 return
             end
 
@@ -30,13 +31,13 @@ return {
             if timer.Exists(t.Settings.StartupLaunch.Name) then
                 timer.Remove(t.Settings.StartupLaunch.Name)
                 t.Function.SetConvar("Startup", false, 2)
-                chat.AddText(t.Settings.TColor["rouge"], t.Settings.Script, t.Settings.TColor["blanc"], t.Data.Lang[t.Settings.SetLang].StartupAbandoned)
+                chat.AddText(t.Settings.TColor["rouge"], ipr_data_lang.Addon.. " ", t.Settings.TColor["blanc"], ipr_data_lang.StartupAbandoned)
             end
 
             t.Function.CopyData()
             t.Function.SaveConvar()
 
-            chat.AddText(t.Settings.TColor["rouge"], t.Settings.Script, t.Settings.TColor["blanc"], t.Data.Lang[t.Settings.SetLang].SettingsSaved)
+            chat.AddText(t.Settings.TColor["rouge"], ipr_data_lang.Addon.. " ", t.Settings.TColor["blanc"], ipr_data_lang.SettingsSaved)
         end
     },
     {
@@ -57,9 +58,10 @@ return {
         end,
         Function = function(t, b)
             local Ipr_StartupDelay = timer.Exists(t.Settings.StartupLaunch.Name)
+            local ipr_data_lang = t.Data.Lang[t.Settings.SetLang]
             if (Ipr_StartupDelay) then
                 timer.Remove(t.Settings.StartupLaunch.Name)
-                chat.AddText(t.Settings.TColor["rouge"], t.Settings.Script, t.Settings.TColor["blanc"], t.Data.Lang[t.Settings.SetLang].StartupAbandoned)
+                chat.AddText(t.Settings.TColor["rouge"], ipr_data_lang.Addon.. " ", t.Settings.TColor["blanc"], ipr_data_lang.StartupAbandoned)
             end
 
             Ipr_StartupDelay = not Ipr_StartupDelay
@@ -75,10 +77,10 @@ return {
                 if not timer.Exists(t.Settings.StartupLaunch.Name) then
                     timer.Create(t.Settings.StartupLaunch.Name, t.Settings.StartupLaunch.Delay, 1, function()
                         t.Function.SetConvar(b.Convar.Name, true, 2)
-                        chat.AddText(t.Settings.TColor["rouge"], t.Settings.Script, t.Settings.TColor["vert"], t.Data.Lang[t.Settings.SetLang].StartupEnabled)
+                        chat.AddText(t.Settings.TColor["rouge"], ipr_data_lang.Addon.. " ", t.Settings.TColor["vert"], ipr_data_lang.StartupEnabled)
                     end)
                 
-                    chat.AddText(t.Settings.TColor["rouge"], t.Settings.Script, t.Settings.TColor["blanc"], t.Data.Lang[t.Settings.SetLang].StartupLaunched)
+                    chat.AddText(t.Settings.TColor["rouge"], ipr_data_lang.Addon.. " ", t.Settings.TColor["blanc"], ipr_data_lang.StartupLaunched)
                 end
             else
                 t.Function.SetConvar(b.Convar.Name, Ipr_StartupDelay, 1)
@@ -97,11 +99,12 @@ return {
             return "common/wpn_select.wav"
         end,
         Function = function(t)
+            local ipr_data_lang = t.Data.Lang[t.Settings.SetLang]
             for i = 1, #t.Settings.Vgui.CheckBox do
                 t.Settings.Vgui.CheckBox[i].Vgui:SetValue(t.Settings.Vgui.CheckBox[i].Default)
             end
 
-            chat.AddText(t.Settings.TColor["rouge"], t.Settings.Script, t.Settings.TColor["blanc"], t.Data.Lang[t.Settings.SetLang].DefaultConfig)
+            chat.AddText(t.Settings.TColor["rouge"], ipr_data_lang.Addon.. " ", t.Settings.TColor["blanc"], ipr_data_lang.DefaultConfig)
         end
     },
 }

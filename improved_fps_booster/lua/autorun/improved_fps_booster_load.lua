@@ -5,18 +5,10 @@
 // https://github.com/Inj3-GT
 
 IprFpsBooster = IprFpsBooster or {}
-
 IprFpsBooster.Developer = "Inj3"
 IprFpsBooster.Version = "4.0.7"
 
 if (CLIENT) then
-    surface.CreateFont("Ipr_Fps_Booster_Font",{
-        font = "Rajdhani Bold",
-        size = 18,
-        weight = 250,
-        antialias = true,
-    })
-    
     include("ipr_fps_booster_lua/client/vgui.lua")
 else
     local ipr_file_resource = {"resource/fonts/Rajdhani-Bold.ttf", "materials/icon/ipr_boost_pc.png", "materials/icon/ipr_boost_wtool.png"}

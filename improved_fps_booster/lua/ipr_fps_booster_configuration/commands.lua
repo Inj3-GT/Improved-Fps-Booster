@@ -15,7 +15,10 @@ return {
         Cmd = "!reset",
         Func = function(t)
             t.Function.Activate(false)
-            chat.AddText(t.Settings.TColor["rouge"], t.Settings.Script, t.Settings.TColor["blanc"], t.Data.Lang[t.Settings.SetLang].SReset)
+
+            local ipr_data_lang = t.Data.Lang[t.Settings.SetLang]
+            chat.AddText(t.Settings.TColor["rouge"], ipr_data_lang.Addon.. " ", t.Settings.TColor["blanc"], ipr_data_lang.SReset)
+
             surface.PlaySound("buttons/combine_button5.wav")
         end
     }

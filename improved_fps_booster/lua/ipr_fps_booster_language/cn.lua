@@ -5,10 +5,16 @@
 // https://github.com/Inj3-GT
 
 return {
+    // Font can be adjusted based on the language
+    FontSize = 16,
+    FontTTF = "Rajdhani Bold",
+    FontWeigth = 1,
+
     // Icon Flag (https://wiki.facepunch.com/gmod/Flag_Icon_List)
     Icon = "cn.png",
 
     // Vgui
+    Addon = "[帧率优化增强器] :",
     TEnabled = "是否启用FPS Booster ?",
     TSettings = "优化设置 :",
     VDisabled = "已禁用",
@@ -65,7 +71,7 @@ return {
     TextureFiltering = "纹理过滤",
     TTextureFiltering = "禁用纹理过滤以提升性能",
     SourceEngine = "引擎行为调整",
-    TSourceEngine = "调整引擎行为 (粒子、骨骼矩阵、字符串、PVS等分线程处理) ",
+    TSourceEngine = "调整引擎行为 (粒子、骨骼矩阵、字符串、PVS等分线程处理)",
     HardwareAcceleration = "硬件加速",
     THardwareAcceleration = "更快的视角计算算法",
     TeethPM = "角色模型牙齿渲染",
