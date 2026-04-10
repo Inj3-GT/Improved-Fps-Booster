@@ -86,6 +86,8 @@ ipr.Function.CreateData = function()
     if not ipr_match then
         ipr.Settings.Status = true
     end
+
+    ipr.Function.UpdateFont(ipr.Settings.SetLang)
 end
 
 ipr.Function.SearchLang = function()
@@ -111,20 +113,20 @@ end
 ipr.Function.GetConvar = function(name)
     for i = 1, #ipr.Settings.SetConvars do
         local ipr_index_convars = ipr.Settings.SetConvars[i]
+        
         if (ipr_index_convars.Name == name) then
             return ipr_index_convars.Checked
         end
     end
+
     if (ipr.Settings.Debug) then
         print("Convar not found !", " " ..name)
     end
-
     return nil
 end
 
 ipr.Function.SetConvar = function(name, value, save, exist, copy)
     local ipr_convar = (ipr.Function.GetConvar(name) == nil)
-
     if (ipr_convar) then
         ipr.Settings.SetConvars[#ipr.Settings.SetConvars + 1] = {
             Name = name,
@@ -184,34 +186,49 @@ end
 
 ipr.Function.IsChecked = function()
     for i = 1, #ipr.Settings.SetConvars do
-        if not ipr.Settings.SetConvars[i].Vgui and (ipr.Settings.SetConvars[i].Checked) then
+        if not ipr.Settings.SetConvars[i].Vgui and ipr.Settings.SetConvars[i].Checked then
             return true
         end
     end
-    
-    return false
 end
 
 ipr.Function.CurrentState = function()
     return ipr.Settings.Status
 end
 
+local ipr_font = ipr.Settings.Font
 do
-    local ipr_cache = {}
-
+    local ipr_size_cache = {}
     ipr.Function.LTextSize = function(text)
         local ipr_lang = ipr.Settings.SetLang
-        if not ipr_cache[ipr_lang] then
-            ipr_cache = {}
-            ipr_cache[ipr_lang] = {}
+        if not ipr_size_cache[ipr_lang] then
+            ipr_size_cache = {}
+            ipr_size_cache[ipr_lang] = {}
         end
-        if not ipr_cache[ipr_lang][text] then
-            surface.SetFont(ipr.Settings.Font)
+        if not ipr_size_cache[ipr_lang][text] then
+            surface.SetFont(ipr_font)
             local ipr_w, ipr_h = surface.GetTextSize(ipr.Data.Lang[ipr_lang][text])
-            ipr_cache[ipr_lang][text] = {w = ipr_w, h = ipr_h}
+            ipr_size_cache[ipr_lang][text] = {w = ipr_w, h = ipr_h}
         end
 
-        return ipr_cache[ipr_lang][text].w, ipr_cache[ipr_lang][text].h
+        return ipr_size_cache[ipr_lang][text].w, ipr_size_cache[ipr_lang][text].h
+    end
+
+    local ipr_font_cache = {}
+    ipr.Function.UpdateFont = function(index)
+        if not ipr_font_cache[index] then
+            ipr_font_cache = {}
+
+            local ipr_data_lang = ipr.Data.Lang[index]
+            surface.CreateFont(ipr_font,{
+                font = ipr_data_lang.FontTTF,
+                size = ipr_data_lang.FontSize,
+                weight = ipr_data_lang.FontWeigth,
+                antialias = true,
+            })
+
+            ipr_font_cache[index] = true
+        end
     end
 end
 
@@ -382,14 +399,14 @@ ipr.Function.DrawMultipleTextAligned = function(tbl)
         for i = 1, #ipr_index_text do
             ipr_new_wide = ipr_old_wide
 
-            surface.SetFont(ipr.Settings.Font)
+            surface.SetFont(ipr_font)
 
             local ipr_text_name = ipr_index_text[i].Name
             local ipr_text_wide = surface.GetTextSize(ipr_text_name)
-            ipr_old_wide = ipr_old_wide + ipr_text_wide + ipr.Settings.Escape
+            ipr_old_wide = ipr_old_wide + ipr_text_wide + 5
 
             local ipr_text_align = ipr_pos.PWide + ipr_new_wide
-            draw.SimpleTextOutlined(ipr_text_name, ipr.Settings.Font, ipr_text_align, ipr_pos.PHeight, ipr_index_text[i].FColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_LEFT, 1, ColorAlpha(color_black, 100))
+            draw.SimpleTextOutlined(ipr_text_name, ipr_font, ipr_text_align, ipr_pos.PHeight, ipr_index_text[i].FColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_LEFT, 1, ColorAlpha(color_black, 100))
         end
 
         ipr_old_wide = 0
@@ -407,7 +424,7 @@ ipr.Function.SetToolTip = function(text, panel, localization)
         local ipr_box_size = 9
         
         ipr.Settings.Vgui.ToolTip.Text = function(text) 
-            surface.SetFont(ipr.Settings.Font)
+            surface.SetFont(ipr_font)
             local ipr_text_wide, ipr_text_height = surface.GetTextSize(text)
 
             ipr.Settings.Vgui.ToolTip:SetSize(ipr_text_wide + ipr_icon_size + ipr_box_size, ipr_text_height + 1)
@@ -420,7 +437,7 @@ ipr.Function.SetToolTip = function(text, panel, localization)
             surface.SetMaterial(ipr.Settings.IToolTip)
             surface.DrawTexturedRect(2, 2, ipr_icon_size, ipr_icon_size)
  
-            draw.SimpleText(ipr_text, ipr.Settings.Font, ipr_icon_size + ipr_box_size / 2 - 2, 1, ipr.Settings.TColor["blanc"], TEXT_ALIGN_LEFT, TEXT_ALIGN_LEFT)
+            draw.SimpleText(ipr_text, ipr_font, ipr_icon_size + ipr_box_size / 2 - 2, 1, ipr.Settings.TColor["blanc"], TEXT_ALIGN_LEFT, TEXT_ALIGN_LEFT)
         end
 
         ipr.Settings.Vgui.ToolTip:SetVisible(false)
@@ -508,7 +525,7 @@ ipr.Function.DCheckBoxLabel = function(panel, tbl)
     local ipr_dpanel = vgui.Create("DPanel", panel)
     ipr_dpanel:Dock(TOP)
     ipr_dpanel:SetTall(20)
-    ipr_dpanel:DockMargin(0, 5, 0, 5)
+    ipr_dpanel:DockMargin(0, 5, 0, 6)
     ipr_dpanel.Paint = nil
 
     local ipr_dcheckbox = vgui.Create("DCheckBox", ipr_dpanel)
@@ -538,12 +555,13 @@ ipr.Function.DCheckBoxLabel = function(panel, tbl)
 
     local ipr_dlabel = vgui.Create("DLabel", ipr_dpanel)
     ipr_dlabel:Dock(FILL)
-    ipr_dlabel:SetFont(ipr.Settings.Font)
+    ipr_dlabel:SetFont(ipr_font)
     ipr_dlabel:SetText("")
 
     ipr_dlabel.Paint = function(self, w, h)
+        local _, ipr_text_heigth = ipr.Function.LTextSize(tbl.Localization.Text)
         local ipr_hovered = ipr_dcheckbox:IsHovered() and ColorAlpha(color_white, 130) or ipr.Settings.TColor["blanc"]
-        draw.SimpleText(ipr.Data.Lang[ipr.Settings.SetLang][tbl.Localization.Text], ipr.Settings.Font, 0, 1, ipr_hovered, TEXT_ALIGN_LEFT)
+        draw.SimpleText(ipr.Data.Lang[ipr.Settings.SetLang][tbl.Localization.Text], ipr_font, 0, h / 2 - ipr_text_heigth / 2, ipr_hovered, TEXT_ALIGN_LEFT)
     end
 
     return ipr_dcheckbox, ipr_dpanel
@@ -598,11 +616,10 @@ ipr.Function.DNumSlider = function(panel, tbl)
     ipr_dnumslider:SetDecimals(0)
 
     ipr_dpanel_dock.Paint = function(self, w, h)
-       draw.SimpleText(ipr.Data.Lang[ipr.Settings.SetLang][tbl.Localization.Text].. " [" ..math.Round(ipr_dnumslider:GetValue()).. "]", ipr.Settings.Font, w / 2, 0, ipr.Settings.TColor["blanc"], TEXT_ALIGN_CENTER)
+       draw.SimpleText(ipr.Data.Lang[ipr.Settings.SetLang][tbl.Localization.Text].. " [" ..math.Round(ipr_dnumslider:GetValue()).. "]", ipr_font, w / 2, 0, ipr.Settings.TColor["blanc"], TEXT_ALIGN_CENTER)
     end
 
     local ipr_primary_wide = ipr_dpanel:GetWide()
-    local ipr_panel_child = ipr_dnumslider:GetChildren()
     local ipr_vgui = {
         ["DSlider"] = function(slide)
             slide:Dock(FILL)
@@ -629,13 +646,14 @@ ipr.Function.DNumSlider = function(panel, tbl)
             slide:SetVisible(false)
         end,
         ["DTextEntry"] = function(slide)
-            slide:SetFont(ipr.Settings.Font)
+            slide:SetFont(ipr_font)
             slide:SetTextColor(ipr.Settings.TColor["blanc"])
 
             slide:SetVisible(false)
         end,
     }
 
+    local ipr_panel_child = ipr_dnumslider:GetChildren()
     for i = 1, #ipr_panel_child do
         local ipr_index_child = ipr_panel_child[i]
         local ipr_data_name = ipr_index_child:GetName()

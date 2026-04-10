@@ -5,10 +5,16 @@
 // https://github.com/Inj3-GT
 
 return {
+    // Font can be adjusted based on the language
+    FontSize = 18,
+    FontTTF = "Rajdhani Bold",
+    FontWeigth = 1,
+
     // Icon Flag (https://wiki.facepunch.com/gmod/Flag_Icon_List)
     Icon = "fr.png",
 
     // Vgui
+    Addon = "[Improved Fps Booster] :",
     TEnabled = "Voulez-vous activer Improved FPS Booster ?",
     TSettings = "Optimisation :",
     VDisabled = "Désactiver",
