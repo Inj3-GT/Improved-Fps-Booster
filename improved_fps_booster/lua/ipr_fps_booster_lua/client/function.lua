@@ -222,6 +222,7 @@ do
             local ipr_data_lang = ipr.Data.Lang[index]
             surface.CreateFont(ipr_font,{
                 font = ipr_data_lang.FontTTF,
+				extended = true,
                 size = ipr_data_lang.FontSize,
                 weight = ipr_data_lang.FontWeigth,
                 antialias = true,

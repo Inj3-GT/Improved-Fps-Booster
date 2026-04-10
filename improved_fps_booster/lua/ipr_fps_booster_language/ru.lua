@@ -6,10 +6,16 @@
 // Russian Translation by Blueberryy https://github.com/Blueberryy
 
 return {
+    // Font can be adjusted based on the language
+    FontSize = 16,
+    FontTTF = "Tahoma",
+    FontWeigth = 1,
+
     // Icon Flag (https://wiki.facepunch.com/gmod/Flag_Icon_List)
     Icon = "ru.png",
 
     // Vgui
+	Addon = "[Улучшенный оптимизатор]:",
     TEnabled = "Включить улучшенный оптимизатор?",
     TSettings = "Оптимизация:",
     VDisabled = "Откл.",
