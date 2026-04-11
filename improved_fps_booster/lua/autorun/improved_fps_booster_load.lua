@@ -4,10 +4,6 @@
 // General Public License v3.0
 // https://github.com/Inj3-GT
 
-IprFpsBooster = IprFpsBooster or {}
-IprFpsBooster.Developer = "Inj3"
-IprFpsBooster.Version = "4.0.7"
-
 if (CLIENT) then
     include("ipr_fps_booster_lua/client/vgui.lua")
 else

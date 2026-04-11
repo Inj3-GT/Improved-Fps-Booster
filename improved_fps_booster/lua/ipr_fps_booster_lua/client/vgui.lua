@@ -116,8 +116,8 @@ local ipr_PanelOptions = function(primary)
 
         local ipr_systime = SysTime() * 1.5
         local ipr_r, ipr_g, ipr_b = math.sin(ipr_systime) * 255, math.sin(ipr_systime + 2) * 255, math.sin(ipr_systime + 4) * 255
-        draw.SimpleText("v" ..IprFpsBooster.Version.. " /", ipr_font, w - 29, h - 19, ipr.Settings.TColor["blanc"], TEXT_ALIGN_RIGHT)
-        draw.SimpleText(IprFpsBooster.Developer, ipr_font, w - 5, h - 19, Color(ipr_r, ipr_g, ipr_b), TEXT_ALIGN_RIGHT)
+        draw.SimpleText("v" ..ipr.Settings.Version.. " /", ipr_font, w - 29, h - 19, ipr.Settings.TColor["blanc"], TEXT_ALIGN_RIGHT)
+        draw.SimpleText(ipr.Settings.Developer, ipr_font, w - 5, h - 19, Color(ipr_r, ipr_g, ipr_b), TEXT_ALIGN_RIGHT)
     end
 
     if IsValid(primary) then
@@ -786,7 +786,7 @@ local ipr_InitPostPlayer = function()
             ipr.Function.FogActivate(true)
         end
 
-        MsgC(ipr.Settings.TColor["rouge"], "\n" ..ipr_data_lang.Addon.. " v" ..IprFpsBooster.Version.. " / " ..IprFpsBooster.Developer.. "\n")
+        MsgC(ipr.Settings.TColor["vert"], "\n" ..ipr_data_lang.Addon.. " v" ..ipr.Settings.Version.. " / " ..ipr.Settings.Developer.. "\n")
     end)
 end
 
@@ -798,8 +798,7 @@ local ipr_PlayerShutDown = function()
 
     local ipr_startup_delay = timer.Exists(ipr.Settings.StartupLaunch.Name)
     if (ipr_startup_delay) then
-        local ipr_data_lang = ipr.Data.Lang[ipr.Settings.SetLang]
-        MsgC(ipr.Settings.TColor["orange"], ipr_data_lang.Addon ..ipr_data_lang.StartupAbandoned.. "\n")
+        MsgC(ipr.Settings.TColor["orange"], ipr.Data.Lang[ipr.Settings.SetLang].Addon ..ipr.Data.Lang[ipr.Settings.SetLang].StartupAbandoned.. "\n")
     end
 end
 

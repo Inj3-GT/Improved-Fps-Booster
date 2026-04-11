@@ -5,6 +5,9 @@
 // https://github.com/Inj3-GT
 
 return {
+    Version = "4.0.7",
+    Developer = "Inj3",
+    Debug = false,
     Blur = Material("pp/blurscreen"),
     IMatOptions = Material("icon16/cog.png", "noclamp smooth"),
     IResetFps = Material("icon16/chart_bar.png", "noclamp"),
@@ -13,8 +16,6 @@ return {
     IComputer = Material("icon/ipr_boost_pc.png", "noclamp smooth"),
     IWrench = Material("icon/ipr_boost_wtool.png", "noclamp smooth"),
     IToolTip = Material("icon16/help.png", "noclamp"),
-    Debug = false,
-    Status = false,
     Map = game.GetMap(),
     Fps =  {
         Max = 0,
@@ -59,6 +60,7 @@ return {
         Name = "IprFpsBooster_ApplyToStartup",
         Delay = 300,
     },
+    Status = false,
     SetConvars = {},
     Revert = {},
     Font = "IprFpsBooster_Font",
