@@ -6,7 +6,6 @@
 
 return {
     {
-        Vgui = "DButton",
         Icon = "icon16/bullet_disk.png",
         DrawLine = true,
         Localization = {
@@ -22,26 +21,26 @@ return {
                 chat.AddText(t.Settings.TColor["rouge"], ipr_data_lang.Addon.. " ", t.Settings.TColor["blanc"], ipr_data_lang.CheckedBox)
                 return
             end
-
-            local Ipr_CurrentState = t.Function.CurrentState()
-            if (Ipr_CurrentState) then
+            
+            if (t.Settings.Status) then
                 t.Function.Activate(true)
             end
 
-            if timer.Exists(t.Settings.StartupLaunch.Name) then
+            local ipr_startup = timer.Exists(t.Settings.StartupLaunch.Name)
+            if (ipr_startup) then
                 timer.Remove(t.Settings.StartupLaunch.Name)
                 t.Function.SetConvar("Startup", false, 2)
+
                 chat.AddText(t.Settings.TColor["rouge"], ipr_data_lang.Addon.. " ", t.Settings.TColor["blanc"], ipr_data_lang.StartupAbandoned)
             end
 
-            t.Function.CopyData()
-            t.Function.SaveConvar()
+            t.Function.DeepCopy()
+            t.Function.SaveSettings()
 
             chat.AddText(t.Settings.TColor["rouge"], ipr_data_lang.Addon.. " ", t.Settings.TColor["blanc"], ipr_data_lang.SettingsSaved)
         end
     },
     {
-        Vgui = "DButton",
         Icon = "icon16/bullet_key.png",
         DrawLine = true,
         DataDelayed = true,
@@ -57,38 +56,41 @@ return {
             return timer.Exists(t.Settings.StartupLaunch.Name) and "friends/friend_join.wav" or "hl1/fvox/fuzz.wav"
         end,
         Function = function(t, b)
-            local Ipr_StartupDelay = timer.Exists(t.Settings.StartupLaunch.Name)
+            local ipr_startup_delay = timer.Exists(t.Settings.StartupLaunch.Name)
             local ipr_data_lang = t.Data.Lang[t.Settings.SetLang]
-            if (Ipr_StartupDelay) then
+            local ipr_startup_name = b.Convar.Name
+            if (ipr_startup_delay) then
                 timer.Remove(t.Settings.StartupLaunch.Name)
                 chat.AddText(t.Settings.TColor["rouge"], ipr_data_lang.Addon.. " ", t.Settings.TColor["blanc"], ipr_data_lang.StartupAbandoned)
+            else
+                if t.Function.GetConvar(ipr_startup_name) then
+                    t.Function.SetConvar(ipr_startup_name, false)
+                end
             end
 
-            Ipr_StartupDelay = not Ipr_StartupDelay
+            ipr_startup_delay = not ipr_startup_delay
 
-            if (Ipr_StartupDelay) then
-                local Ipr_CurrentState = t.Function.CurrentState()
-                if not Ipr_CurrentState then
+            if (ipr_startup_delay) then
+                if not t.Settings.Status then
                     t.Function.Activate(true)
                 end
 
-                t.Function.SetConvar(b.Convar.Name, Ipr_StartupDelay)
+                t.Function.SetConvar(ipr_startup_name, ipr_startup_delay)
 
                 if not timer.Exists(t.Settings.StartupLaunch.Name) then
                     timer.Create(t.Settings.StartupLaunch.Name, t.Settings.StartupLaunch.Delay, 1, function()
-                        t.Function.SetConvar(b.Convar.Name, true, 2)
+                        t.Function.SetConvar(ipr_startup_name, true, 2)
                         chat.AddText(t.Settings.TColor["rouge"], ipr_data_lang.Addon.. " ", t.Settings.TColor["vert"], ipr_data_lang.StartupEnabled)
                     end)
-                
+
                     chat.AddText(t.Settings.TColor["rouge"], ipr_data_lang.Addon.. " ", t.Settings.TColor["blanc"], ipr_data_lang.StartupLaunched)
                 end
             else
-                t.Function.SetConvar(b.Convar.Name, Ipr_StartupDelay, 1)
+                t.Function.SetConvar(ipr_startup_name, ipr_startup_delay, 1)
             end
         end
     },
     {
-        Vgui = "DButton",
         Icon = "icon16/bullet_wrench.png",
         DrawLine = false,
         Localization = {

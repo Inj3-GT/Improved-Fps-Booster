@@ -80,7 +80,7 @@ return {
     Blood = "血液效果",
     TBlood = "禁用血液渲染",
     SmallObject = "小物体",
-    TSmallObject = "禁用小物体渲染（瓶子、小罐头、砖块等）",
+    TSmallObject = "管理物理对象/效果（道具和碎片），并决定模拟元素的数量。",
     Bloom = "泛光效果",
     TBloom = "禁用泛光效果（光晕）",
     WaterSplash = "水花特效",
@@ -91,6 +91,10 @@ return {
     TMuzzleflash = "禁用枪口闪光产生的光效",
     Ejectedshells = "弹壳抛射",
     TEjectedshells = "禁用弹壳抛射渲染",
+    WaterReflection = "动态反射",
+    TWaterReflection = "动态反射 水面（湖泊、海洋、河流）上的动态反射渲染",
+    DetailProps = "细节物体渲染",
+    TDetailProps = "装饰性元素（草地、石头、细节物体）",
 
     // Settings
     FpsView = "HUD显示FPS",

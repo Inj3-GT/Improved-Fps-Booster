@@ -80,7 +80,7 @@ return {
     Blood = "Rendu du sang",
     TBlood = "Désactive le rendu du sang",
     SmallObject = "Objets physiques",
-    TSmallObject = "Désactive les petits objets (bouteilles, petites boîtes de conserve, briques)",
+    TSmallObject = "Gestion des objets physiques/effets (props et débris), et détermine la quantité d'éléments simulés",
     Bloom = "Flou lumineux",
     TBloom = "Désactive le flou lumineux (effet graphique)",
     WaterSplash = "Eclaboussures d'eau",
@@ -91,6 +91,10 @@ return {
     TMuzzleflash = "Désactive la lumière générée par le flash de bouche",
     Ejectedshells = "Douilles éjectées (arme)",
     TEjectedshells = "Désactive le rendu des douilles éjectées",
+    WaterReflection = "Reflets dynamiques",
+    TWaterReflection = "Rendu des reflets dynamiques sur les surfaces d’eau (lacs, mers, rivières)",
+    DetailProps = "Éléments du terrain",
+    TDetailProps = "Éléments (herbe, pierres, objets détaillés)",
 
     // Settings
     FpsView = "Compteur FPS visible",

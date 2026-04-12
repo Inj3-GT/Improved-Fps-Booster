@@ -21,99 +21,55 @@ ipr.Settings = include("table.lua")
 ipr.Data = include("include.lua")
 ipr.Function = {}
 
-ipr.Function.CreateData = function()
-    local ipr_directory = file.IsDir(ipr.Settings.Save, "DATA")
-    if not ipr_directory then
+ipr.Function.DataCreate = function()
+    local ipr_path = "DATA"
+    if not file.IsDir(ipr.Settings.Save, ipr_path) then
         file.CreateDir(ipr.Settings.Save)
     end
 
-    local ipr_file_lang, ipr_lang = ipr.Settings.Save.. "language.json"
-    local ipr_file_exists = file.Exists(ipr_file_lang, "DATA")
-
-    local ipr_file_size = file.Size(ipr_file_lang, "DATA")
-    if (ipr_file_size == 0) then
-        ipr_file_exists = false
+    local ipr_file_lang = ipr.Settings.Save.. "language.json"
+    if not file.Exists(ipr_file_lang, ipr_path) then
+        ipr.Settings.SetLang = not game.IsDedicated() and ipr.Settings.Country.code[system.GetCountry()] and ipr.Settings.Country.target or ipr.Settings.SetLang
+        
+        ipr.Function.SaveSettings(ipr.Settings.SetLang, true)
+    else
+        ipr.Settings.SetLang = file.Read(ipr_file_lang, ipr_path)
     end
 
-    if not ipr_file_exists then
-        local ipr_file_country = file.Exists("ipr_fps_booster_language/" ..string.lower(ipr.Settings.Country.target).. ".lua", "LUA")
-        if (ipr_file_country) then
-            local ipr_get_country = system.GetCountry()
-            if (ipr_get_country) and ipr.Settings.Country.code[ipr_get_country] then
-                ipr_lang = ipr.Settings.Country.target
-            end
-        end
-        if not ipr_lang or (ipr_lang == "") then
-            ipr_lang = ipr.Function.SearchLang()
-        end
-
-        ipr.Settings.SetLang = ipr_lang
-        file.Write(ipr_file_lang, ipr_lang)
-    end
-    if not ipr_lang then
-        ipr.Settings.SetLang = file.Read(ipr_file_lang, "DATA")
-    end
-
-    local ipr_file_convars, ipr_convars = file.Exists(ipr.Settings.Save.. "convars.json", "DATA")
-    if not ipr_file_convars then
-        ipr_convars = {}
-
+    if not file.Exists(ipr.Settings.Save.. "convars.json", ipr_path) then
         local ipr_data_convars = ipr.Data.Default.convars
         for i = 1, #ipr_data_convars do
-            ipr_convars[#ipr_convars + 1] = {
+             ipr.Settings.SetConvars[#ipr.Settings.SetConvars + 1] = {
                 Name = ipr_data_convars[i].Name,
-                Checked = ipr_data_convars[i].DefaultCheck
+                Checked = ipr_data_convars[i].DefaultCheck,
             }
         end
 
         local ipr_data_settings = ipr.Data.Default.settings
         for i = 1, #ipr_data_settings do
-            ipr_convars[#ipr_convars + 1] = {
+             ipr.Settings.SetConvars[#ipr.Settings.SetConvars + 1] = {
                 Vgui = ipr_data_settings[i].Vgui,
                 Name = ipr_data_settings[i].Name,
-                Checked = ipr_data_settings[i].DefaultCheck
+                Checked = ipr_data_settings[i].DefaultCheck,
             }
         end
 
-        ipr.Settings.SetConvars = ipr_convars
-        file.Write(ipr.Settings.Save.. "convars.json", util.TableToJSON(ipr_convars))
-    end
-    if not ipr_convars then
-        ipr.Settings.SetConvars = util.JSONToTable(file.Read(ipr.Settings.Save.. "convars.json", "DATA"))
+        ipr.Function.SaveSettings()
+    else
+        ipr.Settings.SetConvars = util.JSONToTable(file.Read(ipr.Settings.Save.. "convars.json", ipr_path))
     end
 
-    local ipr_match = ipr.Function.Activate(true, true)
-    if not ipr_match then
+    if not ipr.Function.Activate(true, true) then
         ipr.Settings.Status = true
     end
 
     ipr.Function.UpdateFont(ipr.Settings.SetLang)
 end
 
-ipr.Function.SearchLang = function()
-    local ipr_data_lang = ipr.Settings.SetLang
-    local ipr_default_lang = file.Exists("ipr_fps_booster_language/" ..ipr_data_lang.. ".lua", "LUA")
-    if (ipr_default_lang) then
-        return ipr_data_lang
-    end
-
-    local ipr_find_lang = file.Find("ipr_fps_booster_language/*", "LUA")
-    for i = 1, #ipr_find_lang do
-        local ipr_index_lang = ipr_find_lang[i]
-        local ipr_size = file.Size("ipr_fps_booster_language/" ..ipr_index_lang, "LUA")
-
-        if (ipr_size ~= 0) then
-            return string.upper(string.gsub(ipr_index_lang, ".lua", ""))
-        end
-    end
-
-    return ipr_data_lang
-end
-
 ipr.Function.GetConvar = function(name)
-    for i = 1, #ipr.Settings.SetConvars do
-        local ipr_index_convars = ipr.Settings.SetConvars[i]
-        
+    local ipr_convars = ipr.Settings.SetConvars
+    for i = 1, #ipr_convars do
+        local ipr_index_convars = ipr_convars[i]
         if (ipr_index_convars.Name == name) then
             return ipr_index_convars.Checked
         end
@@ -122,84 +78,81 @@ ipr.Function.GetConvar = function(name)
     if (ipr.Settings.Debug) then
         print("Convar not found !", " " ..name)
     end
+    
     return nil
 end
 
-ipr.Function.SetConvar = function(name, value, save, exist, copy)
-    local ipr_convar = (ipr.Function.GetConvar(name) == nil)
-    if (ipr_convar) then
+ipr.Function.SetConvar = function(name, checked, int, noedit, baseline)
+    local ipr_unregistered = (ipr.Function.GetConvar(name) == nil)
+    if (ipr_unregistered) then
         ipr.Settings.SetConvars[#ipr.Settings.SetConvars + 1] = {
             Name = name,
-            Checked = value,
+            Checked = checked,
         }
-        local ipr_json = util.TableToJSON(ipr.Settings.SetConvars)
-        ipr.Function.SaveConvar(ipr_json)
-
-        if (copy) then
-            ipr.Function.CopyData()
-        end
+        ipr.Function.SaveSettings()
+        
         if (ipr.Settings.Debug) then
-            print("Creating a new convar : " ..name, value, save)
+            print("Creating a new convar : " ..name, checked, int)
+        end
+        if (baseline) then
+            ipr.Function.DeepCopy()
         end
     else
-        if (exist) then
+        if (noedit) then
             return
         end
-
         for i = 1, #ipr.Settings.SetConvars do
             local ipr_index_convars = ipr.Settings.SetConvars[i]
-
             if (ipr_index_convars.Name == name) then
-                ipr.Settings.SetConvars[i].Checked = value
+                ipr.Settings.SetConvars[i].Checked = checked
                 break
             end
         end
 
-        if (save == 1) then
-            local ipr_save_convar = "IprFpsBooster_SetConvar"
-            if (timer.Exists(ipr_save_convar)) then
-                timer.Remove(ipr_save_convar)
-            end
+        local ipr_delay = {
+            function()
+                local ipr_timer = ipr.Settings.Save.. "_delay"
+                if timer.Exists(ipr_timer) then
+                    timer.Remove(ipr_timer)
+                end
 
-            timer.Create(ipr_save_convar, 1, 1, function()
-                ipr.Function.SaveConvar()
-            end)
-        elseif (save == 2) then
-            ipr.Function.SaveConvar()
+                timer.Create(ipr_timer, 1, 1, function()
+                    ipr.Function.SaveSettings()
+                end)
+            end,
+            ipr.Function.SaveSettings,
+        }
+        if (int) then
+            ipr_delay[int]()
         end
     end
 end
 
-ipr.Function.SaveConvar = function(json)
-    local ipr_json_convars = (json) or util.TableToJSON(ipr.Settings.SetConvars)
-    file.Write(ipr.Settings.Save.. "convars.json", ipr_json_convars)
+ipr.Function.SaveSettings = function(data, directory)
+    directory = (directory) and ipr.Settings.Save.. "language.json" or ipr.Settings.Save.. "convars.json"
+    file.Write(directory, (data) or util.TableToJSON(ipr.Settings.SetConvars))
 end
 
-ipr.Function.InfoNum = function(cmd, exist)
-    local ipr_info_num = LocalPlayer():GetInfoNum(cmd, -99)
-    if (exist) then
-        return (ipr_info_num == -99)
-    end
-
-    return tonumber(ipr_info_num)
+ipr.Function.CvarInfo = function(cvar, validate)
+    cvar = LocalPlayer():GetInfoNum(cvar, -99)
+    return (validate) and tonumber(cvar) or (cvar == -99)
 end
 
-ipr.Function.IsChecked = function()
+ipr.Function.CvarState = function()
     for i = 1, #ipr.Settings.SetConvars do
-        if not ipr.Settings.SetConvars[i].Vgui and ipr.Settings.SetConvars[i].Checked then
+        local ipr_index_convars = ipr.Settings.SetConvars[i]
+        if not ipr_index_convars.Vgui and ipr_index_convars.Checked then
             return true
         end
     end
-end
 
-ipr.Function.CurrentState = function()
-    return ipr.Settings.Status
+    return false
 end
 
 local ipr_font = ipr.Settings.Font
 do
     local ipr_size_cache = {}
-    ipr.Function.LTextSize = function(text)
+    ipr.Function.SizeLang = function(text)
         local ipr_lang = ipr.Settings.SetLang
         if not ipr_size_cache[ipr_lang] then
             ipr_size_cache = {}
@@ -207,11 +160,10 @@ do
         end
         if not ipr_size_cache[ipr_lang][text] then
             surface.SetFont(ipr_font)
-            local ipr_w, ipr_h = surface.GetTextSize(ipr.Data.Lang[ipr_lang][text])
-            ipr_size_cache[ipr_lang][text] = {w = ipr_w, h = ipr_h}
+            ipr_size_cache[ipr_lang][text] = {surface.GetTextSize(ipr.Data.Lang[ipr_lang][text])}
         end
 
-        return ipr_size_cache[ipr_lang][text].w, ipr_size_cache[ipr_lang][text].h
+        return ipr_size_cache[ipr_lang][text][1], ipr_size_cache[ipr_lang][text][2]
     end
 
     local ipr_font_cache = {}
@@ -249,8 +201,8 @@ ipr.Function.Activate = function(bool, match)
                 local ipr_toggle = (ipr_convars_check) and v.Enabled or v.Disabled
                 ipr_toggle = tonumber(ipr_toggle)
 
-                local ipr_info_cmds = ipr.Function.InfoNum(k)
-                if ipr.Function.InfoNum(k, true) or (ipr_info_cmds == ipr_toggle) then
+                local ipr_info_cmds = ipr.Function.CvarInfo(k, true)
+                if ipr.Function.CvarInfo(k) or (ipr_info_cmds == ipr_toggle) then
                     continue
                 end
                 if (match) then
@@ -271,29 +223,22 @@ ipr.Function.Activate = function(bool, match)
     end
 end
 
-ipr.Function.FpsCalculator = function()
+ipr.Function.FpsTracker = function()
     local ipr_systime = SysTime()
 
-    if ipr_systime > (ipr.CurNext or 0) then
+    if (ipr_systime > (ipr.SysNext or 0)) then
         local ipr_absolute_frametime = engine.AbsoluteFrameTime()
         
         ipr.Settings.FpsCurrent = math.Round(1 / ipr_absolute_frametime)
         ipr.Settings.FpsCurrent = (ipr.Settings.FpsCurrent > ipr.Settings.Fps.Ceiling) and ipr.Settings.Fps.Ceiling or ipr.Settings.FpsCurrent
 
-        if (ipr.Settings.FpsCurrent < ipr.Settings.Fps.Min) then
-            ipr.Settings.Fps.Min = ipr.Settings.FpsCurrent
-        end
-        if (ipr.Settings.FpsCurrent > ipr.Settings.Fps.Max) then
-            ipr.Settings.Fps.Max = ipr.Settings.FpsCurrent
-        end
-        
+        ipr.Settings.Fps.Min = (ipr.Settings.FpsCurrent < ipr.Settings.Fps.Min) and ipr.Settings.FpsCurrent or ipr.Settings.Fps.Min
+        ipr.Settings.Fps.Max = (ipr.Settings.FpsCurrent > ipr.Settings.Fps.Max) and ipr.Settings.FpsCurrent or ipr.Settings.Fps.Max
         ipr.Settings.Fps.LowCurrent = ipr.Settings.Fps.LowCurrent or ipr.Settings.Fps.Min
 
-        local ipr_count_frame = #ipr.Settings.Fps.LowFrame
-        if (ipr_count_frame < ipr.Settings.Fps.LowMaxFrame) then
-            local ipr_insert_frame = ipr_count_frame + 1
-            
-            ipr.Settings.Fps.LowFrame[ipr_insert_frame] = ipr.Settings.FpsCurrent
+        local ipr_low = #ipr.Settings.Fps.LowFrame
+        if (ipr_low < ipr.Settings.Fps.LowMaxFrame) then
+            ipr.Settings.Fps.LowFrame[ipr_low + 1] = ipr.Settings.FpsCurrent
         else
             table.sort(ipr.Settings.Fps.LowFrame, function(a, b) 
                 return a < b 
@@ -303,37 +248,32 @@ ipr.Function.FpsCalculator = function()
             ipr.Settings.Fps.LowFrame = {}
         end
 
-        ipr.CurNext = ipr_systime + 0.3
+        ipr.SysNext = ipr_systime + 0.3
     end
 
-    local ipr_fps_min = ipr.Settings.Fps.Min
-    ipr_fps_min = (ipr_fps_min == math.huge) and ipr.Settings.Fps.Max or ipr_fps_min
+    local ipr_fps_huge = ipr.Settings.Fps.Min
+    ipr_fps_huge = (ipr_fps_huge == math.huge) and ipr.Settings.Fps.Max or ipr_fps_huge
 
-    return ipr.Settings.FpsCurrent, ipr_fps_min, ipr.Settings.Fps.Max, ipr.Settings.Fps.LowCurrent
+    return ipr.Settings.FpsCurrent, ipr_fps_huge, ipr.Settings.Fps.Max, ipr.Settings.Fps.LowCurrent
 end
 
-ipr.Function.CopyData = function()
-    local ipr_data = {}
-    local ipr_exclude = {
+ipr.Function.DeepCopy = function()
+    local ipr_filter = {
         ["Startup"] = true,
     }
 
+    local ipr_source = {}
     for i = 1, #ipr.Settings.SetConvars do
         local ipr_index_convars = ipr.Settings.SetConvars[i]
-
-        if not ipr_exclude[ipr_index_convars.Name] and not ipr_index_convars.Vgui then
-            ipr_data[#ipr_data + 1] = ipr_index_convars
+        if not ipr_filter[ipr_index_convars.Name] and not ipr_index_convars.Vgui then
+            ipr_source[#ipr_source + 1] = ipr_index_convars
         end
     end
 
     ipr.Settings.Revert = {
-        Copy = table.Copy(ipr_data), 
+        Copy = table.Copy(ipr_source), 
         Set = false,
     }
-end
-
-ipr.Function.GetCopyData = function()
-    return ipr.Settings.Revert.Copy
 end
 
 ipr.Function.ResetFps = function()
@@ -341,7 +281,7 @@ ipr.Function.ResetFps = function()
     ipr.Settings.Fps.Max = 0
 end
 
-ipr.Function.ColorTransition = function(int)
+ipr.Function.ColorRange = function(int)
     return (int <= 30) and ipr.Settings.TColor["rouge"] or (int > 30 and int <= 50) and ipr.Settings.TColor["orange"] or ipr.Settings.TColor["vert"]
 end
 
@@ -447,7 +387,7 @@ ipr.Function.SetToolTip = function(text, panel, localization)
         return
     end
     
-    local ipr_override_children = panel:GetChildren()
+    local ipr_get_children = panel:GetChildren()
     local ipr_vgui_name = panel:GetName()
     local ipr_vgui_lists = {
         ["DButton"] = {Panel = true},
@@ -456,14 +396,14 @@ ipr.Function.SetToolTip = function(text, panel, localization)
     }
 
     if (ipr_vgui_lists[ipr_vgui_name].Panel) then
-        ipr_override_children[#ipr_override_children + 1] = panel
+        ipr_get_children[#ipr_get_children + 1] = panel
     end
     if (ipr_vgui_lists[ipr_vgui_name].Parent) then
-        ipr_override_children[#ipr_override_children + 1] = ipr_vgui_lists[ipr_vgui_name].Parent
+        ipr_get_children[#ipr_get_children + 1] = ipr_vgui_lists[ipr_vgui_name].Parent
     end
 
-    for i = 1, #ipr_override_children do
-        local ipr_index_child = ipr_override_children[i]
+    for i = 1, #ipr_get_children do
+        local ipr_index_child = ipr_get_children[i]
 
         ipr_index_child.OnCursorMoved = function(self)
             if not IsValid(ipr.Settings.Vgui.ToolTip) then
@@ -560,7 +500,7 @@ ipr.Function.DCheckBoxLabel = function(panel, tbl)
     ipr_dlabel:SetText("")
 
     ipr_dlabel.Paint = function(self, w, h)
-        local _, ipr_text_heigth = ipr.Function.LTextSize(tbl.Localization.Text)
+        local _, ipr_text_heigth = ipr.Function.SizeLang(tbl.Localization.Text)
         local ipr_hovered = ipr_dcheckbox:IsHovered() and ColorAlpha(color_white, 130) or ipr.Settings.TColor["blanc"]
         draw.SimpleText(ipr.Data.Lang[ipr.Settings.SetLang][tbl.Localization.Text], ipr_font, 0, (h - ipr_text_heigth) / 2, ipr_hovered, TEXT_ALIGN_LEFT)
     end
