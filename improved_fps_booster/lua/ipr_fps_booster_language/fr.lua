@@ -33,7 +33,7 @@ return {
     StartupEnabled = "(Optimisation) Le lancement au démarrage est activé !",
     StartupDisabled = "Le lancement au démarrage est désactivé !",
     StartupAbandoned = "Le lancement au démarrage a été abandonné !",
-    StartupLaunched = "(Apply To Startup) Sauvegarde automatique dans 5 minutes pour prévenir tout crash, veuillez laisser Improved Fps Booster activé !",
+    StartupLaunched = "(Apply To Startup) Sauvegarde automatique dans % minute(s) pour prévenir tout crash, veuillez laisser Improved Fps Booster activé !",
     OptimizationReloaded = "Optimisation rechargée !",
     SettingsSaved = "Les paramètres d'optimisation ont été sauvegardés !",
     SReset = "L'optimisation est désactivé !",
@@ -91,8 +91,6 @@ return {
     TMuzzleflash = "Désactive la lumière générée par le flash de bouche",
     Ejectedshells = "Douilles éjectées (arme)",
     TEjectedshells = "Désactive le rendu des douilles éjectées",
-    WaterReflection = "Reflets dynamiques",
-    TWaterReflection = "Rendu des reflets dynamiques sur les surfaces d’eau (lacs, mers, rivières)",
     DetailProps = "Éléments du terrain",
     TDetailProps = "Éléments (herbe, pierres, objets détaillés)",
 

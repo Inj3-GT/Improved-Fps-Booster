@@ -133,9 +133,9 @@ ipr.Function.SaveSettings = function(data, directory)
     file.Write(directory, (data) or util.TableToJSON(ipr.Settings.SetConvars))
 end
 
-ipr.Function.CvarInfo = function(cvar, validate)
+ipr.Function.CvarInfo = function(cvar)
     cvar = LocalPlayer():GetInfoNum(cvar, -99)
-    return (validate) and tonumber(cvar) or (cvar == -99)
+    return tonumber(cvar), (cvar == -99)
 end
 
 ipr.Function.CvarState = function()
@@ -185,41 +185,42 @@ do
     end
 end
 
-ipr.Function.Activate = function(bool, match)
-    local ipr_convars_check = bool
+ipr.Function.Activate = function(enabled, match)
+    local ipr_data_state = enabled
+    local ipr_debug = ipr.Settings.Debug
 
     for i = 1, #ipr.Data.Default.convars do
-        local ipr_name_cmd = ipr.Data.Default.convars[i].Name
-        local ipr_convar_cmd = ipr.Data.Default.convars[i].Convars
+        local ipr_data_name = ipr.Data.Default.convars[i].Name
+        local ipr_data_cvar = ipr.Data.Default.convars[i].Convars
+        if not isbool(ipr.Function.GetConvar(ipr_data_name)) then
+            continue
+        end
 
-        for k, v in pairs(ipr_convar_cmd) do
-            if isbool(ipr.Function.GetConvar(ipr_name_cmd)) then
-                if (bool) then
-                    ipr_convars_check = ipr.Function.GetConvar(ipr_name_cmd)
-                end
+        ipr_data_state = (enabled) and ipr.Function.GetConvar(ipr_data_name)
 
-                local ipr_toggle = (ipr_convars_check) and v.Enabled or v.Disabled
-                ipr_toggle = tonumber(ipr_toggle)
+        for k, v in pairs(ipr_data_cvar) do
+            local ipr_data_toggle = (ipr_data_state) and v.Enabled or v.Disabled
+            ipr_data_toggle = tonumber(ipr_data_toggle)
 
-                local ipr_info_cmds = ipr.Function.CvarInfo(k, true)
-                if ipr.Function.CvarInfo(k) or (ipr_info_cmds == ipr_toggle) then
-                    continue
-                end
-                if (match) then
-                    return true
-                end
-                RunConsoleCommand(k, ipr_toggle)
+            local ipr_cvar_info, ipr_cvar_registered = ipr.Function.CvarInfo(k)
+            if (ipr_cvar_registered) or (ipr_cvar_info == ipr_data_toggle) then
+                continue
+            end
+            if (match) then
+                return true
+            end
 
-                if (ipr.Settings.Debug) then
-                    print("Updating " ..k.. " set " ..ipr_info_cmds.. " to " ..ipr_toggle)
-                end
+            RunConsoleCommand(k, ipr_data_toggle)
+
+            if (ipr_debug) then
+                print("Updating " ..k.. " set " ..ipr_cvar_info.. " to " ..ipr_data_toggle)
             end
         end
     end
 
-    if (ipr.Settings.Status ~= bool) then
+    if (ipr.Settings.Status ~= enabled) then
         ipr.Function.ResetFps()
-        ipr.Settings.Status = bool
+        ipr.Settings.Status = enabled
     end
 end
 

@@ -57,8 +57,8 @@ return {
         ToolTip = false,
     },
     StartupLaunch = {
-        Name = "IprFpsBooster_ApplyToStartup",
-        Delay = 300,
+        Name = "improved_fps_booster_startup",
+        Delay = 120,
     },
     Status = false,
     SetConvars = {},

@@ -56,37 +56,44 @@ return {
             return timer.Exists(t.Settings.StartupLaunch.Name) and "friends/friend_join.wav" or "hl1/fvox/fuzz.wav"
         end,
         Function = function(t, b)
-            local ipr_startup_delay = timer.Exists(t.Settings.StartupLaunch.Name)
             local ipr_data_lang = t.Data.Lang[t.Settings.SetLang]
-            local ipr_startup_name = b.Convar.Name
-            if (ipr_startup_delay) then
+            local ipr_vgui_cvar = b.Convar.Name
+
+            local ipr_startup = timer.Exists(t.Settings.StartupLaunch.Name)
+            if (ipr_startup) then
                 timer.Remove(t.Settings.StartupLaunch.Name)
                 chat.AddText(t.Settings.TColor["rouge"], ipr_data_lang.Addon.. " ", t.Settings.TColor["blanc"], ipr_data_lang.StartupAbandoned)
             else
-                if t.Function.GetConvar(ipr_startup_name) then
-                    t.Function.SetConvar(ipr_startup_name, false)
+                if (t.Function.GetConvar(ipr_vgui_cvar)) then
+                    t.Function.SetConvar(ipr_vgui_cvar, false, 2)
+                    return
                 end
             end
 
-            ipr_startup_delay = not ipr_startup_delay
+            ipr_startup = not ipr_startup
 
-            if (ipr_startup_delay) then
+            if (ipr_startup) then
                 if not t.Settings.Status then
                     t.Function.Activate(true)
                 end
 
-                t.Function.SetConvar(ipr_startup_name, ipr_startup_delay)
+                t.Function.SetConvar(ipr_vgui_cvar, ipr_startup)
 
-                if not timer.Exists(t.Settings.StartupLaunch.Name) then
-                    timer.Create(t.Settings.StartupLaunch.Name, t.Settings.StartupLaunch.Delay, 1, function()
-                        t.Function.SetConvar(ipr_startup_name, true, 2)
-                        chat.AddText(t.Settings.TColor["rouge"], ipr_data_lang.Addon.. " ", t.Settings.TColor["vert"], ipr_data_lang.StartupEnabled)
-                    end)
+                timer.Create(t.Settings.StartupLaunch.Name, t.Settings.StartupLaunch.Delay, 1, function()
+                    t.Function.SetConvar(ipr_vgui_cvar, true, 2)
+                    chat.AddText(t.Settings.TColor["rouge"], ipr_data_lang.Addon.. " ", t.Settings.TColor["vert"], ipr_data_lang.StartupEnabled)
+                end)
 
-                    chat.AddText(t.Settings.TColor["rouge"], ipr_data_lang.Addon.. " ", t.Settings.TColor["blanc"], ipr_data_lang.StartupLaunched)
-                end
+                local ipr_pattern = "%"
+                local ipr_string_find = string.find(ipr_data_lang.StartupLaunched, ipr_pattern, nil, true)
+                local ipr_startup_delay = math.Round(t.Settings.StartupLaunch.Delay / 60)
+
+                ipr_startup_delay = (ipr_startup_delay < 1) and 1 or ipr_startup_delay
+                ipr_string_find = (ipr_string_find) and string.Replace(ipr_data_lang.StartupLaunched, ipr_pattern, ipr_startup_delay) or ipr_data_lang.StartupLaunched
+
+                chat.AddText(t.Settings.TColor["rouge"], ipr_data_lang.Addon.. " ", t.Settings.TColor["blanc"], ipr_string_find)
             else
-                t.Function.SetConvar(ipr_startup_name, ipr_startup_delay, 1)
+                t.Function.SetConvar(ipr_vgui_cvar, ipr_startup, 1)
             end
         end
     },

@@ -88,20 +88,6 @@ return {
         },
     },
     {
-        Name = "Water Reflection",
-        DefaultCheck = false,
-        Convars = {
-            ["r_waterdrawreflection"] = {
-                Enabled = "0",
-                Disabled = "1"
-            }
-        },
-        Localization = {
-            Text = "WaterReflection",
-            ToolTip = "TWaterReflection",
-        },
-    },
-    {
         Name = "Detail Props",
         DefaultCheck = false,
         Convars = {

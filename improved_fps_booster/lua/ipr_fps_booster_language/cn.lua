@@ -33,7 +33,7 @@ return {
     StartupEnabled = "（优化）启动时自动开启！",
     StartupDisabled = "启动时自动开启已关闭！",
     StartupAbandoned = "启动时自动开启已取消！",
-    StartupLaunched = "(启动时) 5分钟后自动保存, 防止崩溃, 请保持FPS Booster加速开启 !",
+    StartupLaunched = "(启动时) %分钟后自动保存, 防止崩溃, 请保持FPS Booster加速开启 !",
     OptimizationReloaded = "优化已重新加载！",
     SettingsSaved = "优化设置已保存！",
     SReset = "优化已关闭！",
@@ -91,8 +91,6 @@ return {
     TMuzzleflash = "禁用枪口闪光产生的光效",
     Ejectedshells = "弹壳抛射",
     TEjectedshells = "禁用弹壳抛射渲染",
-    WaterReflection = "动态反射",
-    TWaterReflection = "动态反射 水面（湖泊、海洋、河流）上的动态反射渲染",
     DetailProps = "细节物体渲染",
     TDetailProps = "装饰性元素（草地、石头、细节物体）",
 

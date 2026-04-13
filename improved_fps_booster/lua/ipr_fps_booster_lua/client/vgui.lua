@@ -10,19 +10,19 @@ local ipr_DrawHud = function()
     local ipr_fps_current, ipr_fps_min, ipr_fps_max, ipr_fps_low = ipr.Function.FpsTracker()
     local ipr_hud_height = ipr.Settings.Pos.h * ipr.Function.GetConvar("FpsPosHeight") / 100
     local ipr_hud_wide = ipr.Settings.Pos.w * ipr.Function.GetConvar("FpsPosWidth") / 100
-    local ipr_client_ping, ipr_data_lang, ipr_sep = LocalPlayer():Ping(), ipr.Data.Lang[ipr.Settings.SetLang], "|"
+    local ipr_client_ping, ipr_data_lang, ipr_separator = LocalPlayer():Ping(), ipr.Data.Lang[ipr.Settings.SetLang], "|"
 
     local ipr_fps_hud = {
         {
             {Name = ipr_data_lang.Fps, FColor = ipr.Settings.TColor["blanc"]},
             {Name = ipr_fps_current, FColor = ipr.Function.ColorRange(ipr_fps_current)},
-            {Name = ipr_sep, FColor = ipr.Settings.TColor["blanc"]},
+            {Name = ipr_separator, FColor = ipr.Settings.TColor["blanc"]},
             {Name = ipr_data_lang.FMin, FColor = ipr.Settings.TColor["blanc"]},
             {Name = ipr_fps_min, FColor = ipr.Function.ColorRange(ipr_fps_min)},
-            {Name = ipr_sep, FColor = ipr.Settings.TColor["blanc"]},
+            {Name = ipr_separator, FColor = ipr.Settings.TColor["blanc"]},
             {Name = ipr_data_lang.FMax, FColor = ipr.Settings.TColor["blanc"]},
             {Name = ipr_fps_max, FColor = ipr.Function.ColorRange(ipr_fps_max)},
-            {Name = ipr_sep, FColor = ipr.Settings.TColor["blanc"]},
+            {Name = ipr_separator, FColor = ipr.Settings.TColor["blanc"]},
             {Name = ipr_data_lang.FLow, FColor = ipr.Settings.TColor["blanc"]},
             {Name = ipr_fps_low, FColor = ipr.Function.ColorRange(ipr_fps_low)},
 
@@ -31,7 +31,7 @@ local ipr_DrawHud = function()
         {
             {Name = ipr_data_lang.FMap, FColor = ipr.Settings.TColor["blanc"]},
             {Name = ipr.Settings.Map, FColor = ipr.Settings.TColor["orangec"]},
-            {Name = ipr_sep, FColor = ipr.Settings.TColor["blanc"]},
+            {Name = ipr_separator, FColor = ipr.Settings.TColor["blanc"]},
             {Name = ipr_data_lang.FPing, FColor = ipr.Settings.TColor["blanc"]},
             {Name = ipr_client_ping, FColor = (ipr_client_ping > 100) and ipr.Settings.TColor["rouge"] or ipr.Settings.TColor["vert"]},
 
@@ -107,7 +107,7 @@ local ipr_PanelOptions = function(primary)
         local ipr_data_lang = ipr.Data.Lang[ipr.Settings.SetLang]
         draw.SimpleText(ipr_data_lang.NOptions, ipr_font, w / 2, 1, ipr.Settings.TColor["blanc"], TEXT_ALIGN_CENTER)
 
-        local ipr_fps_limit = math.Round(ipr.Function.CvarInfo("fps_max", true))
+        local ipr_fps_limit = math.Round(ipr.Function.CvarInfo("fps_max"))
         ipr_fps_limit = (ipr_fps_limit > ipr.Settings.Fps.Ceiling) and ipr.Settings.Fps.Ceiling or ipr_fps_limit
 
         local ipr_text_wide = ipr.Function.SizeLang("FPSLimit")
