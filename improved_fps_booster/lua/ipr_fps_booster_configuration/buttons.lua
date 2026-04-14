@@ -7,11 +7,19 @@
 return {
     {
         Icon = "icon16/bullet_disk.png",
-        DrawLine = true,
         Localization = {
             Text = "SaveOpti",
             ToolTip = "TSaveOpti",
         },
+        Draw = function(s, w, h, t)
+            local ipr_previous = t.Settings.Revert.Set
+            draw.RoundedBoxEx(6, 0, 0, w, h, s:IsHovered() and t.Settings.TColor["bleuc"] or t.Settings.TColor["bleu"], true, true, not ipr_previous, not ipr_previous)
+
+            if (ipr_previous) then
+                local ipr_systime = math.abs(math.sin(SysTime() * 2.5) * 255)
+                draw.RoundedBox(1, 0, h- 1, w, h, Color(ipr_systime, ipr_systime, 0))
+            end
+        end,
         Sound = function(t)
             return (t.Settings.Revert.Set) and "friends/message.wav" or "buttons/button18.wav"
         end,
@@ -38,27 +46,27 @@ return {
             t.Function.SaveSettings()
 
             chat.AddText(t.Settings.TColor["rouge"], ipr_data_lang.Addon.. " ", t.Settings.TColor["blanc"], ipr_data_lang.SettingsSaved)
-        end
+        end,
     },
     {
         Icon = "icon16/bullet_key.png",
-        DrawLine = true,
-        DataDelayed = true,
-        Convar = {
-            Name = "Startup",
-            DefaultCheck = false,
-        },
+        Convar = "Startup",
         Localization = {
             Text = "ApplyStartup",
             ToolTip = "TApplyStartup",
         },
+        Draw = function(s, w, h, t)
+            draw.RoundedBoxEx(6, 0, 0, w, h, s:IsHovered() and t.Settings.TColor["bleuc"] or t.Settings.TColor["bleu"], true, true, false, false)
+
+            local ipr_startup = timer.Exists(t.Settings.StartupLaunch.Name) and t.Settings.TColor["orange"] or t.Function.GetConvar(s.DataButtons.Convar) and t.Settings.TColor["vert"] or t.Settings.TColor["rouge"]
+            draw.RoundedBox(0, 0, h- 1, w, h, ipr_startup)
+        end,
         Sound = function(t)
             return timer.Exists(t.Settings.StartupLaunch.Name) and "friends/friend_join.wav" or "hl1/fvox/fuzz.wav"
         end,
         Function = function(t, b)
             local ipr_data_lang = t.Data.Lang[t.Settings.SetLang]
-            local ipr_vgui_cvar = b.Convar.Name
-
+            local ipr_vgui_cvar = b.Convar
             local ipr_startup = timer.Exists(t.Settings.StartupLaunch.Name)
             if (ipr_startup) then
                 timer.Remove(t.Settings.StartupLaunch.Name)
@@ -95,15 +103,17 @@ return {
             else
                 t.Function.SetConvar(ipr_vgui_cvar, ipr_startup, 1)
             end
-        end
+        end,
     },
     {
         Icon = "icon16/bullet_wrench.png",
-        DrawLine = false,
         Localization = {
             Text = "SetDefaultSettings",
             ToolTip = "TSetDefaultSettings",
         },
+        Draw = function(s, w, h, t)
+            draw.RoundedBox(6, 0, 0, w, h, s:IsHovered() and t.Settings.TColor["gvert_"] or t.Settings.TColor["gvert"])
+        end,
         Sound = function()
             return "common/wpn_select.wav"
         end,
@@ -114,6 +124,6 @@ return {
             end
 
             chat.AddText(t.Settings.TColor["rouge"], ipr_data_lang.Addon.. " ", t.Settings.TColor["blanc"], ipr_data_lang.DefaultConfig)
-        end
+        end,
     },
 }

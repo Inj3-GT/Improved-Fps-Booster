@@ -164,7 +164,7 @@ local ipr_PanelOptions = function(primary)
     ipr_options_restore.Paint = nil
     ipr_options_restore.DoClick = function()
         local ipr_deep_copy = ipr.Settings.Revert.Copy
-        local ipr_copy_find = false
+        local ipr_cvar_matching = false
 
         for i = 1, #ipr.Settings.SetConvars do
             local ipr_index_convars = ipr.Settings.SetConvars[i]
@@ -181,7 +181,7 @@ local ipr_PanelOptions = function(primary)
 
                         if (ipr_copy_name == ipr_check_name) then
                             ipr_index_checkbox.Vgui:SetValue(ipr_copy_default)
-                            ipr_copy_find = true
+                            ipr_cvar_matching = true
                             break
                         end
                     end
@@ -191,32 +191,32 @@ local ipr_PanelOptions = function(primary)
         end
 
         local ipr_data_lang = ipr.Data.Lang[ipr.Settings.SetLang]
-        chat.AddText(ipr.Settings.TColor["rouge"], ipr_data_lang.Addon, ipr.Settings.TColor["blanc"], (ipr_copy_find) and ipr_data_lang.RevertDataApply or ipr_data_lang.RevertDataCancel)
-
-        surface.PlaySound((ipr_copy_find) and "friends/friend_online.wav" or "buttons/button18.wav")
+        chat.AddText(ipr.Settings.TColor["rouge"], ipr_data_lang.Addon, ipr.Settings.TColor["blanc"], (ipr_cvar_matching) and ipr_data_lang.RevertDataApply or ipr_data_lang.RevertDataCancel)
+        
+        surface.PlaySound((ipr_cvar_matching) and "friends/friend_online.wav" or "buttons/button18.wav")
     end
 
     local ipr_options_default = vgui.Create("DImageButton", ipr_options_middle)
     local ipr_checkbox_icon = {[true] = {Icon = "icon16/lorry_flatbed.png", PosH = 2}, [false] = {Icon = "icon16/lorry.png", PosH = 4}} 
-    local ipr_cvar = ipr.Function.CvarState()
+    local ipr_cvar_state = ipr.Function.CvarState()
     ipr_options_default:SetSize(16, 16)
-    ipr_options_default:SetPos(6, ipr_checkbox_icon[ipr_cvar].PosH)
-    ipr_options_default:SetImage(ipr_checkbox_icon[ipr_cvar].Icon)
+    ipr_options_default:SetPos(6, ipr_checkbox_icon[ipr_cvar_state].PosH)
+    ipr_options_default:SetImage(ipr_checkbox_icon[ipr_cvar_state].Icon)
     ipr.Function.SetToolTip("CheckUncheckAll", ipr_options_default)
     ipr_options_default.Paint = nil
     ipr_options_default.DoClick = function()
         local ipr_data_checkbox, ipr_data_default = ipr.Settings.Vgui.CheckBox, #ipr.Data.Default.convars
-        ipr_cvar = not ipr_cvar
+        ipr_cvar_state = not ipr_cvar_state
 
         for i = 1, #ipr_data_checkbox do
             if (i > ipr_data_default) then
                 break
             end
 
-            ipr_data_checkbox[i].Vgui:SetValue(ipr_cvar)
+            ipr_data_checkbox[i].Vgui:SetValue(ipr_cvar_state)
         end
-        ipr_options_default:SetImage(ipr_checkbox_icon[ipr_cvar].Icon)
-        ipr_options_default:SetY(ipr_checkbox_icon[ipr_cvar].PosH)
+        ipr_options_default:SetImage(ipr_checkbox_icon[ipr_cvar_state].Icon)
+        ipr_options_default:SetY(ipr_checkbox_icon[ipr_cvar_state].PosH)
 
         surface.PlaySound("buttons/lever7.wav")
     end
@@ -242,28 +242,25 @@ local ipr_PanelOptions = function(primary)
         
         ipr_vgui_label:SetValue(ipr.Function.GetConvar(ipr_data_convars.Name))
         ipr.Function.SetToolTip(ipr_data_convars.Localization.ToolTip, ipr_vgui_label)
-        ipr.Function.SetConvar(ipr_data_convars.Name, ipr_data_convars.DefaultCheck, nil, true, true)
 
         ipr_vgui_label.OnChange = function(self)
             ipr.Function.SetConvar(ipr_data_convars.Name, self:GetChecked())
+            ipr.Settings.Revert.Set = false
 
             local ipr_convars_length = #ipr.Settings.SetConvars
-            local ipr_data_copy, ipr_convar_find = ipr.Settings.Revert.Copy, false
-
-            for i = 1, #ipr_data_copy do
-                local ipr_data_name = ipr_data_copy[i].Name
-                local ipr_data_check = ipr_data_copy[i].Checked
+            local ipr_deep_copy = ipr.Settings.Revert.Copy
+            for i = 1, #ipr_deep_copy do
+                local ipr_data_name = ipr_deep_copy[i].Name
+                local ipr_data_check = ipr_deep_copy[i].Checked
 
                 for c = 1, ipr_convars_length do
                     local ipr_index_convar = ipr.Settings.SetConvars[c]
                     if (ipr_data_name == ipr_index_convar.Name) and (ipr_data_check ~= ipr_index_convar.Checked) then
-                        ipr_convar_find = true
+                        ipr.Settings.Revert.Set = true
                         break
                     end
                 end
             end
-
-            ipr.Settings.Revert.Set = ipr_convar_find
         end
 
         ipr.Settings.Vgui.CheckBox[#ipr.Settings.Vgui.CheckBox + 1] = {Vgui = ipr_vgui_label, Default = ipr_data_convars.DefaultCheck, Name = ipr_data_convars.Name, Paired = ipr_data_convars.Paired}
@@ -278,7 +275,6 @@ local ipr_PanelOptions = function(primary)
         local ipr_index_settings = ipr.Data.Default.settings[i]
         local ipr_vgui_checkbox, ipr_vgui_slider = ipr.Function.SettingsVgui[ipr_index_settings.Vgui](ipr_options_bscroll, ipr_index_settings, ipr_DrawHud)
 
-        ipr.Function.SetConvar(ipr_index_settings.Name, ipr_index_settings.DefaultCheck, nil, true)
         if (ipr_index_settings.Localization.ToolTip) then
             ipr.Function.SetToolTip(ipr_index_settings.Localization.ToolTip, ipr_vgui_checkbox)
         end
@@ -303,55 +299,33 @@ local ipr_PanelOptions = function(primary)
     ipr.Function.DScrollPaint(ipr_options_tscroll, 7)
 
     for i = 1, #ipr.Data.Default.buttons do
+        local ipr_index_buttons = ipr.Data.Default.buttons[i]
+
         local ipr_options_manage = vgui.Create("DPanel", ipr_options_tscroll)
         ipr_options_manage:Dock(TOP)
         ipr_options_manage:DockMargin(4, 3, 4, 0)
         ipr_options_manage.Paint = nil
 
-        local ipr_index_buttons = ipr.Data.Default.buttons[i]
         local ipr_options_vmanage = vgui.Create("DButton", ipr_options_manage)
         ipr_options_vmanage:Dock(FILL)
         ipr_options_vmanage:DockMargin(0, 1, 0, 1)
         ipr_options_vmanage:SetText("")
         ipr_options_vmanage:SetImage(ipr_index_buttons.Icon)
         ipr.Function.SetToolTip(ipr_index_buttons.Localization.ToolTip, ipr_options_vmanage)
-        if (ipr_index_buttons.Convar) then
-            ipr.Function.SetConvar(ipr_index_buttons.Convar.Name, ipr_index_buttons.Convar.DefaultCheck, nil, true)
-        end
-        local ipr_convar_color = ipr.Settings.TColor["blanc"]
+        ipr_options_vmanage.DataButtons = ipr_index_buttons
+        
         ipr_options_vmanage.Paint = function(self, w, h)
-            local ipr_hovered = self:IsHovered()
-            if (ipr_index_buttons.DrawLine) then
-                if (ipr_index_buttons.Convar) then
-                    draw.RoundedBoxEx(6, 0, 0, w, h, (ipr_hovered) and ipr.Settings.TColor["bleuc"] or ipr.Settings.TColor["bleu"], true, true, false, false)
+            self.DataButtons.Draw(self, w, h, ipr)
 
-                    local ipr_startup_delay = timer.Exists(ipr.Settings.StartupLaunch.Name)
-                    ipr_convar_color = (ipr_startup_delay) and ipr.Settings.TColor["orange"] or ipr.Function.GetConvar(ipr_index_buttons.Convar.Name) and ipr.Settings.TColor["vert"] or ipr.Settings.TColor["rouge"]
-                    draw.RoundedBox(0, 0, h- 1, w, h, ipr_convar_color)
-                else
-                    if (ipr.Settings.Revert.Set) then
-                        local ipr_systime = SysTime()
-                        local ipr_color_g = math.abs(math.sin(ipr_systime * 2.5) * 255)
-
-                        draw.RoundedBoxEx(6, 0, 0, w, h, (ipr_hovered) and ipr.Settings.TColor["bleuc"] or ipr.Settings.TColor["bleu"], true, true, false, false)
-                        draw.RoundedBox(1, 0, h- 1, w, h, Color(ipr_color_g, ipr_color_g, 0))
-                    else
-                        draw.RoundedBox(6, 0, 0, w, h, (ipr_hovered) and ipr.Settings.TColor["bleuc"] or ipr.Settings.TColor["bleu"])
-                    end
-                end
-            else
-                draw.RoundedBox(6, 0, 0, w, h, (ipr_hovered) and ipr.Settings.TColor["gvert_"] or ipr.Settings.TColor["gvert"])
-            end
-
-            local ipr_pos_wide, ipr_pos_heigth = ipr.Function.SizeLang(ipr_index_buttons.Localization.Text)
+            local ipr_pos_wide, ipr_pos_heigth = ipr.Function.SizeLang(self.DataButtons.Localization.Text)
             local ipr_data_lang = ipr.Data.Lang[ipr.Settings.SetLang]
-            draw.SimpleText(ipr_data_lang[ipr_index_buttons.Localization.Text], ipr_font, (w - ipr_pos_wide) / 2 + 7, (h - ipr_pos_heigth) /  2, (ipr_hovered) and ColorAlpha(color_white, 130) or ipr.Settings.TColor["blanc"], TEXT_ALIGN_LEFT)
+            draw.SimpleText(ipr_data_lang[self.DataButtons.Localization.Text], ipr_font, (w - ipr_pos_wide) / 2 + 7, (h - ipr_pos_heigth) /  2, self:IsHovered() and ColorAlpha(color_white, 130) or ipr.Settings.TColor["blanc"], TEXT_ALIGN_LEFT)
         end
-        ipr_options_vmanage.DoClick = function()
-            local ipr_data_sound = ipr_index_buttons.Sound(ipr)
+        ipr_options_vmanage.DoClick = function(self)
+            local ipr_data_sound = self.DataButtons.Sound(ipr)
             surface.PlaySound(ipr_data_sound)
             
-            ipr_index_buttons.Function(ipr, ipr_index_buttons)
+            self.DataButtons.Function(ipr, self.DataButtons)
         end
     end
 
@@ -518,8 +492,8 @@ local ipr_PanelBooster = function()
     end
     ipr_booster_enabled.DoClick = function()
         local ipr_data_lang = ipr.Data.Lang[ipr.Settings.SetLang]
-        local ipr_cvar = ipr.Function.CvarState()
-        if not ipr_cvar then
+        local ipr_cvar_state = ipr.Function.CvarState()
+        if not ipr_cvar_state then
             return chat.AddText(ipr.Settings.TColor["rouge"], ipr_data_lang.Addon.. " ", ipr.Settings.TColor["blanc"], ipr_data_lang.CheckedBox)
         end
 
@@ -535,7 +509,6 @@ local ipr_PanelBooster = function()
         if (ipr_close_booster) then
             ipr_PanelClose()
         end
-
         surface.PlaySound("buttons/combine_button7.wav")
     end
 
@@ -559,8 +532,7 @@ local ipr_PanelBooster = function()
     ipr_booster_disabled.DoClick = function()
         local ipr_data_lang = ipr.Data.Lang[ipr.Settings.SetLang]
         local ipr_convars_enabled = ipr.Function.Activate(false, true)
-        local ipr_cvar = ipr.Function.CvarState()
-        if (ipr_convars_enabled) or not ipr_cvar then
+        if (ipr_convars_enabled) then
             ipr.Function.Activate(false)
             chat.AddText(ipr.Settings.TColor["rouge"], ipr_data_lang.Addon.. " ", ipr.Settings.TColor["blanc"], ipr_data_lang.Optimization)
         else
@@ -571,7 +543,6 @@ local ipr_PanelBooster = function()
         if (ipr_close_booster) then
             ipr_PanelClose()
         end
-
         surface.PlaySound("buttons/combine_button5.wav")
     end
 
@@ -750,8 +721,6 @@ local ipr_PanelBooster = function()
     ipr_booster_close.DoClick = function()
         ipr_PanelClose(ipr_booster_close)
     end
-
-    ipr.Function.DeepCopy()
 end
 
 local ipr_InitPostPlayer = function()

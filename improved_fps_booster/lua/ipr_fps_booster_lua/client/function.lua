@@ -27,89 +27,112 @@ ipr.Function.DataCreate = function()
         file.CreateDir(ipr.Settings.Save)
     end
 
-    local ipr_file_lang = ipr.Settings.Save.. "language.json"
-    if not file.Exists(ipr_file_lang, ipr_path) then
+    local ipr_json_lang = ipr.Settings.Save.. "language.json"
+    if not file.Exists(ipr_json_lang, ipr_path) then
         ipr.Settings.SetLang = not game.IsDedicated() and ipr.Settings.Country.code[system.GetCountry()] and ipr.Settings.Country.target or ipr.Settings.SetLang
         
         ipr.Function.SaveSettings(ipr.Settings.SetLang, true)
     else
-        ipr.Settings.SetLang = file.Read(ipr_file_lang, ipr_path)
+        ipr.Settings.SetLang = file.Read(ipr_json_lang, ipr_path)
     end
 
-    if not file.Exists(ipr.Settings.Save.. "convars.json", ipr_path) then
-        local ipr_data_convars = ipr.Data.Default.convars
-        for i = 1, #ipr_data_convars do
-             ipr.Settings.SetConvars[#ipr.Settings.SetConvars + 1] = {
-                Name = ipr_data_convars[i].Name,
-                Checked = ipr_data_convars[i].DefaultCheck,
-            }
-        end
+    local ipr_json_cvar = ipr.Settings.Save.. "convars.json"
+    if not file.Exists(ipr_json_cvar, ipr_path) then
+        local ipr_nodes = {
+            ipr.Data.Default.convars, 
+            ipr.Data.Default.settings, 
+            ipr.Data.Default.convar_registry,
+        }
+        ipr_nodes[3].Registry = true
+        
+        ipr.Settings.SetConvars = {}
+        for h = 1, #ipr_nodes do
+            local ipr_data = ipr_nodes[h]
+            
+            for i = 1, #ipr_data do
+                local ipr_index = #ipr.Settings.SetConvars + 1
+                local ipr_index_data = ipr_data[i]
+                ipr.Settings.SetConvars[ipr_index] = {
+                    Name = ipr_index_data.Name,
+                    Checked = ipr_index_data.DefaultCheck,
+                }
 
-        local ipr_data_settings = ipr.Data.Default.settings
-        for i = 1, #ipr_data_settings do
-             ipr.Settings.SetConvars[#ipr.Settings.SetConvars + 1] = {
-                Vgui = ipr_data_settings[i].Vgui,
-                Name = ipr_data_settings[i].Name,
-                Checked = ipr_data_settings[i].DefaultCheck,
-            }
+                if (ipr_index_data.Vgui) then
+                    ipr.Settings.SetConvars[ipr_index].Vgui = ipr_index_data.Vgui
+                elseif (ipr_data.Registry) then
+                    ipr.Settings.SetConvars[ipr_index].Register = true
+                end
+            end
         end
 
         ipr.Function.SaveSettings()
     else
-        ipr.Settings.SetConvars = util.JSONToTable(file.Read(ipr.Settings.Save.. "convars.json", ipr_path))
+        local ipr_json_parse = util.JSONToTable(file.Read(ipr_json_cvar, ipr_path))
+        local ipr_dup = table.Copy(ipr.Data.Default.convars)
+        local ipr_erase = function() file.Delete(ipr_json_cvar, ipr_path) ipr.Function.DataCreate() end
+
+        table.Add(ipr_dup, ipr.Data.Default.settings)
+        table.Add(ipr_dup, ipr.Data.Default.convar_registry)
+
+        if (#ipr_json_parse ~= #ipr_dup) then
+            ipr_erase()
+            return
+        end
+
+        for h = 1, #ipr_dup do
+            local ipr_unset = false
+
+            for i = 1, #ipr_json_parse do
+                if (ipr_dup[h].Name ~= ipr_json_parse[i].Name) then
+                    continue
+                end
+
+                ipr_unset = true
+            end
+
+            if not ipr_unset then
+                ipr_erase()
+                return
+            end
+        end
+
+        ipr.Settings.SetConvars = util.JSONToTable(file.Read(ipr_json_cvar, ipr_path))
     end
 
-    if not ipr.Function.Activate(true, true) then
-        ipr.Settings.Status = true
-    end
-
+    ipr.Function.Activate(true, true)
+    ipr.Function.DeepCopy()
     ipr.Function.UpdateFont(ipr.Settings.SetLang)
 end
 
 ipr.Function.GetConvar = function(name)
-    local ipr_convars = ipr.Settings.SetConvars
-    for i = 1, #ipr_convars do
-        local ipr_index_convars = ipr_convars[i]
-        if (ipr_index_convars.Name == name) then
-            return ipr_index_convars.Checked
+    local ipr_cvar = ipr.Settings.SetConvars
+    for i = 1, #ipr_cvar do
+        if (ipr_cvar[i].Name == name) then
+            return ipr_cvar[i].Checked
         end
     end
 
-    if (ipr.Settings.Debug) then
+    local ipr_debug = ipr.Settings.Debug
+    if (ipr_debug) then
         print("Convar not found !", " " ..name)
     end
-    
     return nil
 end
 
-ipr.Function.SetConvar = function(name, checked, int, noedit, baseline)
+ipr.Function.SetConvar = function(name, checked, int)
     local ipr_unregistered = (ipr.Function.GetConvar(name) == nil)
     if (ipr_unregistered) then
-        ipr.Settings.SetConvars[#ipr.Settings.SetConvars + 1] = {
-            Name = name,
-            Checked = checked,
-        }
-        ipr.Function.SaveSettings()
-        
-        if (ipr.Settings.Debug) then
-            print("Creating a new convar : " ..name, checked, int)
-        end
-        if (baseline) then
-            ipr.Function.DeepCopy()
-        end
+        print("Missing cvar in configuration file : " ..name)
     else
-        if (noedit) then
-            return
-        end
-        for i = 1, #ipr.Settings.SetConvars do
-            local ipr_index_convars = ipr.Settings.SetConvars[i]
-            if (ipr_index_convars.Name == name) then
+        local ipr_cvar = ipr.Settings.SetConvars
+        for i = 1, #ipr_cvar do
+            if (ipr_cvar[i].Name == name) then
                 ipr.Settings.SetConvars[i].Checked = checked
                 break
             end
         end
 
-        local ipr_delay = {
+        local ipr_interval = {
             function()
                 local ipr_timer = ipr.Settings.Save.. "_delay"
                 if timer.Exists(ipr_timer) then
@@ -123,7 +146,7 @@ ipr.Function.SetConvar = function(name, checked, int, noedit, baseline)
             ipr.Function.SaveSettings,
         }
         if (int) then
-            ipr_delay[int]()
+            ipr_interval[int]()
         end
     end
 end
@@ -139,9 +162,10 @@ ipr.Function.CvarInfo = function(cvar)
 end
 
 ipr.Function.CvarState = function()
-    for i = 1, #ipr.Settings.SetConvars do
-        local ipr_index_convars = ipr.Settings.SetConvars[i]
-        if not ipr_index_convars.Vgui and ipr_index_convars.Checked then
+    local ipr_data = ipr.Settings.SetConvars
+    for i = 1, #ipr_data do
+        local ipr_index_data = ipr_data[i]
+        if not ipr_index_data.Vgui and not ipr_index_data.Register and ipr_index_data.Checked then
             return true
         end
     end
@@ -186,7 +210,6 @@ do
 end
 
 ipr.Function.Activate = function(enabled, match)
-    local ipr_data_state = enabled
     local ipr_debug = ipr.Settings.Debug
 
     for i = 1, #ipr.Data.Default.convars do
@@ -196,8 +219,7 @@ ipr.Function.Activate = function(enabled, match)
             continue
         end
 
-        ipr_data_state = (enabled) and ipr.Function.GetConvar(ipr_data_name)
-
+        local ipr_data_state = (enabled) and ipr.Function.GetConvar(ipr_data_name)
         for k, v in pairs(ipr_data_cvar) do
             local ipr_data_toggle = (ipr_data_state) and v.Enabled or v.Disabled
             ipr_data_toggle = tonumber(ipr_data_toggle)
@@ -209,7 +231,7 @@ ipr.Function.Activate = function(enabled, match)
             if (match) then
                 return true
             end
-
+            
             RunConsoleCommand(k, ipr_data_toggle)
 
             if (ipr_debug) then
@@ -218,7 +240,9 @@ ipr.Function.Activate = function(enabled, match)
         end
     end
 
-    if (ipr.Settings.Status ~= enabled) then
+    if not ipr.Function.CvarState() then
+        ipr.Settings.Status = false
+    elseif (ipr.Settings.Status ~= enabled) then
         ipr.Function.ResetFps()
         ipr.Settings.Status = enabled
     end
@@ -228,9 +252,9 @@ ipr.Function.FpsTracker = function()
     local ipr_systime = SysTime()
 
     if (ipr_systime > (ipr.SysNext or 0)) then
-        local ipr_absolute_frametime = engine.AbsoluteFrameTime()
+        local ipr_frametime = engine.AbsoluteFrameTime()
         
-        ipr.Settings.FpsCurrent = math.Round(1 / ipr_absolute_frametime)
+        ipr.Settings.FpsCurrent = math.Round(1 / ipr_frametime)
         ipr.Settings.FpsCurrent = (ipr.Settings.FpsCurrent > ipr.Settings.Fps.Ceiling) and ipr.Settings.Fps.Ceiling or ipr.Settings.FpsCurrent
 
         ipr.Settings.Fps.Min = (ipr.Settings.FpsCurrent < ipr.Settings.Fps.Min) and ipr.Settings.FpsCurrent or ipr.Settings.Fps.Min
@@ -259,15 +283,12 @@ ipr.Function.FpsTracker = function()
 end
 
 ipr.Function.DeepCopy = function()
-    local ipr_filter = {
-        ["Startup"] = true,
-    }
-
     local ipr_source = {}
-    for i = 1, #ipr.Settings.SetConvars do
-        local ipr_index_convars = ipr.Settings.SetConvars[i]
-        if not ipr_filter[ipr_index_convars.Name] and not ipr_index_convars.Vgui then
-            ipr_source[#ipr_source + 1] = ipr_index_convars
+    local ipr_data = ipr.Settings.SetConvars
+    for i = 1, #ipr_data do
+        local ipr_index_data = ipr_data[i]
+        if not ipr_index_data.Vgui and not ipr_index_data.Register then
+           ipr_source[#ipr_source + 1] = ipr_index_data
         end
     end
 
@@ -330,12 +351,12 @@ ipr.Function.FogActivate = function(bool)
     end
 end
 
-ipr.Function.DrawMultipleTextAligned = function(tbl)
+ipr.Function.DrawMultipleTextAligned = function(data)
     local ipr_old_wide = 0
     local ipr_new_wide = 0
 
-    for t = 1, #tbl do
-        local ipr_index_text = tbl[t]
+    for t = 1, #data do
+        local ipr_index_text = data[t]
         local ipr_pos = ipr_index_text.Pos
 
         for i = 1, #ipr_index_text do
@@ -463,7 +484,7 @@ ipr.Function.DComboBox = function(panel)
     end
 end
 
-ipr.Function.DCheckBoxLabel = function(panel, tbl)
+ipr.Function.DCheckBoxLabel = function(panel, data)
     local ipr_dpanel = vgui.Create("DPanel", panel)
     ipr_dpanel:Dock(TOP)
     ipr_dpanel:SetTall(20)
@@ -475,7 +496,7 @@ ipr.Function.DCheckBoxLabel = function(panel, tbl)
     ipr_dcheckbox:Dock(LEFT)
     ipr_dcheckbox:SetWide(35)
 
-    local ipr_checked = ipr.Function.GetConvar(tbl.Name)
+    local ipr_checked = ipr.Function.GetConvar(data.Name)
     ipr_dcheckbox:SetValue(ipr_checked)
     ipr_dcheckbox.SLerp = (ipr_checked) and ipr_dcheckbox:GetTall() + 3 or 6
 
@@ -501,9 +522,9 @@ ipr.Function.DCheckBoxLabel = function(panel, tbl)
     ipr_dlabel:SetText("")
 
     ipr_dlabel.Paint = function(self, w, h)
-        local _, ipr_text_heigth = ipr.Function.SizeLang(tbl.Localization.Text)
+        local _, ipr_text_heigth = ipr.Function.SizeLang(data.Localization.Text)
         local ipr_hovered = ipr_dcheckbox:IsHovered() and ColorAlpha(color_white, 130) or ipr.Settings.TColor["blanc"]
-        draw.SimpleText(ipr.Data.Lang[ipr.Settings.SetLang][tbl.Localization.Text], ipr_font, 0, (h - ipr_text_heigth) / 2, ipr_hovered, TEXT_ALIGN_LEFT)
+        draw.SimpleText(ipr.Data.Lang[ipr.Settings.SetLang][data.Localization.Text], ipr_font, 0, (h - ipr_text_heigth) / 2, ipr_hovered, TEXT_ALIGN_LEFT)
     end
 
     return ipr_dcheckbox, ipr_dpanel
@@ -540,7 +561,7 @@ ipr.Function.DScrollPaint = function(panel, int)
     end
 end
 
-ipr.Function.DNumSlider = function(panel, tbl)
+ipr.Function.DNumSlider = function(panel, data)
     local ipr_dpanel = vgui.Create("DPanel", panel)
     ipr_dpanel:SetSize(225, 39)
     ipr_dpanel:Dock(TOP)
@@ -553,12 +574,12 @@ ipr.Function.DNumSlider = function(panel, tbl)
     ipr_dnumslider:SetTall(25)
     ipr_dnumslider:Dock(BOTTOM)
     ipr_dnumslider:SetText("")
-    ipr_dnumslider:SetMinMax(0, tbl.Max or 100)
-    ipr_dnumslider:SetValue(ipr.Function.GetConvar(tbl.Name))
+    ipr_dnumslider:SetMinMax(0, data.Max or 100)
+    ipr_dnumslider:SetValue(ipr.Function.GetConvar(data.Name))
     ipr_dnumslider:SetDecimals(0)
 
     ipr_dpanel_dock.Paint = function(self, w, h)
-       draw.SimpleText(ipr.Data.Lang[ipr.Settings.SetLang][tbl.Localization.Text].. " [" ..math.Round(ipr_dnumslider:GetValue()).. "]", ipr_font, w / 2, 0, ipr.Settings.TColor["blanc"], TEXT_ALIGN_CENTER)
+       draw.SimpleText(ipr.Data.Lang[ipr.Settings.SetLang][data.Localization.Text].. " [" ..math.Round(ipr_dnumslider:GetValue()).. "]", ipr_font, w / 2, 0, ipr.Settings.TColor["blanc"], TEXT_ALIGN_CENTER)
     end
 
     local ipr_primary_wide = ipr_dpanel:GetWide()
@@ -607,22 +628,22 @@ ipr.Function.DNumSlider = function(panel, tbl)
     end
 
     ipr_dnumslider.OnValueChanged = function(self)
-        ipr.Function.SetConvar(tbl.Name, self:GetValue(), 1)
+        ipr.Function.SetConvar(data.Name, self:GetValue(), 1)
     end
 
     return ipr_dnumslider, ipr_dpanel
 end
 
 ipr.Function.SettingsVgui = {
-    ["DCheckBoxLabel"] = function(panel, tbl, hud)
-        local ipr_dcheckboxlabel, ipr_dpanel = ipr.Function.DCheckBoxLabel(panel, tbl)
+    ["DCheckBoxLabel"] = function(panel, data, hud)
+        local ipr_dcheckboxlabel, ipr_dpanel = ipr.Function.DCheckBoxLabel(panel, data)
 
         ipr_dcheckboxlabel.OnChange = function(self)
             local ipr_checked = self:GetChecked()
-            ipr.Function.SetConvar(tbl.Name, ipr_checked, 1)
+            ipr.Function.SetConvar(data.Name, ipr_checked, 1)
 
             for i = 1, #ipr.Settings.Vgui.CheckBox do
-                if (ipr.Settings.Vgui.CheckBox[i].Paired == tbl.Name) then
+                if (ipr.Settings.Vgui.CheckBox[i].Paired == data.Name) then
                     local ipr_vgui_index = ipr.Settings.Vgui.CheckBox[i].Vgui
                     ipr_vgui_index = ipr_vgui_index:GetParent()
 
@@ -632,26 +653,26 @@ ipr.Function.SettingsVgui = {
                 end
             end
 
-            if (tbl.Run_HookFog) then
+            if (data.Run_HookFog) then
                 ipr.Function.FogActivate(ipr_checked)
-            elseif (tbl.Run_HookFps) then
+            elseif (data.Run_HookFps) then
                 if (ipr_checked) then
                     hook.Add("PostDrawHUD", "IprFpsBooster_HUD", hud)
                 else
                     hook.Remove("PostDrawHUD", "IprFpsBooster_HUD", hud)
                 end
-            elseif (tbl.Run_Debug) then
+            elseif (data.Run_Debug) then
                 ipr.Settings.Debug = ipr_checked
             end
         end
 
         return ipr_dcheckboxlabel, ipr_dpanel
     end,
-    ["DNumSlider"] = function(panel, tbl)
-        local ipr_dnumslider, ipr_dpanel = ipr.Function.DNumSlider(panel, tbl)
+    ["DNumSlider"] = function(panel, data)
+        local ipr_dnumslider, ipr_dpanel = ipr.Function.DNumSlider(panel, data)
 
         ipr_dnumslider.OnValueChanged = function(self)
-            ipr.Function.SetConvar(tbl.Name, self:GetValue(), 1)
+            ipr.Function.SetConvar(data.Name, self:GetValue(), 1)
         end
 
         return ipr_dnumslider, ipr_dpanel

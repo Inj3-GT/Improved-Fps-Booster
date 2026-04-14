@@ -5,7 +5,7 @@
 // https://github.com/Inj3-GT
 
 return {
-    Version = "4.0.7",
+    Version = "4.1",
     Developer = "Inj3",
     Debug = false,
     Blur = Material("pp/blurscreen"),
@@ -58,7 +58,7 @@ return {
     },
     StartupLaunch = {
         Name = "improved_fps_booster_startup",
-        Delay = 120,
+        Delay = 60,
     },
     Status = false,
     SetConvars = {},
