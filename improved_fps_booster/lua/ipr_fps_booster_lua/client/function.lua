@@ -30,7 +30,6 @@ ipr.Function.DataCreate = function()
     local ipr_json_lang = ipr.Settings.Save.. "language.json"
     if not file.Exists(ipr_json_lang, ipr_path) then
         ipr.Settings.SetLang = not game.IsDedicated() and ipr.Settings.Country.code[system.GetCountry()] and ipr.Settings.Country.target or ipr.Settings.SetLang
-        
         ipr.Function.SaveSettings(ipr.Settings.SetLang, true)
     else
         ipr.Settings.SetLang = file.Read(ipr_json_lang, ipr_path)
@@ -41,7 +40,7 @@ ipr.Function.DataCreate = function()
         local ipr_nodes = {
             ipr.Data.Default.convars, 
             ipr.Data.Default.settings, 
-            ipr.Data.Default.convar_registry,
+            ipr.Data.Default.convars_registry,
         }
         ipr_nodes[3].Registry = true
         
@@ -52,6 +51,7 @@ ipr.Function.DataCreate = function()
             for i = 1, #ipr_data do
                 local ipr_index = #ipr.Settings.SetConvars + 1
                 local ipr_index_data = ipr_data[i]
+
                 ipr.Settings.SetConvars[ipr_index] = {
                     Name = ipr_index_data.Name,
                     Checked = ipr_index_data.DefaultCheck,
@@ -72,7 +72,7 @@ ipr.Function.DataCreate = function()
         local ipr_erase = function() file.Delete(ipr_json_cvar, ipr_path) ipr.Function.DataCreate() end
 
         table.Add(ipr_dup, ipr.Data.Default.settings)
-        table.Add(ipr_dup, ipr.Data.Default.convar_registry)
+        table.Add(ipr_dup, ipr.Data.Default.convars_registry)
 
         if (#ipr_json_parse ~= #ipr_dup) then
             ipr_erase()
@@ -83,20 +83,19 @@ ipr.Function.DataCreate = function()
             local ipr_unset = false
 
             for i = 1, #ipr_json_parse do
-                if (ipr_dup[h].Name ~= ipr_json_parse[i].Name) then
-                    continue
+                if (ipr_dup[h].Name == ipr_json_parse[i].Name) then
+                    ipr_unset = true
+                    break
                 end
-
-                ipr_unset = true
             end
-
+            
             if not ipr_unset then
                 ipr_erase()
                 return
             end
         end
 
-        ipr.Settings.SetConvars = util.JSONToTable(file.Read(ipr_json_cvar, ipr_path))
+        ipr.Settings.SetConvars = ipr_json_parse
     end
 
     ipr.Function.Activate(true, true)
@@ -215,11 +214,8 @@ ipr.Function.Activate = function(enabled, match)
     for i = 1, #ipr.Data.Default.convars do
         local ipr_data_name = ipr.Data.Default.convars[i].Name
         local ipr_data_cvar = ipr.Data.Default.convars[i].Convars
-        if not isbool(ipr.Function.GetConvar(ipr_data_name)) then
-            continue
-        end
-
         local ipr_data_state = (enabled) and ipr.Function.GetConvar(ipr_data_name)
+        
         for k, v in pairs(ipr_data_cvar) do
             local ipr_data_toggle = (ipr_data_state) and v.Enabled or v.Disabled
             ipr_data_toggle = tonumber(ipr_data_toggle)
@@ -231,7 +227,6 @@ ipr.Function.Activate = function(enabled, match)
             if (match) then
                 return true
             end
-            
             RunConsoleCommand(k, ipr_data_toggle)
 
             if (ipr_debug) then
