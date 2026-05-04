@@ -4,17 +4,11 @@
 // General Public License v3.0
 // https://github.com/Inj3-GT
 
-local include = include
 local math = math
-local file = file
 local system = system
-local util = util
-local timer = timer
 local draw = draw
 local surface = surface
-local string = string
 local render = render
-local hook = hook
 
 local ipr = {}
 ipr.Settings = include("table.lua")
@@ -249,7 +243,7 @@ end
 ipr.Function.FpsTracker = function()
     local ipr_systime = SysTime()
 
-    if (ipr_systime > (ipr.SysNext or 0)) then
+    if ipr_systime > (ipr.SysNext or 0) then
         local ipr_frametime = engine.AbsoluteFrameTime()
         
         ipr.Settings.FpsCurrent = math.Round(1 / ipr_frametime)
@@ -274,10 +268,7 @@ ipr.Function.FpsTracker = function()
         ipr.SysNext = ipr_systime + 0.3
     end
 
-    local ipr_fps_huge = ipr.Settings.Fps.Min
-    ipr_fps_huge = (ipr_fps_huge == math.huge) and ipr.Settings.Fps.Max or ipr_fps_huge
-
-    return ipr.Settings.FpsCurrent, ipr_fps_huge, ipr.Settings.Fps.Max, ipr.Settings.Fps.LowCurrent
+    return ipr.Settings.FpsCurrent, (ipr.Settings.Fps.Min == math.huge) and ipr.Settings.Fps.Max or ipr.Settings.Fps.Min, ipr.Settings.Fps.Max, ipr.Settings.Fps.LowCurrent
 end
 
 ipr.Function.DeepCopy = function()
