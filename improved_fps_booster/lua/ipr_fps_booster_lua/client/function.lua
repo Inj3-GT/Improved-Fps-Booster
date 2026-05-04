@@ -81,14 +81,12 @@ ipr.Function.DataCreate = function()
 
         for h = 1, #ipr_dup do
             local ipr_unset = false
-
             for i = 1, #ipr_json_parse do
                 if (ipr_dup[h].Name == ipr_json_parse[i].Name) then
                     ipr_unset = true
                     break
                 end
             end
-            
             if not ipr_unset then
                 ipr_erase()
                 return
@@ -175,18 +173,18 @@ end
 local ipr_font = ipr.Settings.Font
 do
     local ipr_size_cache = {}
-    ipr.Function.SizeLang = function(text)
-        local ipr_lang = ipr.Settings.SetLang
-        if not ipr_size_cache[ipr_lang] then
+    ipr.Function.SizeLang = function(var)
+        local ipr_id = ipr.Settings.SetLang
+        if not ipr_size_cache[ipr_id] then
             ipr_size_cache = {}
-            ipr_size_cache[ipr_lang] = {}
+            ipr_size_cache[ipr_id] = {}
         end
-        if not ipr_size_cache[ipr_lang][text] then
+        if not ipr_size_cache[ipr_id][var] then
             surface.SetFont(ipr_font)
-            ipr_size_cache[ipr_lang][text] = {surface.GetTextSize(ipr.Data.Lang[ipr_lang][text])}
+            ipr_size_cache[ipr_id][var] = {surface.GetTextSize(ipr.Data.Lang[ipr_id][var])}
         end
 
-        return ipr_size_cache[ipr_lang][text][1], ipr_size_cache[ipr_lang][text][2]
+        return ipr_size_cache[ipr_id][var][1], ipr_size_cache[ipr_id][var][2]
     end
 
     local ipr_font_cache = {}
@@ -346,32 +344,61 @@ ipr.Function.FogActivate = function(bool)
     end
 end
 
-ipr.Function.DrawMultipleTextAligned = function(data)
-    local ipr_old_wide = 0
-    local ipr_new_wide = 0
+do
+    local ipr_CalcLength = function(string)
+        surface.SetFont(ipr_font)
+        return surface.GetTextSize(string)
+    end
 
-    for t = 1, #data do
-        local ipr_index_text = data[t]
-        local ipr_pos = ipr_index_text.Pos
+    local ipr_length_cache = {}
+    ipr.Function.DrawMultipleTextAligned = function(data)
+        local ipr_old_wide = 0
+        local ipr_new_wide = 0
+        local ipr_id = ipr.Settings.SetLang
 
-        for i = 1, #ipr_index_text do
-            ipr_new_wide = ipr_old_wide
-
-            surface.SetFont(ipr_font)
-
-            local ipr_text_name = ipr_index_text[i].Name
-            local ipr_text_wide = surface.GetTextSize(ipr_text_name)
-            ipr_old_wide = ipr_old_wide + ipr_text_wide + 5
-
-            local ipr_text_align = ipr_pos.PWide + ipr_new_wide
-            draw.SimpleTextOutlined(ipr_text_name, ipr_font, ipr_text_align, ipr_pos.PHeight, ipr_index_text[i].FColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_LEFT, 1, ColorAlpha(color_black, 100))
+        if not ipr_length_cache[ipr_id] then
+            ipr_length_cache = {}
+            ipr_length_cache[ipr_id] = {}
         end
 
-        ipr_old_wide = 0
+        for t = 1, #data do
+            local ipr_container = data[t]
+            local ipr_offset = ipr_container.Pos
+
+            if not ipr_length_cache[ipr_id][t] then
+                ipr_length_cache[ipr_id][t] = {}
+            end
+
+            for i = 1, #ipr_container do
+                local ipr_index_name = ipr_container[i].Name
+                local ipr_dynamic_data = type(ipr_index_name) == "number"
+                local ipr_index_array = ipr_length_cache[ipr_id][t][i]
+                ipr_new_wide = ipr_old_wide
+
+                if (ipr_dynamic_data) then
+                    if not ipr_index_array or (ipr_index_array[2] ~= ipr_index_name) then
+                        local ipr_length = ipr_CalcLength(ipr_index_name)
+                        ipr_length_cache[ipr_id][t][i] = {ipr_length, ipr_index_name}
+                    end
+                else
+                    if not ipr_index_array then
+                        local ipr_length = ipr_CalcLength(ipr_index_name)
+                        ipr_length_cache[ipr_id][t][i] = {ipr_length}
+                    end
+                end
+
+                ipr_old_wide = ipr_old_wide + ipr_length_cache[ipr_id][t][i][1] + 5
+                local ipr_anchor = ipr_offset.PWide + ipr_new_wide
+
+                draw.SimpleTextOutlined(ipr_index_name, ipr_font, ipr_anchor, ipr_offset.PHeight, ipr_container[i].FColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_LEFT, 1, ColorAlpha(color_black, 100))
+            end
+
+            ipr_old_wide = 0
+        end
     end
 end
 
-ipr.Function.SetToolTip = function(text, panel, localization)
+ipr.Function.SetToolTip = function(text, panel)
     if not IsValid(ipr.Settings.Vgui.ToolTip) then
         ipr.Settings.Vgui.ToolTip = vgui.Create("DPanel")
         ipr.Settings.Vgui.ToolTip:SetText("")
@@ -382,11 +409,10 @@ ipr.Function.SetToolTip = function(text, panel, localization)
         local ipr_box_size = 9
         
         ipr.Settings.Vgui.ToolTip.Text = function(text) 
-            surface.SetFont(ipr_font)
-            local ipr_text_wide, ipr_text_height = surface.GetTextSize(text)
-
+            local ipr_text_wide, ipr_text_height = ipr.Function.SizeLang(text)
             ipr.Settings.Vgui.ToolTip:SetSize(ipr_text_wide + ipr_icon_size + ipr_box_size, ipr_text_height + 1)
-            ipr_text = text
+            
+            ipr_text = ipr.Data.Lang[ipr.Settings.SetLang][text]
         end
         ipr.Settings.Vgui.ToolTip.Paint = function(self, w, h)
             ipr.Function.RenderBlur(self, ColorAlpha(color_black, 130), 6)
@@ -444,7 +470,7 @@ ipr.Function.SetToolTip = function(text, panel, localization)
                 return
             end
 
-            ipr.Settings.Vgui.ToolTip.Text((localization) and text or ipr.Data.Lang[ipr.Settings.SetLang][text])
+            ipr.Settings.Vgui.ToolTip.Text(text)
             ipr.Settings.Vgui.ToolTip:SetVisible(true)
 
             ipr.Settings.Vgui.ToolTip:SetAlpha(0)

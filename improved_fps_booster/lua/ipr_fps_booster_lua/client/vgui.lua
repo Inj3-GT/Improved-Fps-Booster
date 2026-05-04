@@ -629,9 +629,7 @@ local ipr_PanelBooster = function()
 
         local ipr_settings_lang = ipr.Settings.SetLang
         local ipr_data_lang = ipr.Data.Lang[ipr_settings_lang]
-
-        surface.SetFont(ipr_font)
-        local ipr_text_wide, ipr_text_heigth = surface.GetTextSize(ipr_settings_lang)
+        local ipr_text_wide, ipr_text_heigth = ipr.Function.SizeLang("Index")
         
         local ipr_icon = 7
         local ipr_pos_w, ipr_pos_h = (ipr_icon + w - ipr_text_wide) / 2, (h - ipr_text_heigth) / 2
