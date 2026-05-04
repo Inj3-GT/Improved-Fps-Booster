@@ -42,9 +42,10 @@ ipr.Function.DataCreate = function()
             ipr.Data.Default.settings, 
             ipr.Data.Default.convars_registry,
         }
+
         ipr_nodes[3].Registry = true
-        
         ipr.Settings.SetConvars = {}
+        
         for h = 1, #ipr_nodes do
             local ipr_data = ipr_nodes[h]
             
@@ -67,15 +68,19 @@ ipr.Function.DataCreate = function()
 
         ipr.Function.SaveSettings()
     else
+        local ipr_EraseData = function() 
+            file.Delete(ipr_json_cvar, ipr_path) 
+            ipr.Function.DataCreate() 
+        end
+
         local ipr_json_parse = util.JSONToTable(file.Read(ipr_json_cvar, ipr_path))
         local ipr_dup = table.Copy(ipr.Data.Default.convars)
-        local ipr_erase = function() file.Delete(ipr_json_cvar, ipr_path) ipr.Function.DataCreate() end
 
         table.Add(ipr_dup, ipr.Data.Default.settings)
         table.Add(ipr_dup, ipr.Data.Default.convars_registry)
 
         if (#ipr_json_parse ~= #ipr_dup) then
-            ipr_erase()
+            ipr_EraseData()
             return
         end
 
@@ -88,7 +93,7 @@ ipr.Function.DataCreate = function()
                 end
             end
             if not ipr_unset then
-                ipr_erase()
+                ipr_EraseData()
                 return
             end
         end
