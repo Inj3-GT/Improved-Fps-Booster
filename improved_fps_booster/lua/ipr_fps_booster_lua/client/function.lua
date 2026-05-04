@@ -160,7 +160,7 @@ end
 
 ipr.Function.CvarInfo = function(cvar)
     cvar = LocalPlayer():GetInfoNum(cvar, -99)
-    return tonumber(cvar), (cvar == -99)
+    return cvar, (cvar == -99)
 end
 
 ipr.Function.CvarState = function()
