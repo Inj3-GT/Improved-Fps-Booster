@@ -5,10 +5,11 @@
 // https://github.com/Inj3-GT
 
 local math = math
-local system = system
 local draw = draw
 local surface = surface
 local render = render
+local engine = engine
+local table = table
 
 local ipr = {}
 ipr.Settings = include("table.lua")
@@ -36,7 +37,6 @@ ipr.Function.DataCreate = function()
             ipr.Data.Default.settings, 
             ipr.Data.Default.convars_registry,
         }
-
         ipr_nodes[3].Registry = true
         ipr.Settings.SetConvars = {}
         
@@ -62,16 +62,16 @@ ipr.Function.DataCreate = function()
 
         ipr.Function.SaveSettings()
     else
-        local ipr_EraseData = function() 
-            file.Delete(ipr_json_cvar, ipr_path) 
-            ipr.Function.DataCreate() 
-        end
-
         local ipr_json_parse = util.JSONToTable(file.Read(ipr_json_cvar, ipr_path))
         local ipr_dup = table.Copy(ipr.Data.Default.convars)
 
         table.Add(ipr_dup, ipr.Data.Default.settings)
         table.Add(ipr_dup, ipr.Data.Default.convars_registry)
+
+        local ipr_EraseData = function() 
+            file.Delete(ipr_json_cvar, ipr_path) 
+            ipr.Function.DataCreate() 
+        end
 
         if (#ipr_json_parse ~= #ipr_dup) then
             ipr_EraseData()
