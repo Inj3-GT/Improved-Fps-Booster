@@ -128,20 +128,21 @@ ipr.Function.SetConvar = function(name, checked, int)
             end
         end
 
-        local ipr_interval = {
-            function()
-                local ipr_timer = ipr.Settings.Save.. "_delay"
-                if timer.Exists(ipr_timer) then
-                    timer.Remove(ipr_timer)
-                end
-
-                timer.Create(ipr_timer, 1, 1, function()
-                    ipr.Function.SaveSettings()
-                end)
-            end,
-            ipr.Function.SaveSettings,
-        }
         if (int) then
+            local ipr_interval = {
+                function()
+                    local ipr_timer = ipr.Settings.Save.. "_delay"
+                    if timer.Exists(ipr_timer) then
+                        timer.Remove(ipr_timer)
+                    end
+
+                    timer.Create(ipr_timer, 1, 1, function()
+                        ipr.Function.SaveSettings()
+                    end)
+                end,
+                ipr.Function.SaveSettings,
+            }
+            
             ipr_interval[int]()
         end
     end
