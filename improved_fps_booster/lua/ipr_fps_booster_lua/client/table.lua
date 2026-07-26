@@ -5,7 +5,7 @@
 // https://github.com/Inj3-GT
 
 return {
-    Version = "4.1",
+    Version = "4.1.1",
     Developer = "Inj3",
     Debug = false,
     Blur = Material("pp/blurscreen"),

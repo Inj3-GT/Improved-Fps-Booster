@@ -102,21 +102,14 @@ local ipr_PanelOptions = function(primary)
             end
         end
         ipr.Function.RenderBlur(self, ipr.Settings.PBackGround, 6)
-        draw.RoundedBoxEx(6, 0, 0, w, 20, ipr.Settings.TColor["bleu"], true, true, false, false)
+        draw.RoundedBoxEx(6, 0, 0, w, 20, ipr.Settings.TColor["bleu"], true, true, false, false)     
+        draw.SimpleText("v" ..ipr.Settings.Version, ipr_font, 5, h - 19, ipr.Settings.TColor["blanc"], TEXT_ALIGN_LEFT)
         
         local ipr_data_lang = ipr.Data.Lang[ipr.Settings.SetLang]
         draw.SimpleText(ipr_data_lang.NOptions, ipr_font, w / 2, 1, ipr.Settings.TColor["blanc"], TEXT_ALIGN_CENTER)
 
-        local ipr_fps_limit = math.Round(ipr.Function.CvarInfo("fps_max"))
-        ipr_fps_limit = (ipr_fps_limit > ipr.Settings.Fps.Ceiling) and ipr.Settings.Fps.Ceiling or ipr_fps_limit
-
-        local ipr_text_wide = ipr.Function.SizeLang("FPSLimit")
-        draw.SimpleText(ipr_data_lang.FPSLimit, ipr_font, 5, h - 19, ipr.Settings.TColor["blanc"], TEXT_ALIGN_LEFT)
-        draw.SimpleText(ipr_fps_limit, ipr_font, ipr_text_wide + 7, h - 19, ipr.Function.ColorRange(ipr_fps_limit), TEXT_ALIGN_LEFT)
-
         local ipr_systime = SysTime() * 1.5
         local ipr_r, ipr_g, ipr_b = math.sin(ipr_systime) * 255, math.sin(ipr_systime + 2) * 255, math.sin(ipr_systime + 4) * 255
-        draw.SimpleText("v" ..ipr.Settings.Version.. " /", ipr_font, w - 29, h - 19, ipr.Settings.TColor["blanc"], TEXT_ALIGN_RIGHT)
         draw.SimpleText(ipr.Settings.Developer, ipr_font, w - 5, h - 19, Color(ipr_r, ipr_g, ipr_b), TEXT_ALIGN_RIGHT)
     end
 

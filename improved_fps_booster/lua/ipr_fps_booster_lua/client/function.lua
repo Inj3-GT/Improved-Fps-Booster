@@ -213,12 +213,18 @@ ipr.Function.Activate = function(enabled, match)
         local ipr_data_name = ipr.Data.Default.convars[i].Name
         local ipr_data_cvar = ipr.Data.Default.convars[i].Convars
         local ipr_data_state = (enabled) and ipr.Function.GetConvar(ipr_data_name)
-        
+
         for k, v in pairs(ipr_data_cvar) do
             local ipr_data_toggle = (ipr_data_state) and v.Enabled or v.Disabled
             ipr_data_toggle = tonumber(ipr_data_toggle)
 
             local ipr_cvar_info, ipr_cvar_registered = ipr.Function.CvarInfo(k)
+            if IsConCommandBlocked(k) then
+                if (ipr_debug) then
+                    print("Prevent execution of blocked commands : " ..k.. " in branch " ..BRANCH)
+                end
+                continue
+            end
             if (ipr_cvar_registered) or (ipr_cvar_info == ipr_data_toggle) then
                 continue
             end
