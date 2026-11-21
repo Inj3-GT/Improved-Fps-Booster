@@ -16,3 +16,4 @@ Steam Workshop : https://steamcommunity.com/sharedfiles/filedetails/?id=17621513
 
 - Russian translation & idea : [Blueberryy](https://github.com/Blueberryy)
 - Chinese translation : [sbzlzh](https://github.com/sbzlzh)
+- Turkish translation : [Toraichi](https://github.com/NovaDiablox)
