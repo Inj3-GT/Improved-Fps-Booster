@@ -6,8 +6,8 @@
 
 return {
     // Yazı tipi dile göre ayarlanabilir
-    FontSize = 18,
-    FontTTF = "Rajdhani Bold",
+    FontSize = 16,
+    FontTTF = "gordin-bold",
     FontExtented = false,
     FontWeigth = 1,
 
@@ -16,11 +16,11 @@ return {
 
     // VGUI
     Addon = "[Gelişmiş FPS Yükseltici] :",
-    TEnabled = "Gelişmiş FPS Yükseltici'yi etkinleştirmek istiyor musunuz?",
+    TEnabled = "FPS Yükseltici'yi açmak istiyor musunuz?",
     TSettings = "Optimizasyon :",
     VDisabled = "Kapat",
     VEnabled = "Aç",
-    PreventCrash = "Görüntü sorunları veya çökmelerle karşılaşırsanız ayarlarınızı değiştirmek için Seçenekler tuşunu kullanın. Gelişmiş FPS Yükseltici'yi açmak için şu tuşu kullanın:",
+    PreventCrash = "Görüntü sorunları veya çökmelerle karşılaşırsanız ayarlarınızı değiştirmek için Seçenekler tuşunu kullanın. Gelişmiş FPS Yükseltici'yi açmak için:",
     FpsCurrent = "Mevcut :",
     SelectLangue = "Dil :",
     CheckUncheckAll = "Tümünü işaretle/işareti kaldır (optimizasyon)",
@@ -44,21 +44,21 @@ return {
     RevertDataApply = "Önceki ayarlar geri yüklendi!",
     RevertDataCancel = "Önceki ayar bulunamadı!",
     NOptions = "FPS Yükseltici Seçenekleri",
-    FPSLimit = "FPS sınırı :",
+    FPSLimit = "FPS Sınırı :",
     Fps = "FPS :",
-    FStatus = "FPS durumu",
+    FStatus = "FPS Durumu",
     FMax = "Maks. :",
     FMin = "Min. :",
-    FLow = "En düşük %1 :",
+    FLow = "%1 FPS :",
     BEnabled = "Açık (Performans artışı)",
     BDisabled = "Kapalı",
-    BReset = "Maks./Min. FPS değerlerini sıfırla",
+    BReset = "FPS değerlerini sıfırla",
     BOption = "Seçenekler",
     BConfig = "Yapılandırma :",
     FMap = "Harita :",
     FPing = "Gecikme :",
 
-    // Konsol değişkenleri
+    // Konsol Değişkenleri
     MultiCore = "Çok Çekirdekli İşleme",
     TMultiCore = "Source Engine çoklu iş parçacığı kullanımı",
     Rope = "Halat İşleme",
@@ -86,7 +86,7 @@ return {
     WaterSplash = "Su Sıçrama Efektleri",
     TWaterSplash = "Su sıçrama efektini devre dışı bırakır",
     M9KEffect = "M9K Gaz Efektleri (Silah)",
-    TM9KEffect = "M9K silahlarındaki duman bulutu ve gaz sıçrama efektlerini devre dışı bırakır",
+    TM9KEffect = "M9K silahlarındaki duman bulutu ve gaz dağılma efektlerini devre dışı bırakır",
     Muzzleflash = "Namlu Alevi (Silah)",
     TMuzzleflash = "Namlu alevinin oluşturduğu ışığı devre dışı bırakır",
     Ejectedshells = "Kovanlar (Silah)",
